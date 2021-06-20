@@ -1,0 +1,31 @@
+name: Create PDF
+
+on: [push, pull_request]
+
+jobs:
+  Create_PDF:
+    name: Create PDF
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Installation of Latex dependencies
+        run: |
+          sudo apt-get install texlive-latex-base
+          sudo apt-get install texlive-fonts-recommended
+          sudo apt-get install texlive-fonts-extra
+          sudo apt-get install texlive-latex-extra
+          sudo apt-get install -y texlive-lang-italian
+
+      - name: Compile Tesi
+        run: ./compile-for-linux
+
+      - name: Upload Tesi
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'develop' || github.event.pull_request.base.ref == 'main'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Tesi
+          path: tesi.pdf
+          retention-days: 30
+
