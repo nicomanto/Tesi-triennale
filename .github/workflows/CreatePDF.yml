@@ -13,7 +13,7 @@ jobs:
       - name: Compile Tesi
         run: |
           ls
-          sudo compile-for-linux.sh
+          compile-for-linux.sh
 
       - name: Installation of Latex dependencies
         run: |
