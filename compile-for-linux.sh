@@ -32,7 +32,7 @@ pdflatex -output-directory=$DIR $NAME
 pdflatex -output-directory=$DIR $NAME
 
 echo ---------------------------------
-echo - Pulisco e poi apro il file... -
+echo - Rimozione dei file non necessari -
 echo ---------------------------------
 
 rm $DIR/*.acn $DIR/*.aux $DIR/*.bbl $DIR/*.bcf $DIR/*.glo
