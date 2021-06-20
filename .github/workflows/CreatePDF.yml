@@ -10,24 +10,19 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
-      - name: Compile Tesi
-        run: |
-          ls
-          ./compile-for-linux.sh
-
       - name: Installation of Latex dependencies
         run: |
           sudo apt-get install texlive-latex-base
           sudo apt-get install texlive-fonts-recommended
           sudo apt-get install texlive-fonts-extra
           sudo apt-get install texlive-latex-extra
+          sudo apt-get install texlive-bibtex-extra biber
           sudo apt-get install -y texlive-lang-italian
 
       - name: Compile Tesi
         run: |
           ls
           ./compile-for-linux.sh
-        shell: bash
 
       - name: Upload Tesi
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'develop' || github.event.pull_request.base.ref == 'main'
