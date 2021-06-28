@@ -1,6 +1,6 @@
 @echo off
 
-if [%BUILD_DIR%]==[] set BUILD_DIR=..\..\
+if [%BUILD_DIR%]==[] set BUILD_DIR=.\
 
 @echo --------------------------------------------------------------
 @echo -                         Pulizia                            -

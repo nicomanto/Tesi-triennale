@@ -1,6 +1,6 @@
 @echo off
 set MAIN=tesi
-set BUILD_DIR=..\..\
+set BUILD_DIR=.\
 
 call clean.bat
 del *.pdf

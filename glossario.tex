@@ -9,9 +9,6 @@
 
 \newacronym[description={\glslink{umlg}{Unified Modeling Language}}]
     {uml}{UML}{Unified Modeling Language}
-    
-\newacronym[description={\glslink{cumlg}{cUnified Modeling Language}}]
-    {cuml}{cUML}{cUnified Modeling Language}
 
 %**************************************************************
 % Glossario
@@ -34,10 +31,78 @@
     description={in ingegneria del software \emph{UML, Unified Modeling Language} (ing. linguaggio di modellazione unificato) è un linguaggio di modellazione e specifica basato sul paradigma object-oriented. L'\emph{UML} svolge un'importantissima funzione di ``lingua franca'' nella comunità della progettazione e programmazione a oggetti. Gran parte della letteratura di settore usa tale linguaggio per descrivere soluzioni analitiche e progettuali in modo sintetico e comprensibile a un vasto pubblico}
 }
 
-\newglossaryentry{cumlg}
+\newglossaryentry{stateful}
 {
-    name=\glslink{cuml}{cUML},
-    text=cUML,
-    sort=cuml,
-    description={in ingegneria del software \emph{UML, Unified Modeling Language} (ing. linguaggio di modellazione unificato) è un linguaggio di modellazione e specifica basato sul paradigma object-oriented. L'\emph{UML} svolge un'importantissima funzione di ``lingua franca'' nella comunità della progettazione e programmazione a oggetti. Gran parte della letteratura di settore usa tale linguaggio per descrivere soluzioni analitiche e progettuali in modo sintetico e comprensibile a un vasto pubblico}
+    name=\glslink{stateful}{STATEFUL},
+    text=Stateful,
+    sort=stateful,
+    description={In ambito informatico, \emph{stateful} significa che un applicativo supporta stati diversi. Cioè, dato lo stesso input, l'output dipenderà dallo stato corrente}
 }
+
+\newglossaryentry{stateless}
+{
+    name=\glslink{stateless}{STATELESS},
+    text=Stateless,
+    sort=stateless,
+    description={In ambito informatico, \emph{stateless} significa che un applicativo non supporta stati diversi. Cioè, dato lo stesso input, l'output dipenderà solamente da esso}
+}
+
+\newglossaryentry{bounded streams}
+{
+    name=\glslink{bounded streams}{BOUNDED STREAMS},
+    text=Bounded streams,
+    sort=bounded streams,
+    description={In Apache Flink, un \textit{Bounded streams} ( letteralmente \textit{flusso limitato}), rappresenta un flusso che ha un inizio ed una fine}
+}
+
+\newglossaryentry{unbounded streams}
+{
+    name=\glslink{unbounded streams}{UNBOUNDED STREAMS},
+    text=Unbounded streams,
+    sort=unbounded streams,
+    description={In Apache Flink, un \textit{Unbounded streams} ( letteralmente \textit{flusso illimitato}), rappresenta un flusso che ha un inizio ma non una fine}
+}
+
+\newglossaryentry{framework}
+{
+    name=\glslink{framework}{FRAMEWORK},
+    text=Framework,
+    sort=framework,
+    description={Un \textit{framework}, termine della lingua inglese che può essere tradotto come struttura o quadro strutturale, in informatica e specificamente nello sviluppo software, è un'architettura logica di supporto (spesso un'implementazione logica di un particolare design pattern) sulla quale un software può essere progettato e realizzato, spesso facilitandone lo sviluppo da parte del programmatore}
+}
+
+
+\newglossaryentry{serializzazione}
+{
+    name=\glslink{serializzazione}{SERIALIZZAZIONE},
+    text=Serializzazione,
+    sort=serializzazione,
+    description={In informatica, la \textit{serializzazione} è un processo per salvare un oggetto in un supporto di memorizzazione lineare (ad esempio, un file o un'area di memoria), o per trasmetterlo su una connessione di rete}
+}
+
+\newglossaryentry{savepoint}
+{
+    name=\glslink{savepoint}{SAVEPOINT},
+    text=Savepoint,
+    sort=savepoint,
+    description={In Apache Flink, un \textit{savepoint} è un'immagine coerente dello stato di esecuzione di un processo di streaming, creata tramite il meccanismo di \gls{checkpoint} di Flink. Il savepoint deve essere eseguito da un utente, non viene eseguito in modo automatico da Flink come per la procedura di \gls{checkpoint}}
+}
+
+
+\newglossaryentry{checkpoint}
+{
+    name=\glslink{checkpoint}{CHECKPOINT},
+    text=Checkpoint,
+    sort=checkpoint,
+    description={In Apache Flink, un \textit{checkpoint} è uno snapshot che viene creato automaticamente da Flink allo scopo di essere in grado di recuperare uno stato dopo un guasto (o errore)}
+}
+
+\newglossaryentry{cluster}
+{
+    name=\glslink{cluster}{CLUSTER},
+    text=Cluster,
+    sort=cluster,
+    description={In informatica un computer \textit{cluster}, o più semplicemente un cluster (dall'inglese grappolo), è un insieme di computer connessi tra loro tramite una rete telematica. Scopo del cluster è distribuire un'elaborazione molto complessa tra i vari computer, aumentando la potenza di calcolo del sistema e/o garantendo una maggiore disponibilità di servizio, a prezzo di un maggior costo e complessità di gestione dell'infrastruttura: per essere risolto il problema che richiede molte elaborazioni viene infatti scomposto in sottoproblemi separati i quali vengono risolti ciascuno in parallelo}
+}
+
+
