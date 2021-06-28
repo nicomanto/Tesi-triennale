@@ -3,11 +3,27 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Processi e metodologie}
-\label{cap:processi-metodologie}
-%**************************************************************
-
-\intro{Brevissima introduzione al capitolo}\\
+\chapter{Strumenti e tecnologie utilizzate}
+\label{cap:strumenti-tecnologie}
 
 %**************************************************************
-\section{Processo sviluppo prodotto}
+
+\intro{Tale capitolo racchiude gli strumenti utilizzati e le tecnologie impiegate durante la realizzazione di \myTitle. In particolare verra analizzato il dominio di utilizzo di esse e le varie meotodologie utilizzate.}\\
+
+%**************************************************************
+\section{Apache Flink}
+Apache Flink è un \textit{framework}\ped{G} di \textit{data processing engine}\ped{G} per l'elaborazione e processamento di dati in modo distribuito.
+La forza di Flink è quella di trattare dati in differenti formati, oppurtuni per il dominio applicativo più consono per l'utente, infatti i dati possono essere di tipo \textit{stateful}\ped{G} che \textit{stateless}\ped{G} e tali flussi possono essere illimitati (\textit{unbounded}\ped{G}) o limitati (\textit{bounded}\ped{G}). Flink è stato progettato per funzionare in tutti i comuni ambienti \textit{cluster\ped{G}}.
+
+\subsection{Tipi di flussi}
+\subsubsection{Flussi illimitati (unbounded\ped{G})}
+\subsubsection{Flussi limitati (bounded\ped{G})}
+
+\subsection{Stateful\ped{G} e Stateless\ped{G}}
+
+\subsubsection{Savepoint\ped{G} e Checkpoint\ped{G}}
+
+\subsubsection{Serializzazione\ped{G}}
+
+\subsection{Scalabilità}
+
