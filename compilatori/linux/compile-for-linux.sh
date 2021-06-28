@@ -12,15 +12,15 @@ echo --------------------
 echo - Inizializzazione -
 echo --------------------
 
-pdflatex -output-directory=$DIR $NAME
-biber $DIR $NAME
+pdflatex -output-directory=$DIR$NAME
+biber $DIR$NAME
 makeindex -s ./$NAME.ist -t ./$NAME.glg -o ./$NAME.gls ./$NAME.glo
 makeindex -s ./$NAME.ist -t ./$NAME.alg -o ./$NAME.acr ./$NAME.acn
 
 # Due volte because Latex
 
-pdflatex -output-directory=$DIR $NAME
-biber $DIR $NAME
+pdflatex -output-directory=$DIR$NAME
+biber $DIR$NAME
 makeindex -s ./$NAME.ist -t ./$NAME.glg -o ./$NAME.gls ./$NAME.glo
 makeindex -s ./$NAME.ist -t ./$NAME.alg -o ./$NAME.acr ./$NAME.acn
 
@@ -28,8 +28,8 @@ echo -------------------------
 echo - Generazione Documento -
 echo -------------------------
 
-pdflatex -output-directory=$DIR $NAME
-pdflatex -output-directory=$DIR $NAME
+pdflatex -output-directory=$DIR$NAME
+pdflatex -output-directory=$DIR$NAME
 
 echo ---------------------------------
 echo - Rimozione dei file non necessari -
