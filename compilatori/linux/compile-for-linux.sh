@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="../../"	# modificare per scegliere il nome della cartella di destinazione
+DIR="./../../"	# modificare per scegliere il nome della cartella di destinazione
 NAME="tesi"		# modificiare per scegliere il nome del file di origine (.tex)
 
 if [ ! -d $DIR ];
