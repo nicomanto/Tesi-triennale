@@ -40,4 +40,8 @@ rm $DIR/*.ist $DIR/*.lof $DIR/*.lot $DIR/*.run.xml $DIR/*.toc
 # Per mantenere i log commentare la linea seguente
 rm $DIR/*.blg  $DIR/*.log
 
+ls
+cd ../../
+ls
+
 echo ---------------------------- END -----------------------------
