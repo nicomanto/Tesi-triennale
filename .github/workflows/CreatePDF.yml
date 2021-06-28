@@ -21,7 +21,7 @@ jobs:
           sudo apt-get install -y texlive-lang-italian
 
       - name: Compile Tesi
-        run: ./compile-for-linux.sh
+        run: ./compilatori/linux/compile-for-linux.sh
 
       - name: Upload Tesi
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'develop' || github.event.pull_request.base.ref == 'main'
