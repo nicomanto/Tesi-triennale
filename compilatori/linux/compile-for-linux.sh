@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="../.."	# modificare per scegliere il nome della cartella di destinazione
+DIR="./../.."	# modificare per scegliere il nome della cartella di destinazione
 NAME="tesi"		# modificiare per scegliere il nome del file di origine (.tex)
 
 if [ ! -d $DIR ];
@@ -40,8 +40,15 @@ rm $DIR/*.ist $DIR/*.lof $DIR/*.lot $DIR/*.run.xml $DIR/*.toc
 # Per mantenere i log commentare la linea seguente
 rm $DIR/*.blg  $DIR/*.log
 
+echo ---------------------------------
+echo - this folder -
+echo ---------------------------------
 ls
 cd ../../
+
+echo ---------------------------------
+echo - upper folder -
+echo ---------------------------------
 ls
 
 echo ---------------------------- END -----------------------------
