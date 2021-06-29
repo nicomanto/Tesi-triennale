@@ -15,30 +15,49 @@
 Apache Flink è un \gls{framework} di \textit{data processing engine} per l'elaborazione e processamento di dati in modo distribuito.
 La forza di Flink è quella di trattare dati in differenti formati, opportuni per il dominio applicativo più consono per l'utente, infatti i dati possono essere di tipo \gls{stateful} che \gls{stateless} e tali flussi possono essere illimitati (\gls{unbounded streams}) o limitati (\gls{bounded streams}). Flink è stato progettato per funzionare in tutti i comuni ambienti \gls{cluster}.
 
-\subsection{Datastream API}
-	\subsubsection{Flussi illimitati (unbounded)}
-	\subsubsection{Flussi limitati (bounded)}
+\subsection{DataStream API}
+\subsubsection{Flussi illimitati (unbounded)}
+\subsubsection{Flussi limitati (bounded)}
 
 \subsection{Table API}
 
-	\subsection{Operatori}
-		\subsubsection{FlatMap}
-		\subsubsection{CoFlatMap}
-		\subsubsection{Window}
-		\subsubsection{Timer}
+\subsection{Operatori}
+Gli operatori di Flink sono delle procedure per trasformare DataStream in altri DataStream. Sono utilizzati principalmente per modificare il tipo di flusso di un DataStream, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un altro DataStream. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di Apache Flink.
+
+\subsubsection{FlatMap}
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore come input riceverà un \textit{DataStream} e produrrà in output un \textbf{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del DataStream verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
+
+\begin{minted}{scala}
+dataStream.flatMap { str => str.split(" ")}
+\end{minted}
+	
+	
+\subsubsection{CoFlatMap}
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore come input riceverà un \textit{ConnectedStream} e produrrà in output un \textbf{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due DataStream connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico DataStream secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
+
+\begin{minted}{scala}
+connectedStreams.flatMap(
+    (_ : Int) => true,
+    (_ : String) => false
+)
+\end{minted}
+
+\subsubsection{KeyBy}
+\subsubsection{Timer}
+\subsubsection{ProcessFunction}
 
 
 \subsection{Alta disponibilità e recovery}
 
-	\subsubsection{Stateful e Stateless}
+\subsubsection{Stateful e Stateless}
 
-	\subsubsection{Savepoint e Checkpoint}
+\subsubsection{Savepoint e Checkpoint}
 
 \subsection{Serializzazione}
 
-	\subsubsection{Avro}
+\subsubsection{Avro}
 
-	\subsubsection{Kryo}
+\subsubsection{Kryo}
 
 
 \subsection{Scalabilità}

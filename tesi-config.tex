@@ -2,6 +2,9 @@
 % file contenente le impostazioni della tesi
 %**************************************************************
 
+
+
+
 %**************************************************************
 % Frontespizio
 %**************************************************************
@@ -148,23 +151,36 @@
 %**************************************************************
 % Impostazioni di listings
 %**************************************************************
-\lstset{
-    language=[LaTeX]Tex,%C++,
-    keywordstyle=\color{RoyalBlue}, %\bfseries,
-    basicstyle=\small\ttfamily,
-    %identifierstyle=\color{NavyBlue},
-    commentstyle=\color{Green}\ttfamily,
-    stringstyle=\rmfamily,
-    numbers=none, %left,%
-    numberstyle=\scriptsize, %\tiny
-    stepnumber=5,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frameround=ftff,
-    frame=single
-} 
+%\lstset{
+%    language=[LaTeX]Tex,%C++,
+%    keywordstyle=\color{RoyalBlue}, %\bfseries,
+%    basicstyle=\small\ttfamily,
+%    %identifierstyle=\color{NavyBlue},
+%    commentstyle=\color{Green}\ttfamily,
+%    stringstyle=\rmfamily,
+%    numbers=none, %left,%
+%    numberstyle=\scriptsize, %\tiny
+%    stepnumber=5,
+%    numbersep=8pt,
+%    showstringspaces=false,
+%    breaklines=true,
+%    frameround=ftff,
+%    frame=single
+%} 
 
+
+
+%**************************************************************
+% Impostazioni di minted
+%**************************************************************
+\setminted[scala]{
+framesep=2mm,
+frame=single,
+framesep=10pt,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+breaklines
+}
 
 %**************************************************************
 % Impostazioni di xcolor
@@ -266,4 +282,12 @@
 %**************************************************************
 % Set enumeration of subsubsection
 %**************************************************************
-\setcounter{secnumdepth}{4}
+\setcounter{secnumdepth}{4} % into section
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+
+
+
+
+
+
+
