@@ -25,7 +25,7 @@ La forza di Flink è quella di trattare dati in differenti formati, opportuni pe
 Gli operatori di Flink sono delle procedure per trasformare DataStream in altri DataStream. Sono utilizzati principalmente per modificare il tipo di flusso di un DataStream, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un altro DataStream. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di Apache Flink.
 
 \subsubsection{FlatMap}
-Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore come input riceverà un \textit{DataStream} e produrrà in output un \textbf{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del DataStream verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textbf{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del DataStream verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
 dataStream.flatMap { str => str.split(" ")}
@@ -33,7 +33,7 @@ dataStream.flatMap { str => str.split(" ")}
 	
 	
 \subsubsection{CoFlatMap}
-Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore come input riceverà un \textit{ConnectedStream} e produrrà in output un \textbf{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due DataStream connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico DataStream secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textbf{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due DataStream connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico DataStream secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
 connectedStreams.flatMap(
@@ -43,6 +43,7 @@ connectedStreams.flatMap(
 \end{minted}
 
 \subsubsection{KeyBy}
+Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{keyBy()} è implementato con il partizionamento hash. Esistono diversi modi per specificare le chiavi.
 \subsubsection{Timer}
 \subsubsection{ProcessFunction}
 

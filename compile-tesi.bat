@@ -10,12 +10,12 @@ if not exist %BUILD_DIR% mkdir %BUILD_DIR%
 @echo -                     Inizializzazione                       -
 @echo --------------------------------------------------------------
 
-pdflatex -output-directory=%BUILD_DIR% %MAIN% --shell-escape
+pdflatex -output-directory=%BUILD_DIR% %MAIN% -shell-escape
 
 call compile-bib.bat
 call compile-gloss.bat
 
-pdflatex -output-directory=%BUILD_DIR% %MAIN% --shell-escape
+pdflatex -output-directory=%BUILD_DIR% %MAIN% -shell-escape
 
 call compile-bib.bat
 call compile-gloss.bat
@@ -24,8 +24,8 @@ call compile-gloss.bat
 @echo -                    Generazione Documento                   -
 @echo --------------------------------------------------------------
 
-pdflatex -output-directory=%BUILD_DIR% %MAIN% --shell-escape
-pdflatex -output-directory=%BUILD_DIR% %MAIN% --shell-escape
+pdflatex -output-directory=%BUILD_DIR% %MAIN% -shell-escape
+pdflatex -output-directory=%BUILD_DIR% %MAIN% -shell-escape
 
 
 call clean.bat
