@@ -43,7 +43,13 @@ connectedStreams.flatMap(
 \end{minted}
 
 \subsubsection{KeyBy}
-Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{keyBy()} è implementato con il partizionamento hash. Esistono diversi modi per specificare le chiavi.
+Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{keyBy()} è implementato con il partizionamento hash.
+La chiave deve essere intesa come univoca.
+Di seguito la struttura appena descritta.
+\begin{minted}{scala}
+dataStream.keyBy(_.someKey)
+dataStream.keyBy(_._1)
+\end{minted}
 \subsubsection{Timer}
 \subsubsection{ProcessFunction}
 
