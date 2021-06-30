@@ -16,6 +16,12 @@ Apache Flink è un \gls{framework} di \textit{data processing engine} per l'elab
 La forza di Flink è quella di trattare dati in differenti formati, opportuni per il dominio applicativo più consono per l'utente, infatti i dati possono essere di tipo \gls{stateful} che \gls{stateless} e tali flussi possono essere illimitati (\gls{unbounded streams}) o limitati (\gls{bounded streams}). Flink è stato progettato per funzionare in tutti i comuni ambienti \gls{cluster}.
 
 \subsection{DataStream API}
+Le \textit{DataStream \gls{api}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.
+Le modalità principali di esecuzione sono:
+\begin{itemize}
+	\item{Esecuzione streaming:} tratta principalmente di flussi illimitati (\gls{unbounded streams}) i quali hanno la caratteristica di non terminare mai e di processare continuamente i dati, continuando ad aggiornare l'ouput prodotto;
+	\item{Esecuzione batch:}
+\end{itemize}
 \subsubsection{Flussi illimitati (unbounded)}
 \subsubsection{Flussi limitati (bounded)}
 
@@ -50,9 +56,19 @@ Di seguito la struttura appena descritta.
 dataStream.keyBy(_.someKey)
 dataStream.keyBy(_._1)
 \end{minted}
-\subsubsection{Timer}
-\subsubsection{ProcessFunction}
 
+\subsubsection{ProcessFunction}
+Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}:
+\begin{itemize}
+	\item{\textbf{eventi:} elementi dello \textit{Stream};}
+	\item{\textbf{stati:} stati tolleranti agli errori, consistenti e supportati solo nei \textit{Keyed Stream}. La \textit{ProcessFunction} da accesso allo stato tramite il \textit{RuntimeContext}, in modo simile a quanto avviene negli altri operatori che hanno accesso allo stato;}
+	\item{\textbf{timer:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{Keyed Stream}}. Per una descrizione più approfondità del timer farè riferimento alla sezione \S\ref{sec:timer}
+\end{itemize}
+
+Per creare una \textit{ProcessFunction}, bisogna implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textit{state} e del \textit{timer}, come descritto precedentemente, bisogna basarsi su un \textit{Keyed Stream}, quindi al posto di trattare la \textit{ProcessFunction} di per sè, si va a lavoare con la \textit{KeyedProcessFunction}, la quale è un estensione della \textit{ProcessFunction} e permette l'accesso alla chiave del timer nel metodo \textit{onTimer} 
+
+\myParagraph{Timer}\label{sec:timer}
+Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \gls{timestamp} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il timer per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\gls{timestamp} esiste un solo timer, se più timer sono settati per lo stesso \gls{timestamp}, solo uno verrà richiamato. Flink sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I timer sono tolleranti verso gli errori, infatti Flink salva tale timer tramite il meccanismo di \gls{checkpoint} come avviene per gli stati.
 
 \subsection{Alta disponibilità e recovery}
 
