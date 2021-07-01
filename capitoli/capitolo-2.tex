@@ -12,22 +12,28 @@
 
 %**************************************************************
 \section{Apache Flink}
-Apache Flink è un \gls{framework} di \textit{data processing engine} per l'elaborazione e processamento di dati in modo distribuito.
+\textit{Apache Flink} è un \gls{framework} di \textit{data processing engine} per l'elaborazione e processamento di dati in modo distribuito.
 La forza di Flink è quella di trattare dati in differenti formati, opportuni per il dominio applicativo più consono per l'utente, infatti i dati possono essere di tipo \gls{stateful} che \gls{stateless} e tali flussi possono essere illimitati (\gls{unbounded streams}) o limitati (\gls{bounded streams}). Flink è stato progettato per funzionare in tutti i comuni ambienti \gls{cluster}.
 
-\subsection{DataStream API}
-Le \textit{DataStream \gls{api}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.
+\subsection{DataStream e DataStrem API}
+In Apache Flink i dati processati in un programma vengono rappresentati dalla classe speciale \textit{DataStream}.
+Tali dati possono essere finiti o illimitati, e le \gls{api} utilizzate per lavorare su questi due differenti tipoligie di dati è la stessa, rendendo il tutto trasparente per l'utente programmatore.\\
+Carattestiche fondamentali dei DataStream sono:
+\begin{itemize}
+	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi;}
+	\item{\textbf{soggetti a trasformazioni:} non è possibile ispezionare gli elementi al proprio interno, ma solo lavorare su di essi utilizzando le \textit{DataStream \gls{api}}, che vengono definite, appunto, trasformazioni.}
+\end{itemize}
+La creazione di un DataStream necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda \gls{kafka}) e da questo si possono derivare numerosi flussi e combinarli utilizzando le \gls{api} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
+Le DataStream \gls{api} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}
-	\item{Esecuzione streaming:} tratta principalmente di flussi illimitati (\gls{unbounded streams}) i quali hanno la caratteristica di non terminare mai e di processare continuamente i dati, continuando ad aggiornare l'ouput prodotto;
-	\item{Esecuzione batch:}
+	\item{\textbf{Esecuzione streaming:} tratta principalmente di flussi illimitati (\gls{unbounded streams}) i quali hanno la caratteristica di non terminare mai. I dati vengono processati ininterrottamente, continuando ad aggiornare l'ouput prodotto. In questa modalità le attività esecutive all'interno della \gls{pipeline} del programma continuano ad essere processate in contemporanea, senza stanziarsi in una fase specifica. Questo implica che la \gls{pipeline} non arriverà mai ad uno stadio di terminazione;}
+	\item{\textbf{Esecuzione batch:} tratta solo flussi limitati (\gls{bounded streams}). Questa procedura permette a Flink di ottimizzare l'esecuzione basandosi sul flusso conosciuto, il quale ha un'inizio ed una fine. In questa modalità le varie attività all'interno della \gls{pipeline} del programma possono essere eseguite una dopo l'altra, permettendo di passare alla fase successiva solo quando si è terminata quella precedente (quindi non in contemporanea come avviene per l'esecuzione streaming). I dati fra una fase ed un'altra vengono salvati in una memoria non temporanea per permettere a Flink di ripartire da un determinato step senza rieseguire l'intero programma.}
 \end{itemize}
-\subsubsection{Flussi illimitati (unbounded)}
-\subsubsection{Flussi limitati (bounded)}
 
 \subsection{Table API}
 
-\subsection{Operatori}
+\subsection{Operatori}\label{sec:operatori}
 Gli operatori di Flink sono delle procedure per trasformare DataStream in altri DataStream. Sono utilizzati principalmente per modificare il tipo di flusso di un DataStream, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un altro DataStream. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di Apache Flink.
 
 \subsubsection{FlatMap}
