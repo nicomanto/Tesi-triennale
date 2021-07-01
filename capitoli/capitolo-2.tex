@@ -81,7 +81,7 @@ connectedStreams.flatMap(
 \end{minted}
 
 \subsubsection{KeyBy}
-Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{keyBy()} è implementato con il partizionamento hash.
+Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{KeyBy} è implementato con il partizionamento hash.
 La chiave deve essere intesa come univoca.
 Di seguito la struttura appena descritta.
 \begin{minted}{scala}
@@ -97,7 +97,10 @@ Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}
 	\item{\textbf{timer:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{KeyedStream}. Per una descrizione più approfondità del timer farè riferimento alla sezione \S\textbf{Timer} sottostante.}
 \end{itemize}
 
-Per creare una \textit{ProcessFunction}, bisogna implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textit{state} e del \textit{timer}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}, quindi al posto di trattare la \textit{ProcessFunction} di per sè, si va a lavoare con la \textit{KeyedProcessFunction}, la quale è un estensione della \textit{ProcessFunction} e permette l'accesso alla chiave del timer nel metodo \textit{onTimer} 
+Per creare una \textit{ProcessFunction}, serve implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textit{state} e del \textit{timer}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}. Di seguito è stato deciso di analizzare due principali operatori derivati dalla \textit{ProcessFunction}, quali \textbf{KeyedProcessFunction} e \textbf{BroadcastProcessFunction}, ampiamente utilizzati durante lo stage.
+
+\myParagraph{KeyedProcessFunction}
+\myParagraph{BroadcastProcessFunction}
 
 \myParagraph{Timer}\label{sec:timer}
 Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \gls{timestamp} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il timer per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\gls{timestamp} esiste un solo timer, se più timer sono settati per lo stesso \gls{timestamp}, solo uno verrà richiamato. Flink sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I timer sono tolleranti verso gli errori, infatti Flink salva tale timer tramite il meccanismo di \gls{checkpoint} come avviene per gli stati.
