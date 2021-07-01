@@ -32,12 +32,38 @@ Le modalità principali di esecuzione sono:
 \end{itemize}
 
 \subsection{Table API}
+Apache Flink dispone di due \gls{api} relazionali, l'\textit{\gls{api} Table} e \textit{\gls{sql}}, per un flusso unificato e l'elaborazione batch. L'\gls{api} Table consente la composizione di query da operatori relazionali come selezione, filtro e join in modo molto intuitivo. Le query specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'input sia continuo (streaming) o limitato (batch).\\
+In particolare l'\textit{\gls{api} Table} è un super set del linguaggio \gls{sql} ed è appositamente progettato per lavorare con Apache Flink. L'\gls{api} Table è un'\gls{api} integrata nel linguaggio per Scala, Java e Python. Invece di specificare le query come valori di tipo stringa come nel comune linguaggio \gls{sql}, le query delle  sono definite in uno stile integrato nel linguaggio in Java, Scala o Python.
+
+\subsubsection{Query e DataStream}
+La tabella sootostante mette a confronto l'algebra relazionale tradizionale e l'elaborazione di un flusso illimitato riguardo i dati in input, l'esecuzione e l'output finale.
+
+\begin{table}[hbt!]
+\caption{Tabella di confronto fra l'algebra relazione e l'elaborazione di un flusso illimitato}
+\label{tab:algebraRelazionale-flussoIllimitato}
+\begin{tabularx}{\textwidth}{XX}
+\hline
+\textbf{Algebra relazionale} & \textbf{Flusso illimitato}\\
+\hline
+Le relazioni (o tabelle) sono (multi)insiemi limitati di tuple.     & Un flusso illimitato è una sequenza infinita di tuple. \\
+\hline
+Una query eseguita su dati batch (ad esempio, una tabella in un database relazionale) ha accesso ai dati di input completi.    & Una query su un flusso illimitato non può accedere a tutti i dati quando viene eseguita e deve aspettare la trasmissione dei dati. \\
+\hline
+A batch query terminates after it produced a fixed sized result.     & Una query su un flusso illimitato aggiorna continuamente il suo risultato in base ai record ricevuti e non viene mai completata. \\
+\hline
+\end{tabularx}
+\end{table}%
+
+Come si evince, i flussi illimitati non lavorano su tabelle statiche, bensì dinamiche. Infatti, le \textit{Dynamic tables} sono il concetto centrale delle Table \gls{api} di Flink per permettere ad esse di lavorare su un flusso streaming.\\
+Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce una query continua, ed essa produce risultati dinamici, aggiornando continuamente la sua tabella dei risultati (dinamica) per riflettere le modifiche sulle sue tabelle di input (dinamiche). È importante notare che un output di query continua è sempre semanticamente equivalente al risultato della stessa query eseguita in modalità batch su uno snapshot delle tabelle di input.
+
+
 
 \subsection{Operatori}\label{sec:operatori}
 Gli operatori di Flink sono delle procedure per trasformare DataStream in altri DataStream. Sono utilizzati principalmente per modificare il tipo di flusso di un DataStream, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un altro DataStream. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di Apache Flink.
 
 \subsubsection{FlatMap}
-Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textbf{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del DataStream verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del DataStream verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
 dataStream.flatMap { str => str.split(" ")}
@@ -45,7 +71,7 @@ dataStream.flatMap { str => str.split(" ")}
 	
 	
 \subsubsection{CoFlatMap}
-Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textbf{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due DataStream connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico DataStream secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due DataStream connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico DataStream secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
 connectedStreams.flatMap(
@@ -67,14 +93,17 @@ dataStream.keyBy(_._1)
 Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}:
 \begin{itemize}
 	\item{\textbf{eventi:} elementi dello \textit{Stream};}
-	\item{\textbf{stati:} stati tolleranti agli errori, consistenti e supportati solo nei \textit{Keyed Stream}. La \textit{ProcessFunction} da accesso allo stato tramite il \textit{RuntimeContext}, in modo simile a quanto avviene negli altri operatori che hanno accesso allo stato;}
-	\item{\textbf{timer:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{Keyed Stream}}. Per una descrizione più approfondità del timer farè riferimento alla sezione \S\ref{sec:timer}
+	\item{\textbf{stati:} stati tolleranti agli errori, consistenti e supportati solo nei \textit{KeyedStream}. La \textit{ProcessFunction} da accesso allo stato tramite il \textit{RuntimeContext}, in modo simile a quanto avviene negli altri operatori che hanno accesso allo stato;}
+	\item{\textbf{timer:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{KeyedStream}. Per una descrizione più approfondità del timer farè riferimento alla sezione \S\textbf{Timer} sottostante.}
 \end{itemize}
 
-Per creare una \textit{ProcessFunction}, bisogna implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textit{state} e del \textit{timer}, come descritto precedentemente, bisogna basarsi su un \textit{Keyed Stream}, quindi al posto di trattare la \textit{ProcessFunction} di per sè, si va a lavoare con la \textit{KeyedProcessFunction}, la quale è un estensione della \textit{ProcessFunction} e permette l'accesso alla chiave del timer nel metodo \textit{onTimer} 
+Per creare una \textit{ProcessFunction}, bisogna implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textit{state} e del \textit{timer}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}, quindi al posto di trattare la \textit{ProcessFunction} di per sè, si va a lavoare con la \textit{KeyedProcessFunction}, la quale è un estensione della \textit{ProcessFunction} e permette l'accesso alla chiave del timer nel metodo \textit{onTimer} 
 
 \myParagraph{Timer}\label{sec:timer}
 Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \gls{timestamp} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il timer per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\gls{timestamp} esiste un solo timer, se più timer sono settati per lo stesso \gls{timestamp}, solo uno verrà richiamato. Flink sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I timer sono tolleranti verso gli errori, infatti Flink salva tale timer tramite il meccanismo di \gls{checkpoint} come avviene per gli stati.
+
+
+\subsection{Scalabilità}
 
 \subsection{Alta disponibilità e recovery}
 
@@ -89,7 +118,6 @@ Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processa
 \subsubsection{Kryo}
 
 
-\subsection{Scalabilità}
 
 
 \section{Scala}
