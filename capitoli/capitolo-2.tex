@@ -185,30 +185,31 @@ I savepoint si possono considerare come dei veri e propri checkpoint, che acquis
 
 \subsection{Serializzazione}
 Per salvare e ripristinare i dati durante la creazione di un checkpoint o savepoint, Flink serializza e deserializza i dati in formato binario. Questo rende comprensibile il formato dei dati in qualunque sistema di gestione di essi.\\
-Flink pone alcune restrizioni sul tipo di elementi che possono trovarsi in un \textit{DataSet} o \textit{DataStream}. La ragione di ciò è che il sistema analizza i tipi per determinare strategie di esecuzione più efficienti. Esistono sette diverse categorie di tipi di dati:
+Flink pone alcune restrizioni sul tipo di elementi che possono trovarsi in un \textit{DataSet} o \textit{DataStream}. La ragione di ciò è che il sistema analizza i tipi per determinare strategie di esecuzione più efficienti.\\
+La serializzazione predefinita di Apache Flink può essere suddivisa approssimativamente nei seguenti gruppi:
+
 \begin{itemize}
-	\item{\textbf{Tuple di Java} e \textbf{Case class di Scala:} Le \textit{Tuple} sono tipi compositi che contengono un numero fisso di campi di diverso tipo. Invece Le Case class di Scala (e le Tuple Scala che sono un caso particolare delle Case class) sono tipi compositi che contengono un numero fisso di campi di tipo diverso;}
-	\item{\textbf{Java \gls{POJO}}: Le classi Java e Scala sono trattate da Flink come un tipo di dati POJO speciale se soddisfano i seguenti requisiti:
+	\item{
+Serializzatori speciali forniti da Flink per i tipi base (primitive Java e loro forma boxed), array, tipi compositi (tuple, case class di Scala, Rows) e alcuni tipi ausiliari (Opzione, Entrambi, Liste, Mappe, ...);}
+	\item{\gls{pojo}, cioè un tipo di classe che soddisfa i seguenti requisiti:
 \begin{itemize}
 	\item{la classe deve essere pubblica;}
 	\item{deve avere un costruttore pubblico senza argomenti (costruttore predefinito);}
-	\item{tutti i campi sono pubblici o devono essere accessibili tramite le funzioni getter e setter;}
+	\item{tutti i campi sono pubblici o devono essere accessibili tramite le funzioni \textit{getter} e \textit{setter};}
 	\item{il tipo di un campo deve essere supportato da un serializzatore registrato.}
 \end{itemize}}
-	\item{\textbf{tipi primitivi:} Flink supporta tutti i tipi primitivi Java e Scala;}
-	\item{\textbf{classi generali:} Tutte le classi che non sono identificate come tipi POJO (vedi i requisiti \gls{POJO} sopra) sono gestite da Flink come tipi di \textit{classe generali}. Flink tratta questi tipi di dati come scatole nere e non è in grado di accedere al loro contenuto (ad esempio, per un ordinamento efficiente). I tipi generali vengono de/serializzati utilizzando il framework di serializzazione Kryo.;}
-	\item{\textbf{valori};}
-	\item{Hadoop Writables;}
-	\item{Special Types.}
+	\item{Tipi generici, cioè tipi di dati definiti dall'utente che non sono riconosciuti come \gls{pojo} e quindi serializzati tramite Kryo (\S\ref{sec:kryo}).}
 \end{itemize}
+In alternativa alla serializzazione offerta internamente da Flink, si possono creare anche dei serializzatore personalizzati definiti dall'utente, i quali possono integrare altri sistemi di serializzazione come per esempio \textbf{Avro} (\S\ref{sec:avro}). I serializzatori personalizzati sono molto importanti per quanto riguarda lo \textbf{State Schema Evolution}, infatti le applicazioni streaming di Apache Flink sono generalmente progettate per funzionare a tempo indeterminato o per lunghi periodi di tempo. Come per tutti i servizi di lunga durata, le applicazioni devono essere aggiornate per adattarsi alle mutevoli esigenze. Questo vale anche per gli schemi di dati su cui lavorano le applicazioni, i quali si evolvono insieme all'applicazione stessa.\\
+Di seguito vengono analizzati i due \gls{framework} di serializzazione citati precedentemente.
 
-\subsubsection{Avro}
-
-\subsubsection{Kryo}
-
+\subsubsection{Kryo}\label{sec:kryo}
+Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente per l'utente programmatore sui tipi di dati non riconosciuti come \gls{pojo} o che non sono corredati da serializzatori speciali. Se si utilizza Kryo, è importante registrare il tipo di classe per permettere a Kryo di taggare tale classe in modo che, durante la serializzazione, Kryo non debba aggiungere i nomi di classe completi come prefisso nel modulo serializzato. Kryo usa questo meccanismo di tag (interi) per identificare le classi sottostanti e ridurre il sovraccarico della serializzazione.
 
 
 
+\subsubsection{Avro}\label{sec:avro}
+Flink offre supporto per il \gls{framework} di serializzazione \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
 \section{Scala}
 
 \section{Amazon Kinesis}
