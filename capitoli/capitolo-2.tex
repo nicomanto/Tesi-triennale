@@ -23,7 +23,7 @@ Carattestiche fondamentali dei \textit{DataStream} sono:
 	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi;}
 	\item{\textbf{soggetti a trasformazioni:} non è possibile ispezionare gli elementi al proprio interno, ma solo lavorare su di essi utilizzando le \textit{DataStream \gls{api}}, che vengono definite, appunto, trasformazioni.}
 \end{itemize}
-La creazione di un \textit{DataStream} necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda \gls{kafka}) e da questo si possono derivare numerosi flussi e combinarli utilizzando le \gls{api} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
+La creazione di un \textit{DataStream} necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda \gls{Apache Kafka}) e da questo si possono derivare numerosi flussi e combinarli utilizzando le \gls{api} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
 Le \textit{DataStream \gls{api}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}
@@ -33,10 +33,10 @@ Le modalità principali di esecuzione sono:
 
 \subsection{Table API}
 Apache Flink dispone di due \gls{api} relazionali, l'\textit{\gls{api} Table} e \textit{\gls{sql}}, per un flusso unificato e l'elaborazione batch. L'\gls{api} Table consente la composizione di \gls{query} da operatori relazionali come selezione, filtro e join in modo molto intuitivo. Le \gls{query} specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'input sia continuo (streaming) o limitato (batch).\\
-In particolare l'\textit{\gls{api} Table} è un super set del linguaggio \gls{sql} ed è appositamente progettato per lavorare con Apache Flink. L'\gls{api} Table è un'\gls{api} integrata nel linguaggio per Scala, Java e Python. Invece di specificare le \gls{query} come valori di tipo stringa come nel comune linguaggio \gls{sql}, vengono definite in uno stile integrato nel linguaggio in Java, Scala o Python.
+In particolare l'\textit{\gls{api} Table} è un super set del linguaggio \gls{sql} ed è appositamente progettato per lavorare con Apache Flink. L'\gls{api} Table è un'\gls{api} integrata nel linguaggio per Scala, Java e Python. Invece di specificare le \gls{query} come valori di tipo stringa come nel comune linguaggio \gls{sql}, vengono definite in uno stile integrato nei linguaggi citati precedentemente.
 
 \subsubsection{Query e DataStream}
-La tabella sootostante mette a confronto l'algebra relazionale tradizionale e l'elaborazione di un flusso illimitato riguardo i dati in input, l'esecuzione e l'output finale.
+La tabella sottostante mette a confronto l'algebra relazionale tradizionale e l'elaborazione di un flusso illimitato riguardo i dati in input, l'esecuzione e l'output finale.
 
 \begin{table}[hbt!]
 \caption{Tabella di confronto fra l'algebra relazione e l'elaborazione di un flusso illimitato}
@@ -55,7 +55,7 @@ Una \gls{query} eseguita su dati batch termina dopo aver prodotto un risultato f
 \end{table}%
 
 Come si evince, i flussi illimitati non lavorano su tabelle statiche, bensì dinamiche. Infatti, le \textit{Dynamic tables} sono il concetto centrale delle Table \gls{api} di Flink per permettere ad esse di lavorare su un flusso streaming.\\
-Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce una \}gls{query continua, ed essa produce risultati dinamici, aggiornando continuamente la sua tabella dei risultati (dinamica) per riflettere le modifiche sulle sue tabelle di input (dinamiche). È importante notare che un output di una \gls{query} continua è sempre semanticamente equivalente al risultato della stessa \gls{query} eseguita in modalità batch su uno \gls{snapshot} delle tabelle di input.
+Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce una \textit{\gls{query} continua}, ed essa produce risultati dinamici, aggiornando continuamente la sua tabella dei risultati (dinamica) per riflettere le modifiche sulle sue tabelle di input (dinamiche). È importante notare che un output di una \gls{query} continua è sempre semanticamente equivalente al risultato della stessa \gls{query} eseguita in modalità batch su uno \gls{snapshot} delle tabelle di input.
 
 
 
@@ -97,7 +97,7 @@ Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}
 	\item{\textbf{timer:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{KeyedStream}. Per una descrizione più approfondità del timer farè riferimento alla sezione \S\textbf{Timer} sottostante.}
 \end{itemize}
 
-Per creare una \textit{ProcessFunction}, serve implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textbf{state} e del \textbf{timer}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}. Di seguito è stato deciso di analizzare due principali operatori derivati dalla \textit{ProcessFunction}, quali \textbf{KeyedProcessFunction} e \textbf{KeyedBroadcastProcessFunction}, ampiamente utilizzati durante il perido di stage.
+Per creare una \textit{ProcessFunction}, serve implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textbf{state} e del \textbf{timer}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}. Di seguito è stato deciso di analizzare due principali operatori derivati dalla \textit{ProcessFunction}, quali \textbf{KeyedProcessFunction} e \textbf{KeyedBroadcastProcessFunction}, ampiamente utilizzati durante il periodo di stage.
 
 \myParagraph{KeyedProcessFunction}
 La \textit{KeyedProcessFunction} è un'estensione di \textit{ProcessFunction}, la quale permette l'accesso alla chiave dei timer nel suo metodo \textbf{onTimer}. Di seguito un esempio relativo all'estensione della classe \textit{KeyedProcessFunction}, dove all'interno del metodo \textit{onTimer} avviene l'accesso alla chiave dei timer. I parametri \textbf{K}, \textbf{I} e \textbf{O} indicano rispettivamente il \textbf{tipo della chiave}, il \textbf{tipo dell'elemento in input} e il \textbf{tipo dell'elemento in output}.
@@ -148,7 +148,7 @@ class Example extends KeyedBroadcastProcessFunction[K, I1, I2, O] {
 \end{minted}
 
 \myParagraph{Timer}\label{sec:timer}
-Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \gls{timestamp} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il timer per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\gls{timestamp} esiste un solo timer, se più timer sono settati per lo stesso \gls{timestamp}, solo uno verrà richiamato. Flink sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I timer sono tolleranti verso gli errori, infatti Flink salva tale timer tramite il meccanismo di \gls{checkpoint} come avviene per gli stati.
+Tutti e due i tipi di timer (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \gls{timestamp} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il timer per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\gls{timestamp} esiste un solo timer, se più timer sono settati per lo stesso \gls{timestamp}, solo uno verrà richiamato. Flink sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I timer sono tolleranti verso gli errori, infatti Flink salva tale timer tramite il meccanismo di checkpoint (\S\ref{sec:checkpoint}) come avviene per gli stati.
 
 
 \subsection{Scalabilità}
@@ -164,9 +164,9 @@ Per gestire tale meccanismo, in Flink vengono sfruttate le chiavi passati durant
     \caption{Parallelizzazione del processamento del flusso per chiave in Apache Flink}
 \end{figure}
 
-\subsubsection{Checkpoint}
+\subsubsection{Checkpoint}\label{sec:checkpoint}
 Durante l'elaborazione dei dati possono avvenire degli errori che non permettono la continuità del processamento dei dati. Flink permette di essere tollerante a questi errori tramite il meccanismo di \textbf{checkpoint}. Un checkpoint contrassegna un punto specifico in ciascuno dei flussi di input insieme allo stato corrispondente per ciascuno degli operatori. Un flusso di dati in streaming può essere ripreso da un checkpoint mantenendo la coerenza (cioè elaborando il dato essatamente una volta) ripristinando lo stato degli operatori e riproducendo i record dal punto prefissato dal checkpoint.\\
-Durante il processamento, in caso di errori (come errori di rete), Flink interrompe il flusso di dati in streaming ed esegue le seguenti operazionie:
+Durante il processamento, in caso di errori (come errori di rete), Flink interrompe il flusso di dati in streaming ed esegue le seguenti operazioni:
 \begin{itemize}
 	\item{Il sistema riavvia gli operatori e li reimposta sull'ultimo checkpoint riuscito;}
 	\item{I flussi di input vengono reimpostati al dato \gls{snapshot} dello stato.}
@@ -175,22 +175,22 @@ Inoltre viene garantito che tutti i record elaborati come parte del flusso di da
 Il meccanismo di checkpoint (sia a livello di creazione che di ripristino da esso), se configurato durante l'elaborazione, è totalmente gestito da Flink, rendendolo trasparente per l'utente.
 
 \subsubsection{Savepoint}
-Tutti i programmi che utilizzano il checkpoint possono riprendere l'esecuzione da un \textbf{savepoint}. I savepoint  consentono di aggiornare i programmi (quindi la logica al loro interno) che il \gls{cluster} di Flink.\\
-I savepoint si possono considerare come dei veri e propri checkpoint, che acquisiscono uno \gls{snapshot} del programma e lo scrivono in un backend di stato. Si affidano al normale meccanismo di checkpoint, descritto precedentemente, per fare ciò. La differenza sostanziale con un checkpoint è che il savepoint:
+Tutti i programmi che utilizzano il checkpoint possono riprendere l'esecuzione da un \textbf{savepoint}. I savepoint  consentono di aggiornare sia i programmi (quindi la logica al loro interno), che il \gls{cluster} di Flink.\\
+I savepoint si possono considerare come dei veri e propri checkpoint, che acquisiscono uno \gls{snapshot} del programma e lo scrivono in un back-end di stato. I savepoint si affidano al normale meccanismo di checkpoint, descritto nella sezione \S\ref{sec:checkpoint}, per fare ciò. La differenza sostanziale con un checkpoint è che il savepoint:
 \begin{itemize}
-	\item{vengono creati manualmente dall'utente;}
-	\item{non vengono eliminati quando viene eseguito un checkpoint in un dato istante successivo al savepoint.}
+	\item{viene creato manualmente dall'utente;}
+	\item{non viene eliminato quando viene eseguito un checkpoint in un dato istante successivo al savepoint.}
 \end{itemize}
 
 
 \subsection{Serializzazione}
 Per salvare e ripristinare i dati durante la creazione di un checkpoint o savepoint, Flink serializza e deserializza i dati in formato binario. Questo rende comprensibile il formato dei dati in qualunque sistema di gestione di essi.\\
 Flink pone alcune restrizioni sul tipo di elementi che possono trovarsi in un \textit{DataSet} o \textit{DataStream}. La ragione di ciò è che il sistema analizza i tipi per determinare strategie di esecuzione più efficienti.\\
-La serializzazione predefinita di Apache Flink può essere suddivisa approssimativamente nei seguenti gruppi:
+La \gls{serializzazione} predefinita di Apache Flink può essere suddivisa approssimativamente nei seguenti gruppi:
 
 \begin{itemize}
 	\item{
-Serializzatori speciali forniti da Flink per i tipi base (primitive Java e loro forma boxed), array, tipi compositi (tuple, case class di Scala, Rows) e alcuni tipi ausiliari (Opzione, Entrambi, Liste, Mappe, ...);}
+Serializzatori speciali forniti da Flink per i tipi base (primitive Java e loro forma boxed), array, tipi compositi (tuple, case class di Scala, Rows) e alcuni tipi ausiliari (Option, Either, Lists, Maps, …);}
 	\item{\gls{pojo}, cioè un tipo di classe che soddisfa i seguenti requisiti:
 \begin{itemize}
 	\item{la classe deve essere pubblica;}
@@ -200,16 +200,16 @@ Serializzatori speciali forniti da Flink per i tipi base (primitive Java e loro 
 \end{itemize}}
 	\item{Tipi generici, cioè tipi di dati definiti dall'utente che non sono riconosciuti come \gls{pojo} e quindi serializzati tramite Kryo (\S\ref{sec:kryo}).}
 \end{itemize}
-In alternativa alla serializzazione offerta internamente da Flink, si possono creare anche dei serializzatore personalizzati definiti dall'utente, i quali possono integrare altri sistemi di serializzazione come per esempio \textbf{Avro} (\S\ref{sec:avro}). I serializzatori personalizzati sono molto importanti per quanto riguarda lo \textbf{State Schema Evolution}, infatti le applicazioni streaming di Apache Flink sono generalmente progettate per funzionare a tempo indeterminato o per lunghi periodi di tempo. Come per tutti i servizi di lunga durata, le applicazioni devono essere aggiornate per adattarsi alle mutevoli esigenze. Questo vale anche per gli schemi di dati su cui lavorano le applicazioni, i quali si evolvono insieme all'applicazione stessa.\\
-Di seguito vengono analizzati i due \gls{framework} di serializzazione citati precedentemente.
+In alternativa alla \gls{serializzazione} offerta internamente da Flink, si possono creare anche dei serializzatore personalizzati definiti dall'utente, i quali possono integrare altri sistemi di \gls{serializzazione} come per esempio \textbf{Avro} (\S\ref{sec:avro}). I serializzatori personalizzati sono molto importanti per quanto riguarda lo \textbf{State Schema Evolution}, infatti le applicazioni streaming di Apache Flink sono generalmente progettate per funzionare a tempo indeterminato o per lunghi periodi di tempo. Come per tutti i servizi di lunga durata, le applicazioni devono essere aggiornate per adattarsi alle mutevoli esigenze. Questo vale anche per gli schemi di dati su cui lavorano le applicazioni, i quali si evolvono insieme all'applicazione stessa.\\
+Di seguito vengono analizzati i due \gls{framework} di \gls{serializzazione} citati precedentemente.
 
 \subsubsection{Kryo}\label{sec:kryo}
-Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente per l'utente programmatore sui tipi di dati non riconosciuti come \gls{pojo} o che non sono corredati da serializzatori speciali. Se si utilizza Kryo, è importante registrare il tipo di classe per permettere a Kryo di taggare tale classe in modo che, durante la serializzazione, Kryo non debba aggiungere i nomi di classe completi come prefisso nel modulo serializzato. Kryo usa questo meccanismo di tag (interi) per identificare le classi sottostanti e ridurre il sovraccarico della serializzazione.
+Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente per l'utente programmatore sui tipi di dati non riconosciuti come \gls{pojo} o che non sono corredati da serializzatori speciali. Se si utilizza Kryo, è importante registrare il tipo di classe per permettere a Kryo di taggare tale classe in modo che, durante la \gls{serializzazione}, Kryo non debba aggiungere i nomi di classe completi come prefisso nel modulo serializzato. Kryo usa questo meccanismo di tag (interi) per identificare le classi sottostanti e ridurre il sovraccarico della \gls{serializzazione}.
 
 
 
 \subsubsection{Avro}\label{sec:avro}
-Flink offre supporto per il \gls{framework} di serializzazione \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
+Flink offre supporto per il \gls{framework} di \gls{serializzazione} \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
 \section{Scala}
 
 \section{Amazon Kinesis}
