@@ -110,11 +110,11 @@ Per permettere la rappresentazione di gruppi di risorse differenti, viene cambia
   "tid": //id del cliente, in formato String,
   "assetID": //id della risorsa, in formato String,
   "ts": //timestamp dell'evento, in formato String,
-  "asset": //informazioni relative alla risorsa, in formato AssetInfo
+  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
   "data": //payload dei dati dell'evento trasformati in formato JSON,
   "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di Bumblebeeoutput", in formato Option[String],
+  "type": //tipo di BumblebeeOutput", in formato Option[String],
   "srcID": //id della fonte dell'evento in formato String
 }
 \end{minted}
@@ -133,11 +133,11 @@ Dopo l'opportuna modifica, la struttura rappresentate il \textbf{BumblebeeOutput
 	  "type": //tipo dell'oggetto rapresentanto (asset,category,group), in formato String
   }
   "ts": //timestamp dell'evento, in formato String,
-  "asset": //informazioni relative alla risorsa, in formato AssetInfo
+  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
   "data": //payload dei dati dell'evento trasformati in formato JSON,
   "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di Bumblebeeoutput", in formato Option[String],
+  "type": //tipo di BumblebeeOutput", in formato Option[String],
   "srcID": //id della fonte dell'evento in formato String
 }
 \end{minted}
