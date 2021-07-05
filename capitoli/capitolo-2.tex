@@ -31,7 +31,7 @@ Le modalità principali di esecuzione sono:
 	\item{\textbf{Esecuzione batch:} tratta solo flussi limitati (\gls{bounded streams}). Questa procedura permette a Flink di ottimizzare l'esecuzione basandosi sul flusso conosciuto, il quale ha un'inizio ed una fine. In questa modalità le varie attività all'interno della \gls{pipeline} del programma possono essere eseguite una dopo l'altra, permettendo di passare alla fase successiva solo quando si è terminata quella precedente (quindi non in contemporanea come avviene per l'esecuzione streaming). I dati fra una fase ed un'altra vengono salvati in una memoria non temporanea per permettere a Flink di ripartire da un determinato step senza rieseguire l'intero programma.}
 \end{itemize}
 
-\subsection{Table API}
+\myParagraph{Table API}
 Apache Flink dispone di due \gls{api} relazionali, l'\textit{\gls{api} Table} e \textit{\gls{sql}}, per un flusso unificato e l'elaborazione batch. L'\gls{api} Table consente la composizione di \gls{query} da operatori relazionali come selezione, filtro e join in modo molto intuitivo. Le \gls{query} specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'input sia continuo (streaming) o limitato (batch).\\
 In particolare l'\textit{\gls{api} Table} è un super set del linguaggio \gls{sql} ed è appositamente progettato per lavorare con Apache Flink. L'\gls{api} Table è un'\gls{api} integrata nel linguaggio per Scala, Java e Python. Invece di specificare le \gls{query} come valori di tipo stringa come nel comune linguaggio \gls{sql}, vengono definite in uno stile integrato nei linguaggi citati precedentemente.
 
@@ -62,7 +62,7 @@ Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce un
 \subsection{Operatori}\label{sec:operatori}
 Gli operatori di Flink sono delle procedure per trasformare \textit{DataStream} in altri \textit{DataStream}. Sono utilizzati principalmente per modificare il tipo di flusso di un \textit{DataStream}, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un differente \textit{DataStream}. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di Apache Flink.
 
-\subsubsection{FlatMap}
+\myParagraph{FlatMap}
 Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del \textit{DataStream} verrà applicata tale logica per andare a definire l'output atteso. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
@@ -70,7 +70,7 @@ dataStream.flatMap { str => str.split(" ")}
 \end{minted}
 	
 	
-\subsubsection{CoFlatMap}
+\myParagraph{CoFlatMap}
 Operatore che dato un elemento, ne produce in output uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due \textit{DataStream} connessi fra di loro, e come per l'operatore nella sezione precedente, verrà prodotto in output un unico \textit{DataStream} secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
 
 \begin{minted}{scala}
@@ -80,7 +80,7 @@ connectedStreams.flatMap(
 )
 \end{minted}
 
-\subsubsection{KeyBy}
+\myParagraph{KeyBy}
 Operatore che suddivide un flusso in partizione disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{KeyBy} è implementato con il partizionamento hash.
 La chiave deve essere intesa come univoca.
 Di seguito la struttura appena descritta.
@@ -89,7 +89,7 @@ dataStream.keyBy(_.someKey)
 dataStream.keyBy(_._1)
 \end{minted}
 
-\subsubsection{ProcessFunction}
+\myParagraph{ProcessFunction}
 Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}:
 \begin{itemize}
 	\item{\textbf{eventi:} elementi dello stream;}
@@ -164,7 +164,7 @@ Per gestire tale meccanismo, in Flink vengono sfruttate le chiavi passati durant
     \caption{Parallelizzazione del processamento del flusso per chiave in Apache Flink}
 \end{figure}
 
-\subsubsection{Checkpoint}\label{sec:checkpoint}
+\myParagraph{Checkpoint}\label{sec:checkpoint}
 Durante l'elaborazione dei dati possono avvenire degli errori che non permettono la continuità del processamento dei dati. Flink permette di essere tollerante a questi errori tramite il meccanismo di \textbf{checkpoint}. Un checkpoint contrassegna un punto specifico in ciascuno dei flussi di input insieme allo stato corrispondente per ciascuno degli operatori. Un flusso di dati in streaming può essere ripreso da un checkpoint mantenendo la coerenza (cioè elaborando il dato essatamente una volta) ripristinando lo stato degli operatori e riproducendo i record dal punto prefissato dal checkpoint.\\
 Durante il processamento, in caso di errori (come errori di rete), Flink interrompe il flusso di dati in streaming ed esegue le seguenti operazioni:
 \begin{itemize}
@@ -174,7 +174,7 @@ Durante il processamento, in caso di errori (come errori di rete), Flink interro
 Inoltre viene garantito che tutti i record elaborati come parte del flusso di dati parallelo riavviato non abbiano influito sullo stato del checkpoint precedente.
 Il meccanismo di checkpoint (sia a livello di creazione che di ripristino da esso), se configurato durante l'elaborazione, è totalmente gestito da Flink, rendendolo trasparente per l'utente.
 
-\subsubsection{Savepoint}
+\myParagraph{Savepoint}
 Tutti i programmi che utilizzano il checkpoint possono riprendere l'esecuzione da un \textbf{savepoint}. I savepoint  consentono di aggiornare sia i programmi (quindi la logica al loro interno), che il \gls{cluster} di Flink.\\
 I savepoint si possono considerare come dei veri e propri checkpoint, che acquisiscono uno \gls{snapshot} del programma e lo scrivono in un back-end di stato. I savepoint si affidano al normale meccanismo di checkpoint, descritto nella sezione \S\ref{sec:checkpoint}, per fare ciò. La differenza sostanziale con un checkpoint è che il savepoint:
 \begin{itemize}
@@ -203,12 +203,12 @@ Serializzatori speciali forniti da Flink per i tipi base (primitive Java e loro 
 In alternativa alla \gls{serializzazione} offerta internamente da Flink, si possono creare anche dei serializzatore personalizzati definiti dall'utente, i quali possono integrare altri sistemi di \gls{serializzazione} come per esempio \textbf{Avro} (\S\ref{sec:avro}). I serializzatori personalizzati sono molto importanti per quanto riguarda lo \textbf{State Schema Evolution}, infatti le applicazioni streaming di Apache Flink sono generalmente progettate per funzionare a tempo indeterminato o per lunghi periodi di tempo. Come per tutti i servizi di lunga durata, le applicazioni devono essere aggiornate per adattarsi alle mutevoli esigenze. Questo vale anche per gli schemi di dati su cui lavorano le applicazioni, i quali si evolvono insieme all'applicazione stessa.\\
 Di seguito vengono analizzati i due \gls{framework} di \gls{serializzazione} citati precedentemente.
 
-\subsubsection{Kryo}\label{sec:kryo}
+\myParagraph{Kryo}\label{sec:kryo}
 Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente per l'utente programmatore sui tipi di dati non riconosciuti come \gls{pojo} o che non sono corredati da serializzatori speciali. Se si utilizza Kryo, è importante registrare il tipo di classe per permettere a Kryo di taggare tale classe in modo che, durante la \gls{serializzazione}, Kryo non debba aggiungere i nomi di classe completi come prefisso nel modulo serializzato. Kryo usa questo meccanismo di tag (interi) per identificare le classi sottostanti e ridurre il sovraccarico della \gls{serializzazione}.
 
 
 
-\subsubsection{Avro}\label{sec:avro}
+\myParagraph{Avro}\label{sec:avro}
 Flink offre supporto per il \gls{framework} di \gls{serializzazione} \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
 \section{Scala}
 
