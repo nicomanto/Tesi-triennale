@@ -24,9 +24,43 @@ citazione\footcite{womak:lean-thinking} \\
 Descrizione dell'azienda.
 
 %**************************************************************
-\section{L'idea}
+\section{Il progetto}
 
 Introduzione all'idea dello stage.
+
+\subsection{Descrizione}
+
+\subsection{Principali problematiche e relative soluzioni}
+
+Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
+Si è quindi proceduto ad elaborare delle possibili soluzioni per far fronte a tali rischi.\\
+
+\begin{risk}{Adattabilità operatore Bumblebee}
+    \riskdescription{l'operatore preesistente deve riuscire a creare un output informativo che può trattare gruppi di risorse (eguali o diverse fra di loro) o risorse singole}
+    \risksolution{Modifica della struttura descrittiva dell'output per garantire la gestione di entrambi i casi a livelli successivi di \gls{pipeline}}
+    \label{risk:bumblebeeOutput} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore di windowing}
+    \riskdescription{l'operatore preesistente deve riuscire a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
+    \risksolution{adattare tale operatore alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
+    \label{risk:windowing} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore Anomaly Detector}
+    \riskdescription{l'operatore preesistente deve riuscire ad alzare anomalie su gruppi di risorse differenti fra di loro e adattarsi all'aggiunta di nuovi detector}
+    \risksolution{adattare tale operatore alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
+    \label{risk:anomalyDetector} 
+\end{risk}
+
+\subsection{Pianificazione}
+
+\subsection{Obiettivi}
+
+%**************************************************************
+
+\section{Il prodotto finale}
+
 
 %**************************************************************
 \section{Organizzazione del testo}
