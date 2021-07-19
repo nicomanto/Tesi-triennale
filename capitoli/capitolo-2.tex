@@ -211,6 +211,18 @@ Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente p
 \myParagraph{Avro}\label{sec:avro}
 Flink offre supporto per il \gls{framework} di \gls{serializzazione} \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
 \section{Scala}\label{sec:scala}
+Il linguaggio di programmazione utilizzato all'interno del \gls{framework} \textit{Flink} è \textbf{Scala}. Scala (da \textit{Scalable Language}) è un linguaggio di programmazione multi-paradigma studiato per integrare le caratteristiche e funzionalità dei \textbf{linguaggi orientati agli oggetti} e dei \textbf{linguaggi funzionali}. La compilazione di codice sorgente Scala produce \textit{Java bytecode} per l'esecuzione su una \gls{jvm}. L'esecuzione di un programma prodotto in linguaggio Scala avviene tramite \gls{jre}, il quale semplifica l'integrazione con le applicazioni e le componenti Java.\\
+Una delle peculiarità più importanti di Scala, come accennato in precedenza, è l'integrazione di due paradigmi di programmazione molto noti:
+\begin{itemize}
+	\item{\textbf{Orientamento agli oggetti:} ogni elemento del linguaggio è un oggetto, inclusi numeri e funzioni che, così, possono essere memorizzate in variabili, essere passate come parametri, rappresentare il risultato di una chiamata di metodo, oppure essere estese tramite ereditarietà;}
+	\item{\textbf{Funzionale:} ogni funzione è un valore. Scala fornisce un linguaggio molto diretto per definire funzioni anonime (dichiarate e usate senza essere legate ad un nome), supporta funzioni di ordine superiore, permette alle funzioni di essere annidate e supporta funzioni parziali.}
+\end{itemize}
+Di seguito vengono elencate alcune strutture logiche specifiche di Scala considerate importanti e differenti rispetto ai linguaggi di programmazione più conosciuti:
+\begin{itemize}
+	\item{\textbf{Case class:} le \textit{case class} vengono utilizzate principalmente per la modellazione di dati immutabili. A differenza delle \textit{class}, per istanziare una case class non è necessaria la parola \textit{new} e le funzioni \textit{getter} sono automaticamente definite per i parametri del costruttore. Inoltre la comparazione fra case class avviene per valori e non per riferimenti, cioè oggetti diversi ma con valori uguali sono considerati eguali;}
+	\item{\textbf{Option:} come si evince dal nome, le \textit{Option} di Scala sono utilizzate per rappresentare un tipo opzionale, cioè che contiene un valore del tipo specificato oppure no. Se un valore è presente, l'istanza dell'Option sarà di tipo \textit{Some(x)}, dove x rappresenta il valore del tipo specificato dall'Option stessa. Se, invece, il valore non è presente, l'istanza rappresenterà un tipo \textit{None}.}
+\end{itemize}
+Un'altra caratteristica fondamentale di Scala è quella di permettere l'utilizzo dell'astrazione dei tipi. Questo significa che l'utente non è tenuto a specificare nel codice il tipo dei parametri rappresentati, ma vengono dedotti dal contesto tramite il compilatore.
 
 \section{Amazon Kinesis}
 
