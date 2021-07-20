@@ -27,6 +27,22 @@
 
 \newacronym[description={\glslink{jreg}{Java Runtime Environment}}]
     {jre}{JRE}{Java Runtime Environment}
+    
+\newacronym[description={\glslink{b2bg}{Business-to-Business}}]
+    {b2b}{B2B}{Business-to-Business}
+    
+\newacronym[description={\glslink{b2cg}{Business-to-Consumer}}]
+    {b2c}{B2C}{Business-to-Consumer}
+    
+\newacronym[description={\glslink{xgboostg}{eXtreme Gradient Boosting}}]
+{xgboost}{XGBoost}{eXtreme Gradient Boosting}
+
+\newacronym[description={\glslink{pocg}{Proof of Concept}}]
+{poc}{PoC}{Proof of Concept}
+
+\newacronym[description={\glslink{restg}{REpresentational State Transfer}}]
+{rest}{REST}{REpresentational State Transfer}
+
 
 %**************************************************************
 % Glossario
@@ -228,6 +244,55 @@
     sort=jre,
     description={In informatica il \textit{JRE} (o \textit{Java Runtime Environment}) è un ambiente di esecuzione per applicazioni scritte in linguaggio Java}
 }
+
+\newglossaryentry{b2bg}
+{
+    name=\glslink{b2b}{B2B},
+    text=Business-to-Business,
+    sort=b2b,
+    description={\textit{Business-to-Business}, spesso indicato con l'acronimo \textit{B2B}, in italiano commercio interaziendale, è una locuzione utilizzata per descrivere le transazioni commerciali elettroniche tra imprese. Più specificamente, Business-to-Business o B2B indica le relazioni che un'impresa detiene con i propri fornitori per attività di approvvigionamento, di pianificazione e monitoraggio della produzione, o di sussidio nelle attività di sviluppo del prodotto, oppure le relazioni che l'impresa detiene con clienti professionali, cioè altre imprese, collocate in punti diversi della filiera produttiva}
+}
+
+\newglossaryentry{b2cg}
+{
+    name=\glslink{b2c}{B2C},
+    text=Business-to-Consumer,
+    sort=b2c,
+    description={\textit{Business-to-Consumer}, spesso abbreviato in \textit{B2C}, indica le relazioni che un'impresa commerciale detiene con i suoi clienti per le attività di vendita e/o di assistenza. Questa sigla è utilizzata soprattutto quando l'interazione tra impresa e cliente avviene tramite internet, ovvero nel caso del commercio elettronico}
+}
+
+\newglossaryentry{gradient boosting}
+{
+    name=\glslink{gradient boosting}{GRADIENT BOOSTING},
+    text=Gradient Boosting,
+    sort=gradient boosting,
+    description={Il \textit{Gradient Boosting} è una tecnica di apprendimento automatico per problemi di regressione e classificazione, che produce un modello di previsione sotto forma di un insieme di modelli di previsione deboli, in genere alberi decisionali. Anziché puntare a prevedere il risultato della variabile target che vogliamo prevedere, si prefigge di prevedere gli errori del modello. Questi errori vengono stimati dai residui, ossia dalla differenza tra il valore realmente osservato e il valore previsto}
+}
+
+\newglossaryentry{xgboostg}
+{
+    name=\glslink{xgboost}{XGBOOST},
+    text=eXtreme Gradient Boosting,
+    sort=xgboost,
+    description={\textit{XGBoost} è un’implementazione specifica del metodo \gls{gradient boosting} che utilizza approssimazioni più accurate per trovare il miglior modello ad albero. I vantaggi dell'XGBoost è che la sua formazione è molto veloce e può essere parallelizzata/distribuita tra i cluster, inoltre è progettato per essere utilizzato con grandi e complessi dataset}
+}
+
+\newglossaryentry{pocg}
+{
+    name=\glslink{poc}{POC},
+    text=Proof of Concept,
+    sort=poc,
+    description={Con la locuzione inglese \textit{Proof of Concept}, in acronimo \textit{PoC} (traducibile in italiano con "prova di fattibilità", o "dimostrazione di fattibilità"), si intende una realizzazione incompleta o abbozzata (sinopsi) di un determinato progetto o metodo, allo scopo di provarne la fattibilità o dimostrare la fondatezza di alcuni principi o concetti costituenti. Un esempio tipico è quello di un prototipo. In Italia, il termine Proof of Concept è usato soprattutto in ambito informatico per riferirsi alla dimostrazione pratica dei funzionamenti di base di un applicativo software o di intero sistema, integrandolo all'interno di un ambiente già esistente}
+}
+
+\newglossaryentry{restg}
+{
+    name=\glslink{rest}{REST},
+    text=REpresentational State Transfer,
+    sort=rest,
+    description={\textit{REpresentational State Transfer} (\textit{REST}) è uno stile architetturale (di architettura software) per i sistemi distribuiti e rappresenta un sistema di trasmissione di dati su HTTP senza ulteriori livelli. Il funzionamento prevede una struttura degli URL ben definita che identifica univocamente una risorsa o un insieme di risorse e l'utilizzo dei metodi HTTP specifici per il recupero di informazioni (GET), per la modifica (POST, PUT, PATCH, DELETE) e per altri scopi (OPTIONS, ecc.). I sistemi REST non prevedono il concetto di sessione, ovvero sono \gls{stateless}}
+}
+ 
 
 
 

@@ -7,10 +7,7 @@
 \label{cap:introduzione}
 %**************************************************************
 
-Introduzione al contesto applicativo.\\
-
-\noindent Esempio di utilizzo di un termine nel glossario \\
-\gls{api}. \\
+\intro{Il documento seguente rappresenta il lavoro di tesi svolto come stage presso l'azienda Datasoil s.r.l. Lo stage è stato svolto al termine del percorso di studi della Laurea Triennale in Informatica presso l'Università degli Studi di Padova. Il progetto consiste nella realizzazione di una componente aggiuntiva al prodotto principale aziendale denominato SYN, dove tale componente si occupa di aggregazione e analisi in tempo reale di dati provenienti da asset differenti.}
 
 \noindent Esempio di citazione in linea \\
 \cite{site:agile-manifesto}. \\
@@ -21,62 +18,125 @@ citazione\footcite{womak:lean-thinking} \\
 %**************************************************************
 \section{L'azienda}
 
-Descrizione dell'azienda.
+Datasoil s.r.l. è una Startup Innovativa fondata da Pietro De Caro...\\
+L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in cloud \gls{b2b} e \gls{b2c} e opera principalmente nell'ambito dell'analisi, processamento e fruizione di dati per supportare processi decisionali mirati da parte delle aziende e degli utenti. Fulcro di tale servizio è la piattaforma proprietaria \textbf{SYN}, la quale fornisce un visione coesa su processi ed infrastruttura derivata dall'analisi in tempo reale di dati provenienti da asset e dati esterni tramite algoritmi di \gls{Apprendimento automatico}, producendo alert in grado di evidenziarne eventi anomali e rilevanti.\\
+L'azienda, inoltre, propone altri prodotti come l'applicativo LifeStyleSinc ... e l'utilizzo di realtà virtuale per...
+
+\begin{figure}[!h] 
+    \centering 
+    \includegraphics[width=0.5\columnwidth]{ds_logo_inline_pad_white.png} 
+    \caption{Logo di DataSoil s.r.l}
+\end{figure}
 
 %**************************************************************
-\section{Il progetto}
-
-Introduzione all'idea dello stage.
+\section{Il progetto e lo stage}
 
 \subsection{Descrizione}
 
-\subsection{Principali problematiche e relative soluzioni}
+Lo scopo dello stage e del relativo progetto è stato quello di creare una componente aggiuntiva per la piattaforma proprietaria \textbf{SYN}, dove tale componente si occupa dell'analisi e processamento di dati in tempo reale provenienti da \textit{asset differenti}, i quali vengono raggruppati per perimetro geografico, categoria o tipologia. Tale componente, inoltre,
+si occupa di notificare l'utente finale tramite alert che vengono innescati dopo il superamento di specifiche soglie definite da regole decise dall'utente utilizzatore.
+La realizzazione di tale componente ha previsto la modifica degli operatori preesistenti che si occupavano del raggruppamento temporale (\textit{windowing}) di asset eguali fra di loro e della componente di \textit{anomaly detection}, cioè quella che si occupa del rillevamento di anomalie.\\
+Le modifiche apportate rappresentano l'addattamento di tale operatori per rappresentare i vari asset come un entità raggruppata su cui poi andrà fatto un controllo mirato per definire se tale entità (a livello globale) ha prodotto un'anomalia, dove il rillevamento di essa si basa su detector che sfruttano configurazioni definite dall'utente e/o algoritmi di \gls{Apprendimento automatico}, come per esempio l'algoritmo \gls{xgboost} di tipo \gls{gradient boosting}. La componente, oltre a sfruttare i detector preesistenti, utilizza anche detector nuovi definiti durante la realizzazione del progetto.
 
-Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
-Si è quindi proceduto ad elaborare delle possibili soluzioni per far fronte a tali rischi.\\
+
+\subsection{Principali problematiche e relative soluzioni}
+Le problematiche riscontrate durante la realizzazione del progetto sono principalmente relative alla \textbf{comprensione ed utilizzo delle tecnologie nuove} e relative alla \textbf{definizione dell'archittetura implementativa}. Di seguito verranno analizzate i problemi specifici e le relative soluzioni:\\
+
+\begin{risk}{Comprensione e utilizzo del framework Flink}
+    \riskdescription{Durante lo studio e la creazione del \gls{poc} per testare le principali funzionalità di Flink sono stati riscontrati problemi relativi alle dipendenze utilizzate all'interno del codice}
+    \risksolution{Per risolvere tale problema è stato richiesta una supervisione da parte del tutor aziendale mirata a controllare il file che si occupa di gestire le dipendenze utilizzate all'interno del codice. Tramite l'aiuto del tutor aziendale è stato scoperto che erano state utilizzate versioni molto datate dei relativi pacchetti e inoltre venivano utilizzati dei pacchetti relativi a Java e non a Scala}
+    \label{risk:flinkImport}
+\end{risk}
 
 \begin{risk}{Adattabilità operatore Bumblebee}
-    \riskdescription{l'operatore preesistente deve riuscire a creare un output informativo che può trattare gruppi di risorse (eguali o diverse fra di loro) o risorse singole}
-    \risksolution{Modifica della struttura descrittiva dell'output per garantire la gestione di entrambi i casi a livelli successivi di \gls{pipeline}}
+    \riskdescription{L'operatore preesistente non risciuva nativamente a gestire un output informativo che potesse trattare \textbf{gruppi di risorse} (eguali o diverse fra di loro)}
+    \risksolution{Si è deciso di modificare la rappresentazione di tale output informativo per garantire la gestione sia di gruppi di risorse che risporse singole, sfruttando quindi un comune tipo di output adattabile alle esigenze appena descritte}
     \label{risk:bumblebeeOutput} 
 \end{risk}
 
 \begin{risk}{Adattabilità operatore di windowing}
-    \riskdescription{l'operatore preesistente deve riuscire a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
-    \risksolution{adattare tale operatore alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
+    \riskdescription{l'operatore preesistente non riusciva a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
+    \risksolution{Si è deciso di modificare la logica di tale operatore garantendo la completa gestione sia di aggregazione che di allineamento, mantenendo quindi la retrocompatibilità con il funzionamento precedente}
     \label{risk:windowing} 
 \end{risk}
 
 \begin{risk}{Adattabilità operatore Anomaly Detector}
-    \riskdescription{l'operatore preesistente deve riuscire ad alzare anomalie su gruppi di risorse differenti fra di loro e adattarsi all'aggiunta di nuovi detector}
-    \risksolution{adattare tale operatore alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
+    \riskdescription{l'operatore preesistente non riusciva ad alzare anomalie su gruppi di risorse differenti fra di loro e adattarsi all'aggiunta di nuovi detector}
+    \risksolution{Si è deciso di modificare la logica di tale operatore adattandolo alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
     \label{risk:anomalyDetector} 
 \end{risk}
 
 \subsection{Pianificazione}
+Il progetto è stato suddiviso in differenti parti per comprendere, da prima, il dominio applicativo e le tecnologie che sono state utilizzate e poi le vere e proprie fasi di codifica.
+
+\begin{enumerate}
+	\item{Studio e analisi preliminare del \gls{framework} Flink;}
+	\item{Studio e analisi preliminare del linguaggio di programmazione Scala;}
+	\item{Sviluppo di \gls{poc} per compredere al meglio alcune funzionalità essenziali di Flink quali \gls{serializzazione};}
+	\item{Sviluppo e modifica degli operatori preesistenti per l'integrazione della componente di \textit{anomaly detection} su asset raggruppati;}
+	\item{Sviluppo di test per verificare che gli operatori funzionino come atteso.}
+\end{enumerate}
 
 \subsection{Obiettivi}
+Di seguito vengono elencati i vari obiettivi relativi sia a quelli formativi dello stage, sia quelli produttivi realtivi al prodotto:
+\\ \\
+\textbf{Obiettivi formativi}
+\begin{itemize}
+	\item{Minimi:
+		\begin{itemize}
+			\item{Comprensione del workflow e degli strumenti aziendali;}
+			\item{Comprensione dei linguaggi e delle architetture coinvolte;}
+			\item{Mappatura dell’attuale \gls{pipeline} di analisi degli eventi (Flink);}
+			\item{Definizione dell’architettura ad alto livello per la funzionalità location digital twin ed eventuali modifiche al sistema attuale;}
+			\item{Comprensione e definizione della metodologia di governo della \gls{pipeline} attraverso messaggi;}
+			\item{Definizione delle \gls{api} di governo.}
+		\end{itemize}			
+	}
+\end{itemize}
+
+\noindent \textbf{Obiettivi produttivi}
+\begin{itemize}
+	\item{Minimi:
+		\begin{itemize}
+			\item{Completamento dello sviluppo e validazione dell’operatore di location digital twinning;}
+			\item{Completamento dello sviluppo e validazione delle modifiche necessarie all’integrazione dell’operatore nel flusso attuale;}
+			\item{Sviluppo delle \gls{api} \gls{rest} di governo dell’operatore.}
+		\end{itemize}			
+	}
+	\item{Massimi:
+		\begin{itemize}
+			\item{Test automatizzati dell’operatore;}
+			\item{Test automatizzati dell’\gls{api}.}
+		\end{itemize}			
+	}
+\end{itemize}
+
 
 %**************************************************************
-
 \section{Il prodotto finale}
+Al termine dello stage il prodotto realizzato riesce a gestire integramente l'analisi di gruppi di asset raggruppati, sia per quando riguarda la suddivisione corretta di risorse in gruppi prefissati, sia per quanto concerne l'analisi relativa a se è stata rilevata un'anomalia.\\
+Inoltre i test realizzati garantiscono che le modifiche apportate non abbiano intaccato le funzionalità precedenti, cioè quelle relative all'analisi di asset singoli non raggruppati o il raggrummento relativo alla stessa tipologia di risorsa.\\
+Per un'analisi più approfondita riguardo il risultato ottenuto fare riferimento al capitolo \S\ref{cap:conclusioni}.
+
+
 
 
 %**************************************************************
 \section{Organizzazione del testo}
+Questa sezione esplicita l'organizzazione del documento, andando a descrivere brevemente il contenuto di ogni capitolo.
 
 \begin{description}
-    \item[{\hyperref[cap:processi-metodologie]{Il secondo capitolo}}] descrive ...
+	\item[{\hyperref[cap:introduzione]{Il primo capitolo}}] introduce il contesto applicativo dello stage e del progetto prodotto, andando a descrivere l'azienda proponente dello stage ed il progetto ad alto livello.
+ 
+    \item[{\hyperref[cap:strumenti-tecnologie]{Il secondo capitolo}}] descrive i principali strumenti e tecnologie utilizzate per la realizzazione del progetto.
     
-    \item[{\hyperref[cap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:analisi-requisiti]{Il terzo capitolo}}] approfondisce i requisiti che la componente sviluppata è chiamata a rispettare.
     
-    \item[{\hyperref[cap:analisi-requisiti]{Il quarto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:progettazione-codifica]{Il quarto capitolo}}] esplicita in dettaglio la progettazione e lo sviluppo del prodotto quali le modifiche apportate ai vari operatori per supportare la nuova funzionalità.
     
-    \item[{\hyperref[cap:progettazione-codifica]{Il quinto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:verifica-validazione]{Il quinto capitolo}}] si sofferma a descrivere le procedure adottate per definire il prodotto collaudato e soddisfacente rispetto ai requisiti e agli obiettivi prefissati .
     
-    \item[{\hyperref[cap:verifica-validazione]{Il sesto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[cap:conclusioni]{Nel settimo capitolo}}] descrive ...
+    \item[{\hyperref[cap:conclusioni]{Il quinto capitolo}}] presenta il bilancio finale relativo allo stage e al progetto realizzato, analizzando i requisiti soddisfatti e dando un'analisi personale sul risultato ottenuto e sulle migliorie possibili che si possono apportare.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
