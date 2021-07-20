@@ -35,10 +35,10 @@ Le modalità principali di esecuzione sono:
 Apache Flink dispone di due \gls{api} relazionali, l'\textit{\gls{api} Table} e \textit{\gls{sql}}, per un flusso unificato e l'elaborazione batch. L'\gls{api} Table consente la composizione di \gls{query} da operatori relazionali come selezione, filtro e join in modo molto intuitivo. Le \gls{query} specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'input sia continuo (streaming) o limitato (batch).\\
 In particolare l'\textit{\gls{api} Table} è un super set del linguaggio \gls{sql} ed è appositamente progettato per lavorare con Apache Flink. L'\gls{api} Table è un'\gls{api} integrata nel linguaggio per Scala, Java e Python. Invece di specificare le \gls{query} come valori di tipo stringa come nel comune linguaggio \gls{sql}, vengono definite in uno stile integrato nei linguaggi citati precedentemente.
 
-\subsubsection{Query e DataStream}
+\myParagraph{Query e DataStream}
 La tabella sottostante mette a confronto l'algebra relazionale tradizionale e l'elaborazione di un flusso illimitato riguardo i dati in input, l'esecuzione e l'output finale.
 
-\begin{table}[hbt!]
+\begin{table}[H]
 \caption{Tabella di confronto fra l'algebra relazione e l'elaborazione di un flusso illimitato}
 \label{tab:algebraRelazionale-flussoIllimitato}
 \begin{tabularx}{\textwidth}{XX}
@@ -158,7 +158,7 @@ Flink è progettato per eseguire applicazioni di streaming \gls{stateful} su qua
 Durante l'elaborazione dei dati in Apache Flink può essere necessario memorizzare le informazioni ricevute ad un dato istante dell'elaborazione, come per esempio quando si addestra un modello di machine learning su un flusso di punti dati, oppure quando è necessario gestire i dati storici. Per fare ciò Flink utilizza il meccanisco di salvataggio delle informazioni in \textbf{stati}.\\
 Per gestire tale meccanismo, in Flink vengono sfruttate le chiavi passati durante l'elaborazione di un flusso. Lo stato relativo alla chiave viene mantenuto in quello che può essere considerato un archivio chiave/valore incorporato. Pertanto, l'accesso allo stato chiave/valore è possibile \textbf{solo su flussi con chiave}. L'allineamento delle chiavi dei flussi e dello stato assicura che tutti gli aggiornamenti su di esso siano operazioni locali, garantendo la coerenza senza sovraccarico delle transazioni. Questo allineamento consente inoltre a Flink di ridistribuire lo stato e regolare il partizionamento del flusso in modo trasparente per l'utente programmatore.
 
-\begin{figure}[!h] 
+\begin{figure}[H] 
     \centering 
     \includegraphics[width=0.5\columnwidth]{tecnologieUtilizzate/flink/state_partitioning.png} 
     \caption{Parallelizzazione del processamento del flusso per chiave in Apache Flink}

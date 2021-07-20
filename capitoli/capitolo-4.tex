@@ -67,36 +67,32 @@ dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Pe
 Tale struttura finale garantisce una corretto processamento del dato nel caso in cui si tratti di una risorsa singola oppure di un raggruppamento di quest'ultime.
 
 \section{Operatore Windowing}
-L'\textbf{operatore di windowing} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textit{risorsa} su se stessa, cioè \textit{sommando} o \textit{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare e/o aggregare fra di loro \textit{risorse} di tipo differente, per permettere un processamento dei dati a livello collettivo. Per definire il comportamento dell'operatore di windowing, è necessaria un apposita \textbf{configurazione} che sarà iniettata durante il processamento attivo dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
+L'\textbf{operatore Windowing} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textit{risorsa} su se stessa, cioè \textit{sommando} o \textit{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare e/o aggregare fra di loro \textit{risorse} di tipo differente, per permettere un processamento dei dati a livello collettivo. Per definire il comportamento della finestra temporale, è necessaria un apposita \textbf{configurazione} che sarà iniettata durante il processamento attivo dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
 L'operatore Windowing è una \textbf{KeyedCoProcessFunction}, così definita:
 \begin{minted}{scala}
 class Windowing(outputTagValues: OutputTag[AnomalyStepConfigurationCommand]) extends KeyedCoProcessFunction[String, BumblebeeOutput, AnomalyStepConfigurationCommand, GroupedEvents] {
 	// ...
   }
 \end{minted}
-Dove in entrata avrà due tipi di flussi, uno relativo agli eventi di tipo \textit{BumblebeeOutput} e uno relativo alla configurazione della window. Tale operatore suddivide gli eventi tramite la chiave definata come \textbf{pipeID}. Di seguito vengono analizzati i due flussi appena citati:
-\\ \\
-\textbf{Flusso degli eventi da raggruppare}
-\\ \\
+Dove in entrata avrà due tipi di flussi, uno relativo agli eventi da raggruppare di tipo \textit{BumblebeeOutput} (\S\ref{sec:pr1}) e uno relativo alla \textit{configurazione} della finestra temporale (\S\ref{sec:pr2}). Tale operatore operato su flussi suddivisi per chiave definita come \textbf{pipeID}. Infine il metodo che verrà richiamato alla fine di una specifica finestra temporale è il metodo \textit{onTimer} (\S\ref{sec:on-timer}), il quale collezionerà gli eventi all'interno della window appena conclusa e programmerà l'inizio della successiva finestra temporale.
+
+\subsection{Flusso degli eventi da raggruppare}\label{sec:pr1}
 Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metodo ereditato dalla classe \textbf{KeyedCoProcessFunction} e sovrascritto dalla classe rappresentate l'operatore (\textit{Windowing}). Il flusso attuale dell'operatore prevede questi step:
 
 \begin{enumerate}
 	\item{arrivo dell'\textit{evento} di tipo \textit{BumblebeeOutput};}
 	\item{controllo relativo a se la configurazione è presente, nel caso in cui non sia presente si saltano tutti i passaggi successivi e l'evento viene ignorato;}
 	\item{per ogni gruppo contenuto all'interno del filtro di aggregazione della window verrà fatto il controllo per verificare che quel determinato gruppo è filtrato per accettare quel determinato evento in entrata;}
-\item{Se l'evento è contenuto all'interno del filtro di un gruppo, viene controllata se la durata della window è nulla (minore <= 0), l'evento viene collezionato all'interno della struttura dati rappresentata dal \textbf{GroupedEvents}. Il flusso relativo all'evento entrante termina qua}
-\item{Se la durata della window ha una durata non nulla (>0), l'evento verrà controllato e inserito o nell'attuale window se il suo \gls{timestamp} è interno ai limiti di essa (inizio e fine), se l'evento è antecedente all'inizio della window, verrà scartato. Se l'evento è successivo alla fine della window, verrà inserito in un apposita struttura dati rappresentate gli \textit{"eventi futuri"}, i quali verranno trattati nella successiva window.}
+\item{se l'evento è contenuto all'interno del filtro di un gruppo, viene controllata se la durata della window è nulla (minore o uguale a zero), in questa casistica l'evento viene collezionato all'interno della struttura dati rappresentata dal \textit{GroupedEvents} (\S\ref{sec:ge}) senza essere aggregato o allineato con altri eventi. Il flusso relativo all'evento entrante termina;}
+\item{se la durata della window ha una durata non nulla (maggiore di zero), l'evento verrà inserito nell'attuale window se il suo \gls{timestamp} è contenuto nei limiti di essa (inizio e fine). Se, invece, l'evento è antecedente all'inizio della window, viene scartato. Infine, se l'evento è successivo alla fine della window, verrà inserito in un apposita struttura dati rappresentate gli \textit{"eventi futuri"}, i quali verranno trattati nella successiva window.}
 \end{enumerate}
 
-\begin{enumerate}
-	
-	\item{le varie risorse vengono aggregate su se stesse;}
-	\item{nel caso serva un'aggregazione a gruppi, è presente una mappa fra l'\textit{id del gruppo} (fornito dalla configurazione o creato da essa) e l'\textit{aggregatore delle risorse}, questo per permettere di avere un'aggregazione suddivisa in gruppi e di non andare ad intaccare aggregatori che possono trattare logicamente le stesse risorse, ma in gruppi differenti;}
-	\item{viene aggiornata la mappa descritta nel punto precedente con l'aggiunta dell'aggregatore basandoci sull'\textit{id del gruppo}. Nel caso l'id del gruppo non sia presente, viene creata una nuova \textit{entry} all'interno della mappa e salvato l'opportuno aggregatore;}
-	\item{quando scade il \textit{timer} della window, verrà processata l'aggregazione secondo le indicazioni date dalla configurazione, producendo l'ouput descritto nella sezione \S\textbf{OutputWindow}}.
-\end{enumerate}
+Per gestire l'inizio di una determinata nuova finestra temporale (quindi basata su una nuova \textbf{configurazione} per essa) verrà fatto un controllo per definire se l'evento entrante è il primo a partire da una nuova configurazione. In questo caso l'inizio della window è eguale al \gls{timestamp} dell'evento entrante e la fine della window è equivalente alla somma dell'inizio della window con la sua durata (definita nella configurazione).
+\subsection{Flusso di configurazione della window}\label{sec:pr2}
 
-\subsection{GroupedEvents}
+\subsection{OnTimer}\label{sec:on-timer}
+
+\subsection{GroupedEvents}\label{sec:ge}
 L'ouput dell'operatore, dapprima rappresentava solo una \textbf{risorsa singola}, ora invece tratterà un \textit{gruppo}, il quale è identificato da un \textbf{id}, da un \textbf{\gls{timestamp}} e da un \textbf{array} di \textit{risorse} di tipo \textit{BumblebeeOutput}.\\
 L'OutputWindow può rappresentare logicamente tre tipi logici di dato:
 \begin{itemize}
