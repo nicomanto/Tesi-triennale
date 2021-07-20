@@ -13,14 +13,14 @@
 Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti subito dei problemi relativi all'adattabilità degli operatori preesistenti con la nuove funzionalità create. Tali problematiche di adattabilità si possono riassumere in micro-aree:
 
 \begin{itemize}
-	\item{adattabilità della rappresentazione degli eventi tramite l'ouput dell'operatore \textbf{Bumblebee} definito come \textbf{BumblebeeOuput}, che va a definire la trasformazione degli eventi "grezzi" in eventi arracchiti da informazioni necessarie per il loro processamento;}
+	\item{adattabilità della rappresentazione degli eventi tramite l'output dell'operatore \textbf{Bumblebee} definito come \textbf{BumblebeeOuput}, che va a definire la trasformazione degli eventi "grezzi" in eventi arracchiti da informazioni necessarie per il loro processamento;}
 	\item{adattabilità dell'\textbf{operatore di windowing} che ora non devo solo trattare aggreazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore di \textit{Anomaly Detector} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
 	\item{adattabilità dell'operatore \textbf{Anomaly Detector} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{Unsupervised} e \textbf{Rule based}.}
 \end{itemize}
 	
 Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-aree descritte precedentemente.
 
-\subsection{BumblebeeOutput}\label{sec:bbout}
+\section{Operatore Bumblebee}\label{sec:bbout}
 Per permettere la rappresentazione di gruppi di risorse differenti, viene cambiata la struttura dell'output dell'operatore \textbf{Bumblebee}, rappresententato inizialmente in un formato \gls{json} così rappresentato:
 
 \begin{minted}{js}
@@ -50,7 +50,7 @@ Dopo l'opportuna modifica, la struttura rappresentate il \textbf{BumblebeeOutput
   "pipeVersion": //versione della pipeline, in formato String,
   "adapterID": //id dell'adattatore, in formato String,
   "tid": //id del cliente, in formato String,
-  "object": {
+  "subject": {
 	  "id": //id dell'oggetto, in formato String,
 	  "type": //tipo dell'oggetto rapresentanto (asset,category,group), in formato String
   }
@@ -63,22 +63,40 @@ Dopo l'opportuna modifica, la struttura rappresentate il \textbf{BumblebeeOutput
   "srcID": //id della fonte dell'evento in formato String
 }
 \end{minted}
-dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Per cui l'output sarà adattato ad un \textit{oggetto} generale, rappresentato da un proprio \textbf{id} e da un suo \textbf{tipo}.
+dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Per cui l'output sarà adattato ad un \textit{soggetto} generale, rappresentato da un proprio \textbf{id} e da un suo \textbf{tipo}.
 Tale struttura finale garantisce una corretto processamento del dato nel caso in cui si tratti di una risorsa singola oppure di un raggruppamento di quest'ultime.
-\subsection{Operatore di windowing}
+
+\section{Operatore Windowing}
 L'\textbf{operatore di windowing} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textit{risorsa} su se stessa, cioè \textit{sommando} o \textit{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare e/o aggregare fra di loro \textit{risorse} di tipo differente, per permettere un processamento dei dati a livello collettivo. Per definire il comportamento dell'operatore di windowing, è necessaria un apposita \textbf{configurazione} che sarà iniettata durante il processamento attivo dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
-Il flusso attuale dell'operatore prevede questi step:
+L'operatore Windowing è una \textbf{KeyedCoProcessFunction}, così definita:
+\begin{minted}{scala}
+class Windowing(outputTagValues: OutputTag[AnomalyStepConfigurationCommand]) extends KeyedCoProcessFunction[String, BumblebeeOutput, AnomalyStepConfigurationCommand, GroupedEvents] {
+	// ...
+  }
+\end{minted}
+Dove in entrata avrà due tipi di flussi, uno relativo agli eventi di tipo \textit{BumblebeeOutput} e uno relativo alla configurazione della window. Tale operatore suddivide gli eventi tramite la chiave definata come \textbf{pipeID}. Di seguito vengono analizzati i due flussi appena citati:
+\\ \\
+\textbf{Flusso degli eventi da raggruppare}
+\\ \\
+Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metodo ereditato dalla classe \textbf{KeyedCoProcessFunction} e sovrascritto dalla classe rappresentate l'operatore (\textit{Windowing}). Il flusso attuale dell'operatore prevede questi step:
 
 \begin{enumerate}
 	\item{arrivo dell'\textit{evento} di tipo \textit{BumblebeeOutput};}
-	\item{controllo relativo a se la configurazione è settata, nel caso si saltano tutti i passaggi successivi;}
+	\item{controllo relativo a se la configurazione è presente, nel caso in cui non sia presente si saltano tutti i passaggi successivi e l'evento viene ignorato;}
+	\item{per ogni gruppo contenuto all'interno del filtro di aggregazione della window verrà fatto il controllo per verificare che quel determinato gruppo è filtrato per accettare quel determinato evento in entrata;}
+\item{Se l'evento è contenuto all'interno del filtro di un gruppo, viene controllata se la durata della window è nulla (minore <= 0), l'evento viene collezionato all'interno della struttura dati rappresentata dal \textbf{GroupedEvents}. Il flusso relativo all'evento entrante termina qua}
+\item{Se la durata della window ha una durata non nulla (>0), l'evento verrà controllato e inserito o nell'attuale window se il suo \gls{timestamp} è interno ai limiti di essa (inizio e fine), se l'evento è antecedente all'inizio della window, verrà scartato. Se l'evento è successivo alla fine della window, verrà inserito in un apposita struttura dati rappresentate gli \textit{"eventi futuri"}, i quali verranno trattati nella successiva window.}
+\end{enumerate}
+
+\begin{enumerate}
+	
 	\item{le varie risorse vengono aggregate su se stesse;}
 	\item{nel caso serva un'aggregazione a gruppi, è presente una mappa fra l'\textit{id del gruppo} (fornito dalla configurazione o creato da essa) e l'\textit{aggregatore delle risorse}, questo per permettere di avere un'aggregazione suddivisa in gruppi e di non andare ad intaccare aggregatori che possono trattare logicamente le stesse risorse, ma in gruppi differenti;}
 	\item{viene aggiornata la mappa descritta nel punto precedente con l'aggiunta dell'aggregatore basandoci sull'\textit{id del gruppo}. Nel caso l'id del gruppo non sia presente, viene creata una nuova \textit{entry} all'interno della mappa e salvato l'opportuno aggregatore;}
 	\item{quando scade il \textit{timer} della window, verrà processata l'aggregazione secondo le indicazioni date dalla configurazione, producendo l'ouput descritto nella sezione \S\textbf{OutputWindow}}.
 \end{enumerate}
 
-\myParagraph{OutputWindow}
+\subsection{GroupedEvents}
 L'ouput dell'operatore, dapprima rappresentava solo una \textbf{risorsa singola}, ora invece tratterà un \textit{gruppo}, il quale è identificato da un \textbf{id}, da un \textbf{\gls{timestamp}} e da un \textbf{array} di \textit{risorse} di tipo \textit{BumblebeeOutput}.\\
 L'OutputWindow può rappresentare logicamente tre tipi logici di dato:
 \begin{itemize}
@@ -87,9 +105,12 @@ L'OutputWindow può rappresentare logicamente tre tipi logici di dato:
 	\item{\textbf{allineamento:} dove l'\textit{array} degli eventi è formato da \textit{N} elementi, l'\textit{id del gruppo} equivale all'id definto dalla configurazione e il \textit{\gls{timestamp}} equivale a quello definito durante l'aggregazione effettiva;}
 \end{itemize}
 
+\subsection{Aggregatore}
 
 
-\subsection{Anomaly Detector}
+
+
+\section{Operatpre Anomaly Detector}
 L'operatore \textbf{Anomaly Detector} è colui che si occupa di sollevare segnalazioni nel caso sia presente un'anomalia riguardo l'evento entrante (di tipo \textbf{OutputWindow}). Dapprima il l'Anomaly Detector lavorava solo su un tipo di evento legato ad una \textit{risorsa} singola, mappando l'\textit{id del detector} ad un'altra mappa dove la chiave è rappresentata dall'\textit{id della risorsa} e il valore è rappresentato dal vero e proprio \textit{detector}. Ora invece la struttura è basata sull'\textit{id del gruppo}, per cui è stata creata un'ulteriore mappa fra \textit{id del gruppo} e \textit{id del detector}, inoltre la chiave della mappa interna non è più rappresentata da un'id della risorsa, ma da un \textit{id dell'oggetto} dopo la modifica di \textbf{BumblebeeOutput} \S\ref{sec:bbout}.\\
 I \textit{detector} ora avranno un parametro in più che permette di definire se un determinato detector valuta l'anomalia su un gruppo di risorse o su una risorsa singola.\\
 Di seguito la lista dei detector:
