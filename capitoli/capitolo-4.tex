@@ -14,8 +14,8 @@ Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono 
 
 \begin{itemize}
 	\item{adattabilità della rappresentazione degli eventi tramite l'output dell'operatore \textbf{Bumblebee} definito come \textbf{BumblebeeOuput}, che va a definire la trasformazione degli eventi "grezzi" in eventi arracchiti da informazioni necessarie per il loro processamento;}
-	\item{adattabilità dell'\textbf{operatore di windowing} che ora non devo solo trattare aggreazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore di \textit{Anomaly Detector} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
-	\item{adattabilità dell'operatore \textbf{Anomaly Detector} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{Unsupervised} e \textbf{Rule based}.}
+	\item{adattabilità dell'\textbf{operatore di windowing} che ora non devo solo trattare aggreazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore di \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
+	\item{adattabilità dell'operatore \textbf{AlertCoProcess} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{Unsupervised} e \textbf{Rule based}.}
 \end{itemize}
 	
 Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-aree descritte precedentemente.
@@ -125,10 +125,16 @@ Per una descrizione approfondita degli stati dell'operatore \textit{Windowing} f
 \end{enumerate}
 
 \subsection{OnTimer}\label{sec:on-timer-windowing}
-Il metodo \textit{onTimer} è colui che gestisce la logica al termine di ogni finestra temporale. Tale funzione si occupa di creare un \textit{GroupedEvents} (\S\ref{sec:ge}) collezionando gli eventi visti secondo le regole definite dalla configurazione e ha il compito di configurare la prossima \textit{window}. Il metodo segue questi step:
+Il metodo \textbf{\textit{onTimer}} è colui che gestisce la logica al termine di ogni finestra temporale. Tale funzione si occupa di creare un \textit{GroupedEvents} (\S\ref{sec:ge}) collezionando gli eventi visti secondo le regole definite dalla configurazione e ha il compito di configurare la prossima \textit{window}. Il metodo segue questi step:
 \begin{enumerate}
 	\item{controllo relativo a se la configurazione della finestra temporale è settata, in caso negativo vengono saltati tutti gli step successivi;}
-	\item{in base alla modalità di aggregazione definita nella configurazione della finestra temporale, per ogni \textbf{\textit{id} del gruppo} contenuto all'interno dello stato relativo alla \textbf{mappa degli aggregatori} verrà creato e collezionato un \textit{GroupedEvents} (\S\ref{sec:ge}) contenente gli eventi aggregati o allineati secondo la modalità definita. Per la logica di aggregazione vedere la sezione \S\ref{sec:aggregator};}
+	\item{in base alla modalità di aggregazione definita nella configurazione della finestra temporale, per ogni \textbf{\textit{id} del gruppo} contenuto all'interno dello stato relativo alla \textbf{mappa degli aggregatori} verrà creato e collezionato un \textit{GroupedEvents} (\S\ref{sec:ge}) contenente gli eventi aggregati o allineati secondo la modalità definita, la quale può essere:
+	\begin{itemize}
+		\item{\textbf{\textit{barrier}:} in questa modalità gli eventi vengono \textbf{allineati} e il metodo che si occupa di questa funzionalità è il metodo \textit{add} dell'aggregatore;}
+		\item{\textbf{\textit{aggregation\textunderscore sum}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAccumulatorMode} dell'aggregatore;}
+		\item{\textbf{\textit{aggregation\textunderscore mean}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAccumulatorMode} dell'aggregatore.}
+	\end{itemize}
+	Per la logica specifica di aggregazione vedere la sezione \S\ref{sec:aggregator};}
 	\item{Creazione della nuova finestra temporale, cui l'inizio e la fine sono impostati rispettivamente con il \gls{timestamp} che ha attivato il metodo \textit{onTimer} e tale \gls{timestamp} sommato alla durata della \textit{window}. Di seguito, viene svuotata la \textbf{mappa degli aggregatori} che non contengono eventi inseriti nello stato \textbf{mappa degli eventi futuri} che risiedo nella nuova finestra temporale (nel caso in cui siano presenti degli eventi futuri, verrà istanziato un nuovo aggregatore contente già questi eventi). Infine viene svuotato lo stato relativo alla \textbf{mappa degli eventi futuri}.
 	}
 \end{enumerate}
@@ -166,21 +172,49 @@ Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata con
 
 
 
-\section{Operatore Anomaly Detector}
-L'operatore \textbf{Anomaly Detector} è colui che si occupa di sollevare segnalazioni nel caso sia presente un'anomalia riguardo l'evento entrante (di tipo \textbf{OutputWindow}). Dapprima il l'Anomaly Detector lavorava solo su un tipo di evento legato ad una \textit{risorsa} singola, mappando l'\textit{id del detector} ad un'altra mappa dove la chiave è rappresentata dall'\textit{id della risorsa} e il valore è rappresentato dal vero e proprio \textit{detector}. Ora invece la struttura è basata sull'\textit{id del gruppo}, per cui è stata creata un'ulteriore mappa fra \textit{id del gruppo} e \textit{id del detector}, inoltre la chiave della mappa interna non è più rappresentata da un'id della risorsa, ma da un \textit{id dell'oggetto} dopo la modifica di \textbf{BumblebeeOutput} \S\ref{sec:bbout}.\\
-I \textit{detector} ora avranno un parametro in più che permette di definire se un determinato detector valuta l'anomalia su un gruppo di risorse o su una risorsa singola.\\
-Di seguito la lista dei detector:
+\section{Operatore AlertCoProcess}
+L'operatore \textbf{\textit{AlertCoProcess}} è colui che si occupa di sollevare segnalazioni nel caso sia presente un'anomalia riguardo l'evento entrante di tipo \textit{GroupedEvents} (\S\ref{sec:ge}). Dapprima l'\textit{AlertCoProcess} lavorava solo su un tipo di evento legato ad una risorsa singola, mappando l'\textit{id} del \textit{detector} ad un'altra mappa dove la chiave è rappresentata dall'\textit{id} della risorsa e il valore è rappresentato dal vero e proprio \textit{detector}.\\
+Ora, invece, la struttura è basata sull'\textit{id} del gruppo, per cui è stata creata un'ulteriore mappa fra \textit{id} del gruppo e \textit{id} del \textit{detector}, inoltre la chiave della mappa interna non è più rappresentata da un'\textit{id} della risorsa, ma da un \textit{id} dell'soggetto dopo la modifica di \textbf{BumblebeeOutput} \S\ref{sec:bbout}.\\
+I \textit{detector} ora avranno un parametro in più che permette di definire se un determinato \textit{detector} valuta l'anomalia su un gruppo di risorse o su una risorsa singola.\\
+L'operatore \textit{AlertCoProcess} è una \textbf{\textit{KeyedCoProcessFunction}}, così definita:
+\begin{minted}{scala}
+class AlertCoProcess (inspectionTag: OutputTag[MongoInsertDocument]) extends KeyedCoProcessFunction[String, GroupedEvents, AnomalyStepConfigurationCommand, (String, BumblebeeOutput)] {
+	// ...
+  }
+\end{minted}
+Dove in entrata avrà due tipi di flussi, uno relativo agli eventi su cui controllare se viene rilevata un'anomalia di tipo \textit{GroupedEvents} (\S\ref{sec:pr1-alertcoprocess}) e uno relativo alla configurazione dell'operatore di tipo \textit{AnomalyStepConfiguration} (\S\ref{sec:pr2-alertcoprocess}). Tale operatore opera su flussi suddivisi per chiave definita come \textit{pipeID}.
+
+
+\subsection{Stati dell'operatore}\label{sec:stati-alertcoprocess}
+Per permettere una corretta gestione di entrambi i flussi, l'operatore \textit{AlertCoProcess} sfrutta i seguenti \textbf{stati} interni:
 \begin{itemize}
-	\item{\textbf{Uniseas}: detector che lavora singolarmente su un tipo di risorsa;}
-	\item{\textbf{Crosscorel}: detector che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico);}
-	\item{\textbf{Siblings}: detector che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento supervisionato}};}
-	\item{\textbf{Unsupervised}: detector che lavora su un gruppo di risorse lavorando con un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento non supervisionato}};}
-	\item{\textbf{Rule based}: detector che lavora su un gruppo di risorse oppure su una risorsa singola in base alla propria configurazione e valutando l'andamento della/e risorsa/e tramite una regola definita dall'utente.}
+		\item{\textbf{\textit{detector} relativo al gruppo:} valore \textit{booleano} che identifica se il detector dell'operatore tratta gli eventi come gruppo o no;}
+		\item{\textbf{\textit{tenant id}:} identifica il cliente all'interno dell'\textit{AlertCoProcess};}
+		\item{\textbf{mappa degli \textit{id} dei \textit{detector}:} mappa che gestisce la correlazione fra il l'\textit{id} del gruppo (chiave) e l'\textit{id} del \textit{detector} (valore);}
+		\item{\textbf{mappa dei \textit{detector}:} mappa che gestisce la correlazione fra il l'\textit{id} del detector (chiave) e un ulteriore mappa (valore) che lega l'\textit{id} di un \textit{soggetto} con il suo vero e proprio \textit{detector};}
+		\item{\textbf{configurazione dell'\textit{AlertCoProcess}:} l'attuale configurazione dell'\textit{AlertCoProcess};}
+		\item{\textbf{stato della \gls{pipeline}:} mappa che gestisce la versione delle varie \gls{pipeline}, le quali sono mappate per l'\textit{id} della \gls{pipeline}.}
 \end{itemize}
 
-La modifica apportata al codice sostanzialmente tratta il controllo da effettuare (in base alla \textit{configurazione} del detector) per definire su quale dato processare l'anomalia, nel caso avvenga. Infatti nel caso di un gruppo verrà creato un evento rappresentante tale gruppo su cui sollevare l'anomalia, invece nel caso di una risorsa singola l'anomalia verrà sollevata sull'evento relativa ad essa. 
+\subsection{Flusso degli eventi da controllare}\label{sec:pr1-alertcoprocess}
+Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metodo ereditato dalla classe \textbf{KeyedCoProcessFunction} e sovrascritto dalla classe rappresentate l'operatore (\textit{AlertCoProcess}). Il flusso attuale dell'operatore prevede questi step:
+\begin{enumerate}
+	\item{}
+\end{enumerate}
 
+\subsection{Flusso di configurazione dell'AlertCoProcess}\label{sec:pr2-alertcoprocess}
 
+\subsection{Lista dei detector}\label{detector-alertcoprocess}
+Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{AlertCoProcess}:
+\begin{itemize}
+	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa;}
+	\item{\textbf{\textit{Crosscorel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico);}
+	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento supervisionato};}
+	\item{\textbf{\textit{Unsupervised}}: \textit{detector} che lavora su un gruppo di risorse lavorando con un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento non supervisionato};}
+	\item{\textbf{\textit{Rule based}}: \textit{detector} che lavora su un gruppo di risorse oppure su una risorsa singola in base alla propria configurazione e valutando l'andamento della/e risorsa/e tramite una regola definita dall'utente.}
+\end{itemize}
+
+La modifica apportata al codice sostanzialmente tratta il controllo da effettuare (in base alla \textit{configurazione} del detector) per definire su quale dato processare l'anomalia, nel caso avvenga. Infatti nel caso di un gruppo verrà creato un evento rappresentante tale gruppo su cui sollevare l'anomalia, invece nel caso di una risorsa singola l'anomalia verrà sollevata sull'evento relativa ad essa.
 
 %**************************************************************
 \section{Ciclo di vita del software}
