@@ -210,6 +210,20 @@ Flink utilizza il \gls{framework} \textit{Kryo} in modo totalmente trasparente p
 
 \myParagraph{Avro}\label{sec:avro}
 Flink offre supporto per il \gls{framework} di \gls{serializzazione} \textit{Apache Avro} tramite la dipendenza \textit{org.apache.flink:flink-avro}. L'\textit{AvroSerializer} di Flink può quindi sfruttare le prestazioni e la flessibilità di Avro, soprattutto in termini di evoluzione dello schema quando le classi cambiano nel tempo.
+
+\subsection{Testing}\label{sec:flink-testing}
+Flink espone delle funzionalità interne per permettere la stesura di \textbf{test di unità} relativi ad operatori \gls{stateful} o che utilizzano \textit{timer} e operatori \gls{stateless}. Apache Flink offre, inoltre, la funzionalità di \textit{testing} relativa ad un intero \gls{cluster}. Per semplicità, all'interno di questa sezione viene esplicitata la procedura di creazione di un test di unità relativo ad un operatore \gls{stateful}, nonché l'unico tipo di test utilizzato durante il progetto.\\
+Il \textit{testing} della funzionalità di un operatore che fa uso di uno stato o di un \textit{timer} implica testare l'interazione tra il codice prodotto dallo sviluppatore e il \textit{runtime} di Flink. Per semplificare ciò Apache Flink fornisce una raccolta di cosiddetti \textit{test harnesses}, i quali permettono di testare differenti operatori del tipo:
+\begin{itemize}
+	\item{\textbf{\textit{OneInputStreamOperatorTestHarness}:} per operatori di tipo \textit{DataStreams};}
+	\item{\textbf{\textit{KeyedOneInputStreamOperatorTestHarness}:} per operatori di tipo \textit{KeyedStreams};}
+	\item{\textbf{\textit{TwoInputStreamOperatorTestHarness}:} per operatori di tipo \textit{ConnectedStreams} di due \textit{DataStreams};}
+	\item{\textbf{\textit{KeyedTwoInputStreamOperatorTestHarness}:} per operatori di tipo \textit{ConnectedStreams} di due \textit{KeyedStreams}.}
+\end{itemize}
+
+Il funzionamento dei \textit{test harnesses} prevede l'inserimento di \textit{record} nei differenti flussi trattati dall'operatore, il processamento di \textit{watermark} e il controllo riguardo al tempo di esecuzione (\textit{timer}) dell'operatore stesso. Inoltre è possibile fare asserzioni sugli stati interni e sull'output dell'operatore, inclusi i \textit{side outputs}. 
+
+
 \section{Scala}\label{sec:scala}
 Il linguaggio di programmazione utilizzato all'interno del \gls{framework} \textit{Flink} è \textbf{Scala}. Scala (da \textit{Scalable Language}) è un linguaggio di programmazione multi-paradigma studiato per integrare le caratteristiche e funzionalità dei \textbf{linguaggi orientati agli oggetti} e dei \textbf{linguaggi funzionali}. La compilazione di codice sorgente Scala produce \textit{Java bytecode} per l'esecuzione su una \gls{jvm}. L'esecuzione di un programma prodotto in linguaggio Scala avviene tramite \gls{jre}, il quale semplifica l'integrazione con le applicazioni e le componenti Java.\\
 Una delle peculiarità più importanti di Scala, come accennato in precedenza, è l'integrazione di due paradigmi di programmazione molto noti:
@@ -223,6 +237,28 @@ Di seguito vengono elencate alcune strutture logiche specifiche di Scala conside
 	\item{\textbf{Option:} come si evince dal nome, le \textit{Option} di Scala sono utilizzate per rappresentare un tipo opzionale, cioè che contiene un valore del tipo specificato oppure no. Se un valore è presente, l'istanza dell'Option sarà di tipo \textit{Some(x)}, dove x rappresenta il valore del tipo specificato dall'Option stessa. Se, invece, il valore non è presente, l'istanza rappresenterà un tipo \textit{None}.}
 \end{itemize}
 Un'altra caratteristica fondamentale di Scala è quella di permettere l'utilizzo dell'astrazione dei tipi. Questo significa che l'utente non è tenuto a specificare nel codice il tipo dei parametri rappresentati, ma vengono dedotti dal contesto tramite il compilatore.
+
+\section{ScalaTest}\label{sec:scala-test}
+\textit{ScalaTest} è un \gls{framework} per la creazione di test basati sul linguaggio \textit{Scala} o \textit{Java}. \textit{ScalaTest} supporta diversi stili di test, ciascuno progettato per soddisfare un particolare insieme di esigenze. Di seguito viene rappresentato un esempio dello stile \textit{FlatSpec}, stile che è stato utilizzato per la redazione dei test di unità all'interno del progetto:
+
+\begin{minted}{scala}
+class SetSpec extends AnyFlatSpec {
+
+  "An empty Set" should "have size 0" in {
+    assert(Set.empty.size == 0)
+  }
+
+  it should "produce NoSuchElementException when head is invoked" in {
+    assertThrows[NoSuchElementException] {
+      Set.empty.head
+    }
+  }
+}
+\end{minted}
+
+Nello stile \textit{FlatSpec} i nome dei test devono essere scritti secondo la convenzione: "\textit{X should Y}", "\textit{A must B}".\\
+Inoltre \textit{ScalaTest} offre i principali costrutti per la progettazione di test come per esempio \textit{Before} e \textit{After}, dove rispettivamente al loro interno viene  prodotto il codice che verrà eseguito prima e dopo di ogni test.
+
 
 \section{Amazon Kinesis}
 
