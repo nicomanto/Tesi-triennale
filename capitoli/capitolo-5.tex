@@ -8,12 +8,18 @@
 %**************************************************************
 
 
-\intro{Il suddetto capitolo esplicita la fase di \textit{testing} relativa agli operatori descritti nella fase di sviluppo e codifica. Tale fase non è da considerare come successiva a quella della codifica del codice, ma parallela; infatti per ogni modifica apportate al codice si è deciso di valutarne il corretto funzionamento in modo immediato.}
+\intro{Il suddetto capitolo esplicita la fase di \textit{testing} relativa agli operatori e API descritte nella fase di sviluppo e codifica. Tale fase non è da considerare come successiva a quella della codifica del codice, ma parallela; infatti per ogni modifica apportate al codice si è deciso di valutarne il corretto funzionamento in modo immediato.}
+
+\section{Classificazione dei test}
+I test realizzati sono \textbf{\textit{test di unità}} e sono codificati come segue:
+\begin{center}
+\textbf{TU[Codice]}\\
+\end{center}
+dove \textbf{Codice} identifica un numero incrementale che distingue i vari test
 
 \section{Operatore Windowing}
 Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{Windowing} rispetto ai requisiti prefissati
 
-\subsection{Test di unità}
 {
 \centering
 \begin{longtable}{L{3cm} L{8.5cm} L{2cm}}
@@ -24,49 +30,49 @@ Tale sezione elenca i test effettuati per garantire il corretto funzionamento de
 \endhead
 \hline
 
-TUW\textunderscore 1 & L'operatore non deve aggiornare la propria configurazione se essa è eguale a quella nuova & Superato \\
+TU1 & L'operatore non deve aggiornare la propria configurazione se essa è eguale a quella nuova & Superato \\
 \hline
-TUW\textunderscore 2 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una lunghezza dell'\textit{array DataFields} differente rispetto a quella nuova & Superato \\
+TU2 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una lunghezza dell'\textit{array DataFields} differente rispetto a quella nuova & Superato \\
 \hline
-TUW\textunderscore 3 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{id} del gruppo all'interno del campo \textit{assetFilters} mancante nella nuova configurazione & Superato\\
+TU3 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{id} del gruppo all'interno del campo \textit{assetFilters} mancante nella nuova configurazione & Superato\\
 \hline
-TUW\textunderscore 4 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{DataField} non più presente in quella nuova & Superato \\
+TU4 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{DataField} non più presente in quella nuova & Superato \\
 \hline
-TUW\textunderscore 5 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una durata della \textit{window} differente da quella attuale & Superato\\
+TU5 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una durata della \textit{window} differente da quella attuale & Superato\\
 \hline
-TUW\textunderscore 6 & L'operatore salta l'attuale finestra temporale avente durata uguale a zero. Viene verificato che vengano collezionati comunque i dati & Superato \\
+TU6 & L'operatore salta l'attuale finestra temporale avente durata uguale a zero. Viene verificato che vengano collezionati comunque i dati & Superato \\
 \hline
-TUW\textunderscore 7 & L'operatore non colleziona l'attuale evento in quanto non esiste una configurazione della \textit{window} & Superato \\
+TU7 & L'operatore non colleziona l'attuale evento in quanto non esiste una configurazione della \textit{window} & Superato \\
 \hline
-TUW\textunderscore 8 & L'operatore non colleziona l'attuale evento in quanto non contiene parametri su cui si può fare un'analisi (evento non arricchito) & Superato \\
+TU8 & L'operatore non colleziona l'attuale evento in quanto non contiene parametri su cui si può fare un'analisi (evento non arricchito) & Superato \\
 \hline
-TUW\textunderscore 9 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi. Tale aggregazione avviene correttamente sui campi all'interno di \textit{ctxDataField} & Superato \\
+TU9 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi. Tale aggregazione avviene correttamente sui campi all'interno di \textit{ctxDataField} & Superato \\
 \hline
-TUW\textunderscore 10 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi escludendo \textit{asset} che non contengono alcun \textit{DataField} & Superato \\
+TU10 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi escludendo \textit{asset} che non contengono alcun \textit{DataField} & Superato \\
 \hline
-TUW\textunderscore 11 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi i quali mantengono i rispettivi dati che non devono essere aggregati. Inoltre gli eventi che non contenevano un determinato dato su cui andava fatta l'aggregazione, non contengono quel determinato parametro settato con un valore di \textit{default} & Superato \\
+TU11 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi i quali mantengono i rispettivi dati che non devono essere aggregati. Inoltre gli eventi che non contenevano un determinato dato su cui andava fatta l'aggregazione, non contengono quel determinato parametro settato con un valore di \textit{default} & Superato \\
 \hline
-TUW\textunderscore 12 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato correttamente su se stesso secondo la modalità "\textit{somma}" & Superato \\
+TU12 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato correttamente su se stesso secondo la modalità "\textit{somma}" & Superato \\
 \hline
-TUW\textunderscore 13 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato correttamente su se stesso secondo la modalità "\textit{media}" & Superato \\
+TU13 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato correttamente su se stesso secondo la modalità "\textit{media}" & Superato \\
 \hline
-TUW\textunderscore 14 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati correttamente su se stessi secondo la modalità "\textit{somma}" & Superato \\
+TU14 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati correttamente su se stessi secondo la modalità "\textit{somma}" & Superato \\
 \hline
-TUW\textunderscore 15 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati correttamente su se stessi secondo la modalità "\textit{media}" & Superato \\
+TU15 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati correttamente su se stessi secondo la modalità "\textit{media}" & Superato \\
 \hline
-TUW\textunderscore 16 & L'operatore configurato con la modalità \textit{barrier} crea correttamente l'aggregatore della futura finestra temporale con gli eventi in anticipo visti nell'attuale \textit{window} & Superato \\
+TU16 & L'operatore configurato con la modalità \textit{barrier} crea correttamente l'aggregatore della futura finestra temporale con gli eventi in anticipo visti nell'attuale \textit{window} & Superato \\
 \hline
-TUW\textunderscore 17 & L'operatore configurato con la modalità \textit{barrier} colleziona correttamente due \textit{GroupedEvents}, cioè crea due gruppi differenti di eventi & Superato \\
+TU17 & L'operatore configurato con la modalità \textit{barrier} colleziona correttamente due \textit{GroupedEvents}, cioè crea due gruppi differenti di eventi & Superato \\
 \hline
-TUW\textunderscore 18 & L'operatore configurato con la modalità \textit{barrier} gestisce correttamente la chiusura di tre finestre temporali & Superato \\
+TU18 & L'operatore configurato con la modalità \textit{barrier} gestisce correttamente la chiusura di tre finestre temporali & Superato \\
 \hline
-TUW\textunderscore 19 & L'operatore configurato con la modalità \textit{aggregator\textunderscore mean} non colleziona il \textit{GroupedEvents} poichè almeno un elemento durante l'aggregazione collettiva di \textit{asset} differenti non conteneva un particolare \textit{DataField} richiesto per l'aggregazione stessa & Superato \\
+TU19 & L'operatore configurato con la modalità \textit{aggregatormean} non colleziona il \textit{GroupedEvents} poichè almeno un elemento durante l'aggregazione collettiva di \textit{asset} differenti non conteneva un particolare \textit{DataField} richiesto per l'aggregazione stessa & Superato \\
 \hline
-TUW\textunderscore 20 & L'operatore configurato con la modalità \textit{aggregator\textunderscore sum} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+TU20 & L'operatore configurato con la modalità \textit{aggregatorsum} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
 \hline
-TUW\textunderscore 21 & L'operatore configurato con la modalità \textit{aggregator\textunderscore mean} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+TU21 & L'operatore configurato con la modalità \textit{aggregatormean} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
 \hline
-TUW\textunderscore 22 & L'operatore configurato con una modalità non prevista non crea nessun \textit{GroupedEvents} & Superato \\
+TU22 & L'operatore configurato con una modalità non prevista non crea nessun \textit{GroupedEvents} & Superato \\
 \hline
 \end{longtable}
 }
@@ -76,7 +82,6 @@ TUW\textunderscore 22 & L'operatore configurato con una modalità non prevista n
 \section{Operatore AlertCoProcess}
 Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{AlertCoProcess} rispetto ai requisiti prefissati
 
-\subsection{Test di unità}
 {
 \centering
 \begin{longtable}{L{3cm} L{8.5cm} L{2cm}}
@@ -87,22 +92,41 @@ Tale sezione elenca i test effettuati per garantire il corretto funzionamento de
 \endhead
 \hline
 
-TUA\textunderscore 1 & L'operatore collega correttamente due \textit{asset} differenti alla stessa configurazione del \textit{detector} di tipo \textit{uniseas} & Superato\\
+TU23 & L'operatore collega correttamente due \textit{asset} differenti alla stessa configurazione del \textit{detector} di tipo \textit{uniseas} & Superato\\
 \hline
-TUA\textunderscore 2 & L'operatore collega correttamente due \textit{asset} differenti a due configurazioni differenti di \textit{detector} di tipo \textit{uniseas} & Superato \\
+TU24 & L'operatore collega correttamente due \textit{asset} differenti a due configurazioni differenti di \textit{detector} di tipo \textit{uniseas} & Superato \\
 \hline
-TUA\textunderscore 3 &  L'operatore aggiorna correttamente la configurazione di un \textit{detector} di tipo \textit{uniseas} & Superato\\
+TU25 &  L'operatore aggiorna correttamente la configurazione di un \textit{detector} di tipo \textit{uniseas} & Superato\\
 \hline
-TUA\textunderscore 4 & L'operatore svuota correttamente gli stati tramite una configurazione di tipo \textit{delete} su un \textit{detector} di tipo \textit{uniseas} & Superato \\
+TU26 & L'operatore svuota correttamente gli stati tramite una configurazione di tipo \textit{delete} su un \textit{detector} di tipo \textit{uniseas} & Superato \\
 \hline
-TUA\textunderscore 5 & L'operatore riesce a gestire correttamente l'errore relativo al caricamento fallito della configurazione di un \textit{detector} di tipo \textit{siblings} & Superato\\
+TU27 & L'operatore riesce a gestire correttamente l'errore relativo al caricamento fallito della configurazione di un \textit{detector} di tipo \textit{siblings} & Superato\\
 \hline
-TUA\textunderscore 6 & L'operatore ignora l'aggiornamento della configurazione perchè la nuova configurazione è di tipo "\textit{grouping}" ma il \textit{detector} configurato all'interno di essa è di tipo \textit{single input} & Superato \\
+TU28 & L'operatore ignora l'aggiornamento della configurazione perchè la nuova configurazione è di tipo "\textit{grouping}" ma il \textit{detector} configurato all'interno di essa è di tipo \textit{single input} & Superato \\
 \hline
 \end{longtable}
 }
 
 \section{API di configurazione}
+
+
+\section{Tracciamento test di unità - ambito di sviluppo}
+{
+\centering
+\begin{longtable}{L{5cm} L{8.5cm}}
+\caption{Tracciamento test di unità - ambito di sviluppo}\\
+\textbf{Identificativo test} &
+\textbf{Ambito di sviluppo}\\
+\endhead
+\hline
+
+TU1 \newline TU2 \newline TU3 \newline TU4 \newline TU5 \newline TU6 \newline TU7 \newline TU8 \newline TU9 \newline TU10 \newline TU11 \newline TU12 \newline TU13 \newline TU14 \newline TU15 \newline TU16 \newline TU17 \newline TU18 \newline TU19 \newline TU20 \newline TU21 \newline TU22 & Operatore \textit{Windowing} \\
+\hline
+TU23 \newline TU24 \newline TU25 \newline TU26 \newline TU27 \newline TU28 & Operatore \textit{AlertCoProcess} \\
+\hline
+\end{longtable}
+}
+
 
 \section{Considerazioni}
 I test elencati hanno tutti come esito \textbf{"Superato"}, inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori, si è deciso di creare dei test per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test sono state sfruttate le funzionalità offerte da Flink relative ai test di unità (\S\ref{sec:flink-testing}) ed il \gls{framework} \textit{ScalaTest} (\S\ref{sec:scala-test})
