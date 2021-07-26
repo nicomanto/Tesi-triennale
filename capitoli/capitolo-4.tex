@@ -84,12 +84,12 @@ Il metodo che verrà richiamato alla fine di una specifica finestra temporale è
 \subsection{Stati dell'operatore}\label{sec:stati-windowing}
 Per permettere una corretta gestione di entrambi i flussi, l'operatore \textit{Windowing} sfrutta i seguenti \textbf{stati} interni:
 \begin{itemize}
-		\item{\textbf{configurazione della \textit{window}:} l'attuale configurazione della finestra temporale;}
-		\item{\textbf{mappa degli aggregatori:} mappa che gestisce gli aggregatori (\S\ref{sec:aggregator}), i quali sono mappati per l'\textit{id} del gruppo;}
-		\item{\textbf{mappa degli eventi futuri:} mappa che gestisce la lista degli eventi arrivati in anticipo, i quali sono mappati per l'\textit{id} del gruppo;}
-		\item{\textbf{inizio della finestra temporale:} l'inizio dell'attuale finestra temporale;}
-		\item{\textbf{\textit{timer}:} \textit{timer} schedulato per collezionare gli eventi visti dalla \textit{window}, il quale coincide con la fine dell'attuale finestra temporale;}
-		\item{\textbf{stato della \gls{pipeline}:} mappa che gestisce la versione delle varie \gls{pipeline}, le quali sono mappate per l'\textit{id} della \gls{pipeline}.}
+		\item{\textbf{\textit{cfg}:} l'attuale configurazione della finestra temporale;}
+		\item{\textbf{\textit{mapToAggregator}:} mappa che gestisce gli aggregatori (\S\ref{sec:aggregator}), i quali sono mappati per l'\textit{id} del gruppo;}
+		\item{\textbf{\textit{mapToListFutureEvents}:} mappa che gestisce la lista degli eventi arrivati in anticipo, i quali sono mappati per l'\textit{id} del gruppo;}
+		\item{\textbf{\textit{windowBeginTs}:} l'inizio dell'attuale finestra temporale;}
+		\item{\textbf{\textit{scheduledTimer}:} \textit{timer} schedulato per collezionare gli eventi visti dalla \textit{window}, il quale coincide con la fine dell'attuale finestra temporale;}
+		\item{\textbf{\textit{pipeStatus}:} mappa che gestisce la versione delle varie \gls{pipeline}, le quali sono mappate per l'\textit{id} della \gls{pipeline}.}
 \end{itemize}
 
 
@@ -101,7 +101,7 @@ Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metod
 	\item{controllo relativo a se la configurazione è presente, nel caso in cui non sia presente si saltano tutti i passaggi successivi e l'evento viene ignorato;}
 	\item{per ogni gruppo contenuto all'interno del filtro di aggregazione della \textit{window} verrà fatto il controllo per verificare che quel determinato gruppo è filtrato per accettare quel determinato evento in entrata;}
 \item{se l'evento è contenuto all'interno del filtro di un gruppo, viene controllata se la durata della \textit{window} è nulla (minore o uguale a zero), in questa casistica l'evento viene collezionato all'interno della struttura dati rappresentata dal \textit{GroupedEvents} (\S\ref{sec:ge}) senza essere aggregato o allineato con altri eventi. Il flusso relativo all'evento entrante termina;}
-\item{se la durata della \textit{window} ha una durata non nulla (maggiore di zero), l'evento verrà inserito nell'attuale \textit{window} se il suo \gls{timestamp} è contenuto nei limiti di essa (inizio e fine). Se, invece, l'evento è antecedente all'inizio della \textit{window}, viene scartato. Infine, se l'evento è successivo alla fine della finestra temporale, verrà inserito all'interno dello stato \textbf{mappa degli eventi futuri} (\S\ref{sec:stati-windowing}), dove questi eventi verranno trattati nella successiva \textit{window}.}
+\item{se la durata della \textit{window} ha una durata non nulla (maggiore di zero), l'evento verrà inserito nell'attuale \textit{window} se il suo \gls{timestamp} è contenuto nei limiti di essa (inizio e fine). Se, invece, l'evento è antecedente all'inizio della \textit{window}, viene scartato. Infine, se l'evento è successivo alla fine della finestra temporale, verrà inserito all'interno dello stato \textbf{\textit{mapToListFutureEvents}} (\S\ref{sec:stati-windowing}). Tale evento verrà trattato nella successiva \textit{window}.}
 \end{enumerate}
 
 Per gestire l'inizio di una determinata nuova finestra temporale (quindi basata su una nuova \textbf{configurazione} per essa) verrà fatto un controllo per definire se l'evento entrante è il primo a partire da una nuova configurazione. In questo caso l'inizio della \textit{window} è eguale al \gls{timestamp} dell'evento entrante e la fine della \textit{window} è equivalente alla somma dell'inizio della finestra temporale con la sua durata (definita nella configurazione).
@@ -120,9 +120,9 @@ Tale flusso è gestito dal metodo \textit{processElement2}, il quale è un metod
 		\item{differenti \textbf{parametri del contesto} relativi agli eventi su cui si andrà a fare l'aggregazione.}
 	\end{itemize}
 	
-Se la configurazione della \textit{window} è differente da quella precedente, vengono svuotati i relativi stati dell'operatore su cui opera la finestra temporale, quali \textbf{mappa degli aggregatori}, \textbf{mappa degli eventi futuri}, \textbf{inizio della finestra temporale} e \textbf{\textit{timer}}. Di seguito viene aggiornato lo stato relativo alla \textbf{configurazione della \textit{window}} con i dati della finestra temporale nuova.\\
+Se la configurazione della \textit{window} è differente da quella precedente, vengono svuotati i relativi stati dell'operatore su cui opera la finestra temporale, quali \textbf{\textit{mapToAggregator}}, \textbf{\textit{mapToListFutureEvents}}, \textbf{\textit{windowBeginTs}} e \textbf{\textit{scheduledTimer}}. Di seguito viene aggiornato lo stato \textbf{\textit{cfg}} con i dati della finestra temporale nuova.\\
 Se, invece, la nuova configurazione della finestra temporale è equivalente a quella precedente, non viene fatto nulla.\\
-Infine viene aggiornato lo \textbf{stato della \gls{pipeline}}.\\
+Infine viene aggiornato lo \textbf{\textit{pipeStatus}}.\\
 Per una descrizione approfondita degli stati dell'operatore \textit{Windowing} fare riferimento alla sezione \S\ref{sec:stati-windowing}.
 }
 \item{Se invece la \textbf{configurazione della \textit{window}} non esiste, verrano svuotati tutti gli stati presenti nella sezione \S\ref{sec:stati-windowing}.}
@@ -132,14 +132,14 @@ Per una descrizione approfondita degli stati dell'operatore \textit{Windowing} f
 Il metodo \textbf{\textit{onTimer}} è colui che gestisce la logica al termine di ogni finestra temporale. Tale funzione si occupa di creare un \textit{GroupedEvents} (\S\ref{sec:ge}) collezionando gli eventi visti secondo le regole definite dalla configurazione e ha il compito di configurare la prossima \textit{window}. Il metodo segue questi \textit{step}:
 \begin{enumerate}
 	\item{controllo relativo a se la configurazione della finestra temporale è settata, in caso negativo vengono saltati tutti gli \textit{step} successivi;}
-	\item{in base alla modalità di aggregazione definita nella configurazione della finestra temporale, per ogni \textbf{\textit{id} del gruppo} contenuto all'interno dello stato relativo alla \textbf{mappa degli aggregatori} verrà creato e collezionato un \textit{GroupedEvents} (\S\ref{sec:ge}) contenente gli eventi aggregati o allineati secondo la modalità definita, la quale può essere:
+	\item{in base alla modalità di aggregazione definita nella configurazione della finestra temporale, per ogni \textbf{\textit{id} del gruppo} contenuto all'interno dello stato \textbf{\textit{mapToAggregator}} verrà creato e collezionato un \textit{GroupedEvents} (\S\ref{sec:ge}) contenente gli eventi aggregati o allineati secondo la modalità definita, la quale può essere:
 	\begin{itemize}
 		\item{\textbf{\textit{barrier}:} in questa modalità gli eventi vengono \textbf{allineati} e il metodo che si occupa di questa funzionalità è il metodo \textit{selfAggregate} dell'aggregatore;}
 		\item{\textbf{\textit{aggregation\textunderscore sum}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore;}
 		\item{\textbf{\textit{aggregation\textunderscore mean}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore.}
 	\end{itemize}
 	Per la logica specifica di aggregazione vedere la sezione \S\ref{sec:aggregator};}
-	\item{Creazione della nuova finestra temporale, cui l'inizio e la fine sono impostati rispettivamente con il \gls{timestamp} che ha attivato il metodo \textit{onTimer} e tale \gls{timestamp} sommato alla durata della \textit{window}. Di seguito, viene svuotata la \textbf{mappa degli aggregatori} che non contengono eventi inseriti nello stato \textbf{mappa degli eventi futuri} che risiedo nella nuova finestra temporale (nel caso in cui siano presenti degli eventi futuri, verrà istanziato un nuovo aggregatore contente già questi eventi). Infine viene svuotato lo stato relativo alla \textbf{mappa degli eventi futuri}.
+	\item{Creazione della nuova finestra temporale, cui l'inizio e la fine sono impostati rispettivamente con il \gls{timestamp} che ha attivato il metodo \textit{onTimer} e tale \gls{timestamp} sommato alla durata della \textit{window}. Di seguito vengono rimossi gli aggregatori all'interno dello stato \textbf{\textit{mapToAggregator}} che non contengono eventi inseriti nello stato \textbf{\textit{mapToListFutureEvents}} (nel caso in cui siano presenti degli eventi futuri, verrà istanziato un nuovo aggregatore contente già questi eventi). Infine viene svuotato lo stato \textbf{\textit{mapToListFutureEvents}}.
 	}
 \end{enumerate}
 
@@ -217,7 +217,7 @@ Tale flusso è gestito dal metodo \textit{processElement2}, il quale è un metod
 	\item{la configurazione può essere di tre tipi differenti:
 	\begin{itemize}
 		\item{\textbf{\textit{update}:} in questo caso è richiesto l'aggiornamento dei \textit{detector}. Per ogni \textit{detector configuration} contenuto all'interno della nuova configurazione viene estratto l'\textit{id} del \textit{detector}, con il quale viene verificato se esso è presente all'interno dello stato \textbf{mappa degli \textit{id} dei \textit{detector}}. Nel caso in cui l'\textit{id} del \textit{detector} sia contenuto all'interno della mappa verrà fatto l'accesso alla lista relativa di tutti i veri e propri \textit{detector} collegati a quel determinato \textit{id}. Per cui ogni \textit{detector} verrà aggiornato secondo la nuova configurazione fornita. La modalità di aggiornamento del \textit{detector} è specificata nella sezione \S\ref{sec:detector-alertcoprocess}. Nel caso, invece, in cui l'\textit{id} del \textit{detector} non sia contenuto all'interno della mappa verrà creata una mappa vuota che verrà arricchita nella funzione \textit{processElement1} (\S\ref{sec:pr1-alertcoprocess}). Infine vengono aggiornati i rispettivi stati che gestiscono la mappatura dei \textit{detector} (\textbf{mappa degli \textit{id} dei \textit{detector}} e \textbf{mappa dei \textit{detector}}) rimuovendo, se necessario, i \textit{detector} non più richiesti;}
-		\item{\textbf{\textit{delete}:} questo tipi di configurazione si occupa di svuotare gli stati relativi alla gestione dei \textit{detector}, quali \textbf{mappa degli \textit{id} dei \textit{detector}} e \textbf{mappa dei \textit{detector}}. Infine viene svuotato lo stato relativo alla configurazione, cioè \textbf{configurazione del tipo di \textit{detector}};}
+		\item{\textbf{\textit{delete}:} questo tipi di configurazione si occupa di svuotare gli stati relativi alla gestione dei \textit{detector}, quali \textbf{mappa degli \textit{id} dei \textit{detector}} \textbf{mappa dei \textit{detector}}. Infine vengono svuotati gli stati \textbf{configurazione del tipo di \textit{detector}} e \textbf{stato della \gls{pipeline}};}
 		\item{\textbf{\textit{inspect}:} tale configurazione permettere di ispezionare il comportamento effettivo dei \textit{detector} collezionando delle informazioni mirate.}
 	\end{itemize}}
 \end{enumerate}
