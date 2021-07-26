@@ -13,9 +13,9 @@
 Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti subito dei problemi relativi all'adattabilità degli operatori preesistenti con la nuove funzionalità create. Tali problematiche di adattabilità si possono riassumere in micro-aree:
 
 \begin{itemize}
-	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'operatore \textbf{\textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOuput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti da informazioni necessarie per il loro processamento;}
+	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti da informazioni necessarie per il loro processamento;}
 	\item{adattabilità dell'\textbf{operatore \textit{Windowing}} che ora non deve solo trattare aggregazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
-	\item{adattabilità dell'operatore \textbf{\textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{\textit{Unsupervised}} e \textbf{\textit{Rule based}}.}
+	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{\textit{Unsupervised}} e \textbf{\textit{Rule based}}.}
 \end{itemize}
 	
 Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-aree descritte precedentemente.
@@ -234,24 +234,98 @@ Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{A
 \end{itemize}
 
 %**************************************************************
-\section{Ciclo di vita del software}
-\label{sec:ciclo-vita-software}
 
-%**************************************************************
-\section{Progettazione}
-\label{sec:progettazione}
-
-\subsubsection{Namespace 1} %**************************
-Descrizione namespace 1.
-
-\begin{namespacedesc}
-    \classdesc{Classe 1}{Descrizione classe 1}
-    \classdesc{Classe 2}{Descrizione classe 2}
-\end{namespacedesc}
+\section{API della configurazione}
+Dopo le modifiche apportate agli operatori precedenti è richiesta una nuova definizione delle \gls{api} di governo che gestiscono i messaggi che vanno a definire la configurazione dell'\textit{anomaly detection}, cioè la configurazione dell'operatore \textit{Windowing} e dell'operatore \textit{AlertCoProcess}. Le \gls{api} che gesticono ciò inviano un messaggio ai due operatori, in formato \gls{json}, con le configurazioni decise dall'utente.\\
+Per semplicità la definizione del messaggio fornito dall'\gls{api} viene suddiviso e analizzato in sezioni differenti per esplicitare al meglio la parte relativa all'operatore \textit{Windowing} e quella relativa ai \textit{detector} utilizzati all'interno dell'operatore \textit{AlertCoProcess}.
 
 
-%**************************************************************
-\section{Design Pattern utilizzati}
 
-%**************************************************************
-\section{Codifica}
+
+\subsection{JSON di configurazione dell'operatore Windowing}\label{sec:json-windowing}
+La definizione della configurazione relativa all'operatore \textit{Windowing} è così rappresentata:
+
+\begin{minted}{js}
+"windowing":{
+    "duration": 10, //durata della finestra temporale in minuti,
+    "aggregationMethod": //tipo di aggregazione per asset eguali fra di loro (sum|mean), in formato String,
+    "windowingMode": //modalità di raggruppamento a gruppi (barrier,aggregation_sum,aggregation_mean), in formato String,
+    "dataFields": //parametri caratterizzante gli asset
+    [
+      {
+        "name": // nome del parametro in formato String,
+        "kind": // tipo del parametro (continuous|categorical), in formato String
+      }
+    ],
+    "ctxDataFields": //parametri del contesto caratterizzante gli asset 
+    [
+      {
+        "name":  // nome del parametro in formato String,
+        "kind": // tipo del parametro (continuous|categorical), in formato String
+      }
+    ],
+    "assetFilters": { // filtri da applicare all'interno della finestra temporale
+        "groupID": {
+            "id": //id identificativo del gruppo (uguale al groupID), in formato String,
+            "filterGeos": // id relativi alla posizione geografica di un asset, in formato Array[String],
+            "filterBfuncs": //id relativi ad una funzione, in formato Array[String]
+            "filterCats": //id relativi alla categoria di un asset, in formato Array[String]
+            "filteredAssetsIds": //id relativi agli asset, in formato Array[String]
+        } 
+    }
+}
+\end{minted}
+Le principali informazioni aggiuntive introdotte nel formato \gls{json} relativo alla configurazione della finestra temporale sono:
+\begin{itemize}
+	\item{\textbf{\textit{windowingMode}:} definizione della modalità di raggruppamento su gruppi;}
+	\item{\textbf{\textit{assetFilters}}: ora i filtri da applicare ad una finestra temporale sono mappati per l'\textit{id} del gruppo. Così facendo si permette di avere filtraggi differenti per gruppi differenti.}
+\end{itemize} 
+
+
+\subsection{JSON di configurazione dei detector}\label{sec:json-detectors}
+La definizione della configurazione relativa ai \textit{detector} è così rappresentata:
+\begin{minted}{js}
+"detectors": [
+   {
+    "detectorID": // id del detector, in formato String, 
+    "detectorType": // tipo del detector (siblings|uniseas|ctx_ad_cross), in formato String, 
+    "parameters": {
+		// parametri relativi al tipo di detector    
+    },
+    "assetFilters":{
+      "id": //id identificativo del gruppo (uguale al groupID), in formato String,
+      "filterGeos": // id relativi alla posizione geografica di un asset, in formato Array[String],
+      "filterBfuncs": //id relativi ad una funzione, in formato Array[String]
+      "filterCats": //id relativi alla categoria di un asset, in formato Array[String]
+      "filteredAssetsIds": //id relativi agli asset, in formato Array[String]
+    }
+   }
+  ]
+}
+\end{minted}
+La principale informazione aggiuntiva introdotta nel formato \gls{json} relativo alla configurazione dei \textit{detector} è rappresentata dall'\textit{id} relativo al gruppo introdotto all'interno di \textit{assetFilters}. Tale \textit{id} permette una corretta mappatura del gruppo con l'\textit{id} del \textit{detector} all'interno dell'operatore \textit{AlertCoProcess}.\\
+Si è deciso di non rappresentare la struttura relativa ai parametri che identificano il \textit{detector} (rappresentanti dal campo \textit{parameters}) perchè essi rimangono invariati anche dopo l'aggiunta delle nuove funzionalità e sono scollegate da essa.
+
+\subsection{JSON configurazione Anomaly Detection}
+Di seguito viene rappresentato il messaggio \gls{json} di configurazione globale fornito dall'\gls{api} che si occupa di definire la configurazione decisa dall'utente:
+
+\begin{minted}{js}
+{
+  "ctype": // tipo della configurazione cui dipende la deserializzazione, in formato String,
+  "tid": //id del cliente, in formato String, 
+  "pipeID": // id della pipeline, in formato String, 
+  "pipeVersion": //versione della pipeline, in formato String,
+  "outputTopic": // tipo di topic dell'output, in formato String,
+  "isGrouping": // rappresenta se l'anomalia deve essere sollevata su un gruppo, in formato Boolean,
+  "detectors": // configurazione dei detectors, in fomato Array,
+  "windowing": // configurazione della finestra temporale
+ }
+\end{minted}
+dove:
+\begin{itemize}
+	\item{\textbf{\textit{detectors}}: rappresenta un \textit{array} di configurazioni come descritto nella sezione \S\ref{sec:json-detectors}};
+	\item{\textbf{\textit{windowing}}: rappresenta la configurazione della finestra temporale come descritto nella sezione \S\ref{sec:json-windowing}.}
+\end{itemize}
+
+Rispetto alla configurazione iniziale è stato introdotto il campo \textit{isGrouping}, che definisce se l'anomalia deve essere sollevata su un gruppo oppure no. 
+

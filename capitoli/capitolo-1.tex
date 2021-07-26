@@ -47,19 +47,19 @@ Le problematiche riscontrate durante la realizzazione del progetto sono principa
     \label{risk:flinkImport}
 \end{risk}
 
-\begin{risk}{Adattabilità operatore Bumblebee}
+\begin{risk}{Adattabilità operatore \textit{Bumblebee}}
     \riskdescription{l'operatore preesistente non riusciva nativamente a gestire un \textit{output} informativo che potesse trattare \textbf{gruppi di risorse} (eguali o diverse fra di loro)}
     \risksolution{si è deciso di modificare la rappresentazione di tale \textit{output} informativo per garantire la gestione sia di gruppi di risorse che risorse singole, sfruttando quindi un comune tipo di \textit{output} adattabile alle esigenze appena descritte}
     \label{risk:bumblebeeOutput} 
 \end{risk}
 
-\begin{risk}{Adattabilità operatore di windowing}
+\begin{risk}{Adattabilità operatore \textit{Windowing}}
     \riskdescription{l'operatore preesistente non riusciva a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
     \risksolution{si è deciso di modificare la logica di tale operatore garantendo la completa gestione sia di aggregazione che di allineamento, mantenendo quindi la retrocompatibilità con il funzionamento precedente}
     \label{risk:windowing} 
 \end{risk}
 
-\begin{risk}{Adattabilità operatore Anomaly Detector}
+\begin{risk}{Adattabilità operatore \textit{AlertCoProcess}}
     \riskdescription{l'operatore preesistente non riusciva ad alzare anomalie su gruppi di risorse differenti fra di loro e adattarsi all'aggiunta di nuovi \textit{detector}}
     \risksolution{si è deciso di modificare la logica di tale operatore adattandolo alle nuove esigenze garantendo la retrocompatibilità con il funzionamento precedente}
     \label{risk:anomalyDetector} 
@@ -73,7 +73,9 @@ Il progetto è stato suddiviso in differenti parti per comprendere, da prima, il
 	\item{Studio e analisi preliminare del linguaggio di programmazione \textit{Scala};}
 	\item{Sviluppo di \gls{poc} per compredere al meglio alcune funzionalità essenziali di \textit{Flink} quali \gls{serializzazione};}
 	\item{Sviluppo e modifica degli operatori preesistenti per l'integrazione della componente di \textit{anomaly detection} su \textit{asset} raggruppati;}
-	\item{Sviluppo di test per verificare che gli operatori funzionino come atteso.}
+	\item{Sviluppo di test per verificare che gli operatori funzionino come atteso;}
+	\item{Sviluppo e modifica delle \gls{api} per la gestione della configurazione del flusso di \textit{Anomaly detection};}
+	\item{Sviluppo di test per verificare che le \gls{api} funzionino come atteso.}
 \end{enumerate}
 
 \subsection{Obiettivi}
