@@ -123,6 +123,12 @@ ROF8.2 & Obbligatorio & L'operatore deve scartare eventi in anticipo se essi non
 \hline
 ROF9 & Obbligatorio & L'operatore deve gestire l'inizio e la fine della prima finestra temporale in base al primo evento ricevuto\\
 \hline
+ROF10 & Obbligatorio & L'operatore deve collezionare gli eventi relativi alla configurazione in un output diversi se questi non sono di tipo "\textit{update}" o "\textit{delete}"\\
+\hline
+ROF11 & Obbligatorio & L'operatore deve aggiornare la configurazione se questa è diversa da quella precedente o se quella precedente è inesistente\\
+\hline
+ROF12 & Obbligatorio & L'operatore deve svuotare tutti gli stati se in un evento di configurazione non è presente nessuna configurazione relativa alla finestra temporale\\
+\hline
 \end{longtable}
 }
 
@@ -130,7 +136,7 @@ ROF9 & Obbligatorio & L'operatore deve gestire l'inizio e la fine della prima fi
 {
 \centering
 \begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
-\caption{Requisiti Funzionali dell'operatore \textit{Windowing}}\\
+\caption{Requisiti di Vincolo dell'operatore \textit{Windowing}}\\
 \textbf{Identificativo} &
 \textbf{Classificazione}&
 \textbf{Descrizione}\\
@@ -168,11 +174,48 @@ ROV3.3 & Obbligatorio & L'operatore deve scartare eventi se non è presente ness
 }
 
 \subsection{Requisiti di Vincolo}
+{
+\centering
+\begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
+\caption{Requisiti di Vincolo dell'operatore \textit{AlertCoProcess}}\\
+\textbf{Identificativo} &
+\textbf{Classificazione}&
+\textbf{Descrizione}\\
+\endhead
+\hline
+\hline
+\end{longtable}
+}
 
 \section{Requisiti API di configurazione}
 \subsection{Requisiti Funzionali}
+{
+\centering
+\begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
+\caption{Requisiti Funzionali delle \gls{api} di configurazione}\\
+\textbf{Identificativo} &
+\textbf{Classificazione}&
+\textbf{Descrizione}\\
+\endhead
+\hline
+\hline
+\end{longtable}
+}
 
 \subsection{Requisiti di Vincolo}
+{
+\centering
+\begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
+\caption{Requisiti di Vincolo delle \gls{api} di configurazione}\\
+\textbf{Identificativo} &
+\textbf{Classificazione}&
+\textbf{Descrizione}\\
+\endhead
+\hline
+\hline
+\end{longtable}
+}
+
 
 \section{Tracciamento requisiti - ambito di sviluppo}
 {
@@ -186,7 +229,7 @@ ROV3.3 & Obbligatorio & L'operatore deve scartare eventi se non è presente ness
 
 ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
-ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 & Operatore \textit{Windowing} \\
+ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 & Operatore \textit{Windowing} \\
 \hline
 \end{longtable}
 }
