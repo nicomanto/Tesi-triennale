@@ -129,6 +129,29 @@ ROF11 & Obbligatorio & L'operatore deve aggiornare la configurazione se questa �
 \hline
 ROF12 & Obbligatorio & L'operatore deve svuotare tutti gli stati se in un evento di configurazione non è presente nessuna configurazione relativa alla finestra temporale\\
 \hline
+ROF13 & Obbligatorio & L'operatore deve poter creare un \textit{output} di tipo \textit{GroupedEvents} il quale deve essere così formato:
+\begin{itemize}
+	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
+	\item{\textbf{\textit{events}:} \textit{array} di eventi raggruppati o allineati;}
+	\item{\textbf{\textit{\gls{timestamp}}:} fine della finestra temporale}
+\end{itemize}\\
+\hline
+ROF13.1 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di allineamento, solo se l'\textit{array} degli eventi risultante non è vuoto\\
+\hline
+ROF13.2 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di aggregazione, solo se l'evento aggregato ha il campo \textit{DataFields} non vuoto\\
+\hline
+ROF13.3 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di evento non raggruppato, così formato:
+\begin{itemize}
+	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
+	\item{\textbf{\textit{events}:} \textit{array} contenente solo l'evento entrante;}
+	\item{\textbf{\textit{\gls{timestamp}}:} \gls{timestamp} dell'evento.}
+\end{itemize}\\
+\hline
+ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemnto all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
+ROF15 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve poter configurare l'inizio e la fine della futura finestra temporale\\
+\hline
+ROF16 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve rimuovere gli aggregatori che non contengono eventi futuri per la futura finestra temporale\\
+\hline
 \end{longtable}
 }
 
@@ -152,6 +175,12 @@ ROV3.1 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso e
 ROV3.2 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso sia presente un inizio ed una fine di una finestra temporale inconsistente\\
 \hline
 ROV3.3 & Obbligatorio & L'operatore deve scartare eventi se non è presente nessuna configurazione per la finestra temporale attuale\\
+\hline
+ROV4 & Obbligatorio & L'operatore deve garantire che, in presenza di errori durante la creazione dell'\textit{output} di tipo \textit{GroupedEvents} alla fine di una finestra temporale, non venga creato tale \textit{output} e che ciò non provochi un'interruzione del programma\\
+\hline
+ROV4.1 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \textit{GroupedEvents} alla fine di una finestra temporale nel caso non sia presente nessuna configurazione di essa\\
+\hline
+ROV4.2 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \textit{GroupedEvents} alla fine di una finestra temporale nel caso sia presente un tipo di \textit{aggregazione} non supportata\\
 \hline
 \end{longtable}
 }
@@ -229,7 +258,7 @@ ROV3.3 & Obbligatorio & L'operatore deve scartare eventi se non è presente ness
 
 ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
-ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 & Operatore \textit{Windowing} \\
+ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 & Operatore \textit{Windowing} \\
 \hline
 \end{longtable}
 }
