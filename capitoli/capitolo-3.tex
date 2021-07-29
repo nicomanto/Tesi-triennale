@@ -168,7 +168,7 @@ ROF16 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve
 
 ROV2 & Obbligatorio & L'operatore deve garantire un unico tipo di \textit{output} informativo che possa adattarsi alla rappresentazione di \textit{asset} singoli, di \textit{asset} aggregati su se stessi e di \textit{asset} differenti aggregati/allineati fra di loro \\
 \hline
-ROV3 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartai senza provocare l'interruzione del programma\\
+ROV3 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
 \hline
 ROV3.1 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso esso non contengano le informazioni richieste\\
 \hline
@@ -198,6 +198,35 @@ ROV4.2 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \
 \textbf{Descrizione}\\
 \endhead
 \hline
+ROF17 & Obbligatorio & L'operatore deve riuscire a rilevare anomalie sia su eventi facenti parte di un gruppo sia su eventi non raggruppati\\
+\hline
+ROF17.1 & Obbligatorio & L'operatore, se opera su un gruppo, deve lanciare l'anomalia su un evento riassuntivo creato per il gruppo\\
+\hline
+ROF17.2 & Obbligatorio & L'operatore, se opera su un evento singolo, deve lanciare l'anomalia su di esso\\
+\hline
+ROF18 & Obbligatorio & L'operatore deve creare un nuovo \textit{detector} se esso non è già presente all'interno della mappa dei \textit{detector}\\
+\hline
+ROF18.1 & Obbligatorio & L'operatore deve creare un nuovo \textit{detector} tramite le informazioni della configurazione se esso è un \textit{LazyLoadDetector}\\
+\hline
+ROF18.2 & Obbligatorio & L'operatore deve scartare l'evento entrante se il \textit{detector} non è un \textit{LazyLoadDetector} e non è stato trovato\\
+\hline
+ROF19 & Obbligatorio & L'operatore deve operare tramite \textit{detector} che accettano un singolo \textit{input} o molteplici\\
+\hline
+ROF20 & Obbligatorio & L'operatore deve supportare la modifica, cancellazione e ispezione della configurazione\\
+\hline
+ROF21 & Obbligatorio & L'operatore, durante la modifica di una configurazione, deve poter aggiornare la configurazione dei \textit{detector} esistenti, definiti tramite l'\textit{id} del d\textit{detector}\\
+\hline
+ROF21.1 & Obbligatorio & L'operatore, durante la modifica di una configurazione, aggiorna i \textit{detector} tramite la configurazione fornita se si tratta di un \textit{LazyLoadDetector}\\
+\hline
+ROF21.2 & Obbligatorio & L'operatore, durante la modifica di una configurazione, scarica i \textit{detector} di tipo \textit{LazyLoadDetector} se essi hanno un modello differente da quello salvato (addestrando l'algoritmo di \gls{Apprendimento automatico}) \\
+\hline
+ROF21.3 & Obbligatorio & L'operatore, durante la modifica di una configurazione, crea la futura mappa dei \textit{detector} se non è presente il determinato \textit{id} del \textit{detector} passato dalla configurazione\\
+\hline
+ROF21.4 & Obbligatorio & L'operatore, durante la modifica di una configurazione, rimuove i \textit{detector} non più richiesti e aggiunge quelli nuovi, aggiornando le rispettive mappe\\
+\hline
+ROF22 & Obbligatorio & L'operatore, durante la cancellazione di una configurazione, svuota tutti gli stati dell'operatore\\
+\hline
+ROF23 & Obbligatorio & L'operatore, durante l'ispezione di una configurazione, crea un messaggio riassuntivo dello stato dei \textit{detector} dell'operatore stesso\\
 \hline
 \end{longtable}
 }
@@ -212,6 +241,17 @@ ROV4.2 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \
 \textbf{Descrizione}\\
 \endhead
 \hline
+ROV5 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
+\hline
+ROV5.1 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica gli \textit{id} dei \textit{detector}, non è presente la chiave rappresentata dal parametro \textit{groupID} dell'evento di tipo \textit{GroupedEvents} entrante\\
+\hline
+ROV5.2 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica i \textit{detector}, non è presente la chiave rappresentata come \textit{id} del \textit{detector} estratto dalla mappa contenente tali \textit{id}\\
+\hline
+ROV5.3 & Obbligatorio & L'operatore deve scartare gli eventi se è richiesto il \textit{detector} di tipo \textit{LazyLoadDetector} e non è stato possibile scaricarlo\\
+\hline
+ROV5.4 & Obbligatorio & L'operatore deve scartare gli eventi se, operando su un gruppo, è stato richiesto un \textit{detector} che lavora su un singolo \textit{input}\\
+\hline
+ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di un \textit{detector} se esso non contiene l'\textit{id} all'interno del campo \textit{AssetFilter} (\textit{id} identificativo del gruppo)\\
 \hline
 \end{longtable}
 }
@@ -259,6 +299,7 @@ ROV4.2 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \
 ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
 ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 & Operatore \textit{Windowing} \\
+ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV5 \newline ROV5.1 \newline ROV5.2 \newline ROV5.3 \newline ROV5.4 \newline ROV5.5 & Operatore \textit{AlertCoProcess} \\
 \hline
 \end{longtable}
 }
