@@ -236,7 +236,12 @@ Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{A
 %**************************************************************
 
 \section{API della configurazione}
-Dopo le modifiche apportate agli operatori precedenti è richiesta una nuova definizione delle \gls{api} di governo che gestiscono i messaggi che vanno a definire la configurazione dell'\textit{anomaly detection}, cioè la configurazione dell'operatore \textit{Windowing} e dell'operatore \textit{AlertCoProcess}. Le \gls{api} che gesticono ciò inviano un messaggio ai due operatori, in formato \gls{json}, con le configurazioni decise dall'utente.\\
+Dopo le modifiche apportate agli operatori precedenti è richiesta una nuova definizione delle \gls{api} di governo che gestiscono i messaggi che vanno a definire la configurazione dell'\textit{anomaly detection}, cioè la configurazione dell'operatore \textit{Windowing} e dell'operatore \textit{AlertCoProcess}. La nuova definizione delle \gls{api} consiste in:
+
+\begin{itemize}
+	\item{definizione della nuova struttura del messaggio in formato \gls{json} contenente le configurazioni decise dall'utente;}
+	\item{controllo relativo alla correttezza e consistenza dei dati passati dall'utente.}
+\end{itemize}
 Per semplicità la definizione del messaggio fornito dall'\gls{api} viene suddiviso e analizzato in sezioni differenti per esplicitare al meglio la parte relativa all'operatore \textit{Windowing} e quella relativa ai \textit{detector} utilizzati all'interno dell'operatore \textit{AlertCoProcess}.
 
 
@@ -327,5 +332,23 @@ dove:
 	\item{\textbf{\textit{windowing}}: rappresenta la configurazione della finestra temporale come descritto nella sezione \S\ref{sec:json-windowing}.}
 \end{itemize}
 
-Rispetto alla configurazione iniziale è stato introdotto il campo \textit{isGrouping}, che definisce se l'anomalia deve essere sollevata su un gruppo oppure no. 
+Rispetto alla configurazione iniziale è stato introdotto il campo \textit{isGrouping}, che definisce se l'anomalia deve essere sollevata su un gruppo oppure no.
+
+\subsection{Correttezza e consistenza dei dati forniti dall'utente}
+A fronte della modifica del messaggio di configurazione fornito alla componente di \textit{anomaly detection}, serve garantire che i dati forniti dall'utente che tratta tale configurazione siano corretti e consistenti fra di loro.\\
+Di seguito verrà descritto il controllo effettuato per garantire che la configurazione fornita sia corretta, sia secondo la sua configurazione, sia secondo la configurazione preesistente nel caso si tratti di una modifica di essa.\\
+Dopo la ricezione dei dati forniti dall'utente viene effettuato il seguente controllo:
+\begin{itemize}
+	\item{\textbf{verifica della consistenza della nuova configurazione:}
+		\begin{enumerate}
+			\item{si verifica che la lunghezza della mappa \textit{windowing.assetFilters} sia eguale alla lunghezza dell'\textit{array} \textit{detectors};}
+			\item{per ogni elemento all'interno della mappa \textit{windowing.assetFilters} si verifica che la chiave dell'elemento (\textit{groupID}) sia corrispondente al campo \textit{id} contenuto dall'elemento stesso;}
+			\item{per ogni elemento all'interno della mappa \textit{windowing.assetFilters} si verifica che tale elemento sia contenuto all'interno dell'\textit{array} \textit{detectors}.}
+		\end{enumerate}}
+	\item{\textbf{verifica della consistenze della nuova configurazione relativamente a quelle preesistente:} per ogni chiave della mappa \textit{windowing.assetFilters}, preesistente nella vecchia configurazione, viene verificato che il valore dell'\textit{assetFilter} contenuto sia rimasto invariato rispetto alla precedente configurazione.}
+\end{itemize}
+
+Per ogni nuovo gruppo viene sostituito l'\textit{id} fornito dall'utente, richiesto per identificare la correlazione fra l'\textit{assetFilter} del gruppo contenuto all'interno della mappa \textit{windowing.assetFilters} e il medesimo \textit{assetFilter} contenuto nell'\textit{array} \textit{detectors}, con un \textit{id} appositamente creato dall'\gls{api}.\\
+Per ogni controllo appena elencato viene fornito un messaggio d'errore all'utente nel caso non venga superato tale controllo, questo per comunicare all'utente che tale configurazione non è corretta.
+
 

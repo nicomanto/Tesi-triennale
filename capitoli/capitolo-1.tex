@@ -71,10 +71,11 @@ Il progetto è stato suddiviso in differenti parti per comprendere, da prima, il
 \begin{enumerate}
 	\item{Studio e analisi preliminare del \gls{framework} \textit{Flink};}
 	\item{Studio e analisi preliminare del linguaggio di programmazione \textit{Scala};}
-	\item{Sviluppo di \gls{poc} per compredere al meglio alcune funzionalità essenziali di \textit{Flink} quali \gls{serializzazione};}
+	\item{Sviluppo di \gls{poc} per comprendere al meglio alcune funzionalità essenziali di \textit{Flink} quali \gls{serializzazione};}
 	\item{Sviluppo e modifica degli operatori preesistenti per l'integrazione della componente di \textit{anomaly detection} su \textit{asset} raggruppati;}
 	\item{Sviluppo di test per verificare che gli operatori funzionino come atteso;}
-	\item{Sviluppo e modifica delle \gls{api} per la gestione della configurazione del flusso di \textit{Anomaly detection};}
+	\item{Studio e analisi preliminare del linguaggio di programmazione \textit{Go};}
+	\item{Sviluppo e modifica delle \gls{api} per la gestione della configurazione del flusso di \textit{anomaly detection} su \textit{asset} raggruppati;}
 	\item{Sviluppo di test per verificare che le \gls{api} funzionino come atteso.}
 \end{enumerate}
 
@@ -88,7 +89,7 @@ Di seguito vengono elencati i vari obiettivi relativi sia a quelli formativi del
 			\item{Comprensione del \textit{workflow} e degli strumenti aziendali;}
 			\item{Comprensione dei linguaggi e delle architetture coinvolte;}
 			\item{Mappatura dell’attuale \gls{pipeline} di analisi degli eventi (\textit{Flink});}
-			\item{Definizione dell’architettura ad alto livello per la funzionalità \textit{location digital twin} ed eventuali modifiche al sistema attuale;}
+			\item{Definizione dell’architettura ad alto livello per la funzionalità di \textit{anomaly detection} su \textit{asset} raggruppati ed eventuali modifiche al sistema attuale;}
 			\item{Comprensione e definizione della metodologia di governo della \gls{pipeline} attraverso messaggi;}
 			\item{Definizione delle \gls{api} di governo.}
 		\end{itemize}			
@@ -99,14 +100,14 @@ Di seguito vengono elencati i vari obiettivi relativi sia a quelli formativi del
 \begin{itemize}
 	\item{Minimi:
 		\begin{itemize}
-			\item{Completamento dello sviluppo e validazione dell’operatore di \textit{location digital twinning};}
+			\item{Completamento dello sviluppo e validazione degli operatore di \textit{anomaly detection} su \textit{asset} raggruppati;}
 			\item{Completamento dello sviluppo e validazione delle modifiche necessarie all’integrazione dell’operatore nel flusso attuale;}
 			\item{Sviluppo delle \gls{api} \gls{rest} di governo dell’operatore.}
 		\end{itemize}			
 	}
 	\item{Massimi:
 		\begin{itemize}
-			\item{Test automatizzati del’operatore;}
+			\item{Test automatizzati dell’operatore;}
 			\item{Test automatizzati dell’\gls{api}.}
 		\end{itemize}			
 	}

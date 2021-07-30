@@ -182,6 +182,8 @@ ROV4.1 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \
 \hline
 ROV4.2 & Obbligatorio & L'operatore non deve creare un \textit{output} di tipo \textit{GroupedEvents} alla fine di una finestra temporale nel caso sia presente un tipo di \textit{aggregazione} non supportata\\
 \hline
+ROV5 & Desiderabile & L'operatore deve essere testato per garantire la correttezza della sua operatività\\
+\hline
 \end{longtable}
 }
 
@@ -241,17 +243,19 @@ ROF23 & Obbligatorio & L'operatore, durante l'ispezione di una configurazione, c
 \textbf{Descrizione}\\
 \endhead
 \hline
-ROV5 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
+ROV6 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
 \hline
-ROV5.1 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica gli \textit{id} dei \textit{detector}, non è presente la chiave rappresentata dal parametro \textit{groupID} dell'evento di tipo \textit{GroupedEvents} entrante\\
+ROV6.1 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica gli \textit{id} dei \textit{detector}, non è presente la chiave rappresentata dal parametro \textit{groupID} dell'evento di tipo \textit{GroupedEvents} entrante\\
 \hline
-ROV5.2 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica i \textit{detector}, non è presente la chiave rappresentata come \textit{id} del \textit{detector} estratto dalla mappa contenente tali \textit{id}\\
+ROV6.2 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica i \textit{detector}, non è presente la chiave rappresentata come \textit{id} del \textit{detector} estratto dalla mappa contenente tali \textit{id}\\
 \hline
-ROV5.3 & Obbligatorio & L'operatore deve scartare gli eventi se è richiesto il \textit{detector} di tipo \textit{LazyLoadDetector} e non è stato possibile scaricarlo\\
+ROV6.3 & Obbligatorio & L'operatore deve scartare gli eventi se è richiesto il \textit{detector} di tipo \textit{LazyLoadDetector} e non è stato possibile scaricarlo\\
 \hline
-ROV5.4 & Obbligatorio & L'operatore deve scartare gli eventi se, operando su un gruppo, è stato richiesto un \textit{detector} che lavora su un singolo \textit{input}\\
+ROV6.4 & Obbligatorio & L'operatore deve scartare gli eventi se, operando su un gruppo, è stato richiesto un \textit{detector} che lavora su un singolo \textit{input}\\
 \hline
-ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di un \textit{detector} se esso non contiene l'\textit{id} all'interno del campo \textit{AssetFilter} (\textit{id} identificativo del gruppo)\\
+ROV6.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di un \textit{detector} se esso non contiene l'\textit{id} all'interno del campo \textit{AssetFilter} (\textit{id} identificativo del gruppo)\\
+\hline
+ROV7 & Desiderabile & L'operatore deve essere testato per garantire la correttezza della sua operatività\\
 \hline
 \end{longtable}
 }
@@ -261,7 +265,7 @@ ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di u
 {
 \centering
 \begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
-\caption{Requisiti Funzionali delle \gls{api} di configurazione}\\
+\caption{Requisiti Funzionali delle \textit{API} di configurazione}\\
 \textbf{Identificativo} &
 \textbf{Classificazione}&
 \textbf{Descrizione}\\
@@ -275,7 +279,7 @@ ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di u
 {
 \centering
 \begin{longtable}{L{3cm} L{3cm} L{7.5cm}}
-\caption{Requisiti di Vincolo delle \gls{api} di configurazione}\\
+\caption{Requisiti di Vincolo delle \textit{API} di configurazione}\\
 \textbf{Identificativo} &
 \textbf{Classificazione}&
 \textbf{Descrizione}\\
@@ -298,8 +302,8 @@ ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di u
 
 ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
-ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 & Operatore \textit{Windowing} \\
-ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV5 \newline ROV5.1 \newline ROV5.2 \newline ROV5.3 \newline ROV5.4 \newline ROV5.5 & Operatore \textit{AlertCoProcess} \\
+ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 \newline ROV5 & Operatore \textit{Windowing} \\
+ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV6 \newline ROV6.1 \newline ROV6.2 \newline ROV6.3 \newline ROV6.4 \newline ROV6.5 \newline ROV7 & Operatore \textit{AlertCoProcess} \\
 \hline
 \end{longtable}
 }
