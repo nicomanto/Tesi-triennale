@@ -7,14 +7,28 @@
 \label{cap:conclusioni}
 %**************************************************************
 
+\intro{Tale capitolo espone i risultati ottenuti durante il periodo di stage relativamente al prodotto realizzato analizzando il risultato finale comprensivo degli obiettivi raggiunti, esponendo i possibili miglioramenti al prodotto finale e dando una valutazione soggettiva sull'intero percorso di stage. Infine vengono evidenziate le conoscenze acquisite.}
+
 %**************************************************************
 \section{Risultato finale}
+Al termine della fase di sviluppo e successivamente alla validazione, la componente di \textit{anomaly detection} riesce ad analizzare \textbf{eventi differenti raggruppati} insieme emettendo, se necessario, \textit{alert} relativi al gruppo stesso se un'anomalia è stata rilevata. Pur avendo aggiunto l'analisi di anomalie gruppi di \textit{asset} differenti raggruppati, tale componente mantiene la preesistente funzionalità di rilevamento di anomalie su un \textit{asset} singolo, raggruppato oppure no su se stesso.\\
 
 %**************************************************************
 \section{Raggiungimento degli obiettivi}
+Gli obiettivi prefissati ad inizio del percorso di stage sono risultati interamente soddisfatti, riuscendo a soddisfare sia quelli minimi che quelli massimi.\\
+La componente di \textit{anomaly detection} realizzata soddisfa tutti i requisiti prefissati all'interno del capitolo Analisi dei Requisiti (\S\ref{cap:analisi-requisiti}). Oltre ai requisiti obbligatori risultano soddisfatti anche i requisiti desiderabili, considerati comunque importanti per dare valore aggiunto al prodotto realizzato, sopratutto perchè trattano principalmente la fase relativa ai \textit{test} considerata fondamentale per la validazione delle funzionalità principali della componente.
 
 %**************************************************************
 \section{Possibili miglioramenti ed estensioni}
+Un possibile miglioramento alla componente di \textit{anomaly detection} è quello relativo all'aggiunta di nuovi tipi di \textit{detector}. Tale miglioramento garantirebbe l'analisi di anomalie più mirate rispetto agli attuali \textit{detector}, i quali sono stati pensati principalmente per operare con \textit{asset} eguali fra di loro.\\
+Due possibili tipi di \textit{detector} potrebbero essere:
+\begin{itemize}
+	\item{\textbf{\textit{Unsupervised}}: \textit{detector} che lavora su un gruppo di risorse lavorando con un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento non supervisionato}. L'algoritmo richiederebbe un ricalcolo del modello nel caso di una nuova configurazione;}
+	\item{\textbf{\textit{Rule based}}: \textit{detector} che lavora su un gruppo di risorse oppure su una risorsa singola in base alla propria configurazione e valutando l'andamento della/e risorsa/e tramite una regola definita dall'utente.}
+\end{itemize}
+In particolare, il \textit{detector} \textit{Rule based} permetterebbe all'utente di avere un maggiore controllo relativo al tipo di processamento dei dati, definendo da sé la logica utilizzata dal \textit{detector}.
+
+
 
 %**************************************************************
 \section{Conoscenze acquisite}

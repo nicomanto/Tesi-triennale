@@ -15,7 +15,7 @@ Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono 
 \begin{itemize}
 	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti da informazioni necessarie per il loro processamento;}
 	\item{adattabilità dell'\textbf{operatore \textit{Windowing}} che ora non deve solo trattare aggregazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
-	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse. Inoltre, tale operatore, deve adattarsi anche alla presenze di due nuovi \textit{detector} di anomalie, quali \textbf{\textit{Unsupervised}} e \textbf{\textit{Rule based}}.}
+	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse.}
 \end{itemize}
 	
 Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-aree descritte precedentemente.
@@ -228,9 +228,7 @@ Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{A
 \begin{itemize}
 	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \gls{Apprendimento automatico};}
 	\item{\textbf{\textit{Crosscorel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico). Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \gls{Apprendimento automatico};}
-	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento supervisionato}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione;}
-	\item{\textbf{\textit{Unsupervised}}: \textit{detector} che lavora su un gruppo di risorse lavorando con un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento non supervisionato}. L'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione;}
-	\item{\textbf{\textit{Rule based}}: \textit{detector} che lavora su un gruppo di risorse oppure su una risorsa singola in base alla propria configurazione e valutando l'andamento della/e risorsa/e tramite una regola definita dall'utente.}
+	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento supervisionato}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione.}
 \end{itemize}
 
 %**************************************************************
