@@ -345,10 +345,10 @@ Dopo la ricezione dei dati forniti dall'utente viene effettuato il seguente cont
 			\item{per ogni elemento all'interno della mappa \textit{windowing.assetFilters} si verifica che la chiave dell'elemento (\textit{groupID}) sia corrispondente al campo \textit{id} contenuto dall'elemento stesso;}
 			\item{per ogni elemento all'interno della mappa \textit{windowing.assetFilters} si verifica che tale elemento sia contenuto all'interno dell'\textit{array} \textit{detectors}.}
 		\end{enumerate}}
-	\item{\textbf{verifica della consistenze della nuova configurazione relativamente a quelle preesistente:} per ogni chiave della mappa \textit{windowing.assetFilters}, preesistente nella vecchia configurazione, viene verificato che il valore dell'\textit{assetFilter} contenuto sia rimasto invariato rispetto alla precedente configurazione.}
+	\item{\textbf{verifica della consistenze della nuova configurazione relativamente a quelle preesistente:} per ogni chiave della mappa \textit{windowing.assetFilters}, preesistente nella vecchia configurazione, viene verificato che il valore di tale mappa sia rimasto invariato rispetto alla precedente configurazione.}
 \end{itemize}
 
-Per ogni nuovo gruppo viene sostituito l'\textit{id} fornito dall'utente, richiesto per identificare la correlazione fra l'\textit{assetFilter} del gruppo contenuto all'interno della mappa \textit{windowing.assetFilters} e il medesimo \textit{assetFilter} contenuto nell'\textit{array} \textit{detectors}, con un \textit{id} appositamente creato dall'\gls{api}.\\
+Per ogni nuovo gruppo viene sostituito l'\textit{id} fornito dall'utente, richiesto per identificare la correlazione fra l'\textit{assetFilters} del gruppo contenuto all'interno della mappa \textit{windowing.assetFilters} e il medesimo \textit{assetFilters} contenuto nell'\textit{array} \textit{detectors}, con un \textit{id} appositamente creato dall'\gls{api}.\\
 Per ogni controllo appena elencato viene fornito un messaggio d'errore all'utente nel caso non venga superato tale controllo, questo per comunicare all'utente che tale configurazione non è corretta.
 
 

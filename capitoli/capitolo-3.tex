@@ -165,7 +165,6 @@ ROF16 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve
 \textbf{Descrizione}\\
 \endhead
 \hline
-
 ROV2 & Obbligatorio & L'operatore deve garantire un unico tipo di \textit{output} informativo che possa adattarsi alla rappresentazione di \textit{asset} singoli, di \textit{asset} aggregati su se stessi e di \textit{asset} differenti aggregati/allineati fra di loro \\
 \hline
 ROV3 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
@@ -243,7 +242,7 @@ ROF23 & Obbligatorio & L'operatore, durante l'ispezione di una configurazione, c
 \textbf{Descrizione}\\
 \endhead
 \hline
-RO5 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
+ROV5 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
 \hline
 ROV5.1 & Obbligatorio & L'operatore deve scartare gli eventi su cui verrà rilevata una possibile anomalia se, all'interno della mappa che identifica gli \textit{id} dei \textit{detector}, non è presente la chiave rappresentata dal parametro \textit{groupID} dell'evento di tipo \textit{GroupedEvents} entrante\\
 \hline
@@ -253,7 +252,7 @@ ROV5.3 & Obbligatorio & L'operatore deve scartare gli eventi se è richiesto il 
 \hline
 ROV5.4 & Obbligatorio & L'operatore deve scartare gli eventi se, operando su un gruppo, è stato richiesto un \textit{detector} che lavora su un singolo \textit{input}\\
 \hline
-ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di un \textit{detector} se esso non contiene l'\textit{id} all'interno del campo \textit{AssetFilter} (\textit{id} identificativo del gruppo)\\
+ROV5.5 & Obbligatorio & L'operatore deve scartare l'evento di aggiornamento di un \textit{detector} se esso non contiene l'\textit{id} all'interno del campo \textit{AssetFilters} (\textit{id} identificativo del gruppo)\\
 \hline
 RDV2 & Desiderabile & L'operatore deve essere testato per garantire la correttezza della sua operatività\\
 \hline
@@ -271,6 +270,17 @@ RDV2 & Desiderabile & L'operatore deve essere testato per garantire la correttez
 \textbf{Descrizione}\\
 \endhead
 \hline
+ROF24 & Obbligatorio & La configurazione fornita dall'\gls{api} deve rispecchiare la configurazione attesa dagli operatori\\
+\hline
+ROF24.1 & Obbligatorio & La configurazione fornita dall'\gls{api}, riguardo all'operatore \textit{Windowing}, deve contenere una mappa \textit{assetFilters} dove per chiave è presente l'\textit{id} del gruppo e come valore i filtri applicati ad esso\\
+\hline
+ROF24.2 & Obbligatorio & La configurazione fornita dall'\gls{api}, riguardo all'operatore \textit{AlertCoProcess}, deve contenere un \textit{array} di \textit{detectors}, i quali devono contenere \textit{assetFilters} corrispondenti alla configurazione fornita all'operatore \textit{Windowing}\\
+\hline
+ROF25 & Obbligatorio & La configurazione relativa all'operatore \textit{Windowing}, per ogni gruppo contenuto all'interno della mappa \textit{assetFilters}, deve avere il relativo valore contenente un \textit{id} eguale alla chiave della mappa\\
+\hline
+ROF26 & Obbligatorio & Durante la creazione di un nuovo gruppo tramite la configurazione data dall'utente, l'\gls{api} deve sostituire l'\textit{id} del gruppo dato, sia nel parametro \textit{windowing.AssetFilters}, che nel parametro \textit{detectors}, con un \textit{id} creato dall'\gls{api} stessa\\
+\hline
+ROF27 & Obbligatorio & Durante la modifica di una configurazione precedente, i gruppi presenti all'interno della nuova configurazione e preesistenti nella precedente configurazione, devono mantenere lo stesso tipo di valore\\
 \hline
 \end{longtable}
 }
@@ -285,6 +295,15 @@ RDV2 & Desiderabile & L'operatore deve essere testato per garantire la correttez
 \textbf{Descrizione}\\
 \endhead
 \hline
+ROV6 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia stata fornita una configurazione erronea\\
+\hline
+ROV6.1 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia stata fornito una coppia chiave-valore all'interno del parametro \textit{windowing} cui \textit{valore} non contiene un \textit{id} eguale alla chiave\\
+\hline
+ROV6.2 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso siano stati forniti, all'interno della configurazione, parametri di \textit{windowing} e \textit{detectors} che non contengono i medesimi gruppi\\
+\hline
+ROV6.3 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia fornito una configurazione contenente gruppi preesistenti nella configurazione precedente, ma con differente lista di valori\\
+\hline
+RDV3 & Desiderabile & L'\gls{api} deve essere testata per garantire la correttezza della sua operatività\\
 \hline
 \end{longtable}
 }
@@ -304,6 +323,8 @@ ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \te
 \hline
 ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 \newline RDV1 & Operatore \textit{Windowing} \\
 ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV5 \newline ROV5.1 \newline ROV5.2 \newline ROV5.3 \newline ROV5.4 \newline ROV5.5 \newline RDV2 & Operatore \textit{AlertCoProcess} \\
+\hline
+ROF24 \newline ROF24.1 \newline ROF24.2 \newline ROF25 \newline ROF26 \newline ROF27 \newline ROV6 \newline ROV6.1 \newline ROV6.2 \newline ROV6.3 \newline RDV3 & \gls{api} di configurazione \\
 \hline
 \end{longtable}
 }
