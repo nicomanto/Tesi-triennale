@@ -23,7 +23,7 @@ Carattestiche fondamentali dei \textit{DataStream} sono:
 	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi;}
 	\item{\textbf{soggetti a trasformazioni:} non è possibile ispezionare gli elementi al proprio interno, ma solo lavorare su di essi utilizzando le \textit{DataStream \gls{api}}, che vengono definite, appunto, trasformazioni.}
 \end{itemize}
-La creazione di un \textit{DataStream} necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda \gls{Apache Kafka}) e da questo si possono derivare numerosi flussi e combinarli utilizzando le \gls{api} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
+La creazione di un \textit{DataStream} necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda fornita da \gls{Amazon Kinesis}) e da questo si possono derivare numerosi flussi e combinarli utilizzando le \gls{api} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
 Le \textit{DataStream \gls{api}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}
@@ -264,12 +264,28 @@ class SetSpec extends AnyFlatSpec {
 Nello stile \textit{FlatSpec} i nome dei test devono essere scritti secondo la convenzione: "\textit{X should Y}" e/o "\textit{A must B}".\\
 Inoltre \textit{ScalaTest} offre i principali costrutti per la progettazione di test come per esempio \textit{Before} e \textit{After}, dove rispettivamente al loro interno viene  prodotto il codice che verrà eseguito prima e dopo di ogni test.
 
+%**************************************************************
+\section{Scala}\label{sec:scala}
+Il linguaggio di programmazione utilizzato all'interno del \gls{framework} \textit{Flink} è \textbf{Scala}. \textit{Scala} (da \textit{Scalable Language}) è un linguaggio di programmazione multi-paradigma studiato per integrare le caratteristiche e funzionalità dei \textbf{linguaggi orientati agli oggetti} e dei \textbf{linguaggi funzionali}. La compilazione di codice sorgente \textit{Scala} produce \textit{Java bytecode} per l'esecuzione su una \gls{jvm}. L'esecuzione di un programma prodotto in linguaggio \textit{Scala} avviene tramite \gls{jre}, il quale semplifica l'integrazione con le applicazioni e le componenti \textit{Java}.\\
+Una delle peculiarità più importanti di \textit{Scala}, come accennato in precedenza, è l'integrazione di due paradigmi di programmazione molto noti:
+\begin{itemize}
+	\item{\textbf{Orientamento agli oggetti:} ogni elemento del linguaggio è un oggetto, inclusi numeri e funzioni che, così, possono essere memorizzate in variabili, essere passate come parametri, rappresentare il risultato di una chiamata di metodo, oppure essere estese tramite ereditarietà;}
+	\item{\textbf{Funzionale:} ogni funzione è un valore. \textit{Scala} fornisce un linguaggio molto diretto per definire funzioni anonime (dichiarate e usate senza essere legate ad un nome), supporta funzioni di ordine superiore, permette alle funzioni di essere annidate e supporta funzioni parziali.}
+\end{itemize}
+Di seguito vengono elencate alcune strutture logiche specifiche di \textit{Scala} considerate importanti e differenti rispetto ai linguaggi di programmazione più conosciuti:
+\begin{itemize}
+	\item{\textbf{Case class:} le \textit{case class} vengono utilizzate principalmente per la modellazione di dati immutabili. A differenza delle \textit{class}, per istanziare una \textit{case class} non è necessaria la parola \textit{new} e le funzioni \textit{getter} sono automaticamente definite per i parametri del costruttore. Inoltre la comparazione fra \textit{case class} avviene per valori e non per riferimenti, cioè oggetti diversi ma con valori uguali sono considerati eguali;}
+	\item{\textbf{Option:} come si evince dal nome, le \textit{Option} di \textit{Scala} sono utilizzate per rappresentare un tipo opzionale, cioè che contiene un valore del tipo specificato oppure no. Se un valore è presente, l'istanza dell'\textit{Option} sarà di tipo \textit{Some(x)}, dove \textit{x} rappresenta il valore del tipo specificato dall'\textit{Option} stessa. Se, invece, il valore non è presente, l'istanza rappresenterà un tipo \textit{None}.}
+\end{itemize}
+Un'altra caratteristica fondamentale di \textit{Scala} è quella di permettere l'utilizzo dell'astrazione dei tipi. Questo significa che l'utente non è tenuto a specificare nel codice il tipo dei parametri rappresentati, ma vengono dedotti dal contesto tramite il compilatore.
 
 
 %**************************************************************
-\section{Amazon Kinesis}
 
-
+\section{Go}\label{sec:go}
+Il linguaggio di programmazione utilizzato per la stesura delle \gls{api} è \textbf{\textit{Go}}.\\
+\textit{Go} è un linguaggio di programmazione compilato e tipizzato staticamente, sintatticamente simile al linguaggio di programmazione \textit{C} eccetto per la dichiarazione dei tipi e per la mancanza di parentesi tonde nei costrutti \textit{for} e \textit{if}. Si differenzia dal linguaggio \textit{C}, inoltre, nel soddisfare esigenze di programmazione concorrente e nell'utilizzare un sistema di \textit{garbage collection} che si occupa autonomamente della gestione della memoria.\\
+\textit{Go} è stato progettato per garantire una compilazione efficiente, un'esecuzione veloce e la facilità di programmazione.
 
 %**************************************************************
 \section{IntelliJ IDEA}
