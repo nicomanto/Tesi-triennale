@@ -11,10 +11,47 @@
 
 
 \section{Casi d'uso}
+Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi \gls{uml}. Tali diagrammi descrivono le funzionalità offerte dal sistema riguardo la configurazione del flusso di \textit{anomaly detection}. Il progetto realizzato, trattando principalmente la parte di gestione relativa al flusso di \textit{anomaly detection} lato \textit{server}, non tratta la totalità delle interazioni che l'utente intraprende con la piattaforma \textit{SYN}, per cui i casi d'uso descritti sono di un numero ristretto e incentrati solo sulla configurazione della finestra temporale e sulla configurazione dei \textit{detector} cui scopo è rilevare una possibile anomalia.
 
-Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi.
-I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi di tipo \gls{uml} dedicati alla descrizione delle funzioni o servizi offerti da un sistema, così come sono percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
-Essendo il progetto finalizzato alla creazione di un tool per l'automazione di un processo, le interazioni da parte dell'utilizzatore devono essere ovviamente ridotte allo stretto necessario. Per questo motivo i diagrammi d'uso risultano semplici e in numero ridotto.
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.9\columnwidth]{usecase/uc0} 
+    \caption{Use Case - UC0: Scenario principale}
+\end{figure}
+
+\begin{usecase}{0}{Scenario principale}
+\usecaseactors{Utente autenticato alla piattaforma \textit{SYN}}
+\usecasedesc{Configurazione dei campi richiesti dalla componente di \textit{anomaly detection}}
+\usecasepre{L'utente è entrato nella parte della piattaforma relativa alla configurazione dell'\textit{anomaly detection}}
+\usecasepost{Il sistema è configurato per rilevare possibili anomalie}
+\usecasescenprinc{La finestra visualizzata mette a disposizione una \textit{form} per la compilazione dei campi necessari per la configurazione della componente di \textit{anomaly detection} (\textbf{UC1})}
+\usecasealt{La finestra visualizza un messaggio d'errore se i valori inseriti non sono conformi alle attese (\textbf{UC2}), nello specifico vengono visualizzati i seguenti errori:
+\begin{itemize}
+	\item{La configurazione della \textit{window} non è consistente perchè è presente un gruppo che al suo interno contiene filtri con un \textit{id} non corrispondente a tale gruppo (\textbf{UC3});}
+	\item{La configurazione non contiene tutti i \textit{detector} necessari per i gruppi assegnati alla \textit{window} (\textbf{UC4});}
+	\item{A parità di gruppo nella nuova configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC5});}
+	\item{A parità di gruppo rispetto la vecchia configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC6}).}
+\end{itemize}}
+\label{uc:scenario-principale}
+\end{usecase}
+
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.9\columnwidth]{usecase/uc1} 
+    \caption{Use Case - UC1: Inserimento configurazione \textit{anomaly detection}}
+\end{figure}
+
+\begin{usecase}{1}{Inserimento configurazione \textit{anomaly detection}}
+\usecaseactors{Utente autenticato alla piattaforma \textit{SYN}}
+\usecasedesc{Inserimento dei campi richiesti rispetto la configurazione della \textit{window} e dei \textit{detector}}
+\usecasepre{L'utente è entrato nella parte della piattaforma relativa alla configurazione della \textit{window} e dei \textit{detector}}
+\usecasepost{I campi relativi alla configurazione della \textit{window} e dei \textit{detector} risultano essere compilati}
+\usecasescenprinc{\begin{itemize}
+	\item{L'utente inserisce i campi relativi alla configurazione della \textit{window} (\textbf{UC1.1});}
+	\item{L'utente inserisce i campi relativi alla configurazione dei \textit{detector} (\textbf{UC1.2}).}
+\end{itemize}}
+\label{uc:configurazione-anomaly-detection}
+\end{usecase}
 
 \section{Classificazione dei requisiti}
 I requisiti individuati sono identificati secondo la seguente codifica:
@@ -322,81 +359,10 @@ RDV3 & Desiderabile & L'\gls{api} deve essere testata per garantire la correttez
 ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
 ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 \newline RDV1 & Operatore \textit{Windowing} \\
+\hline
 ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV5 \newline ROV5.1 \newline ROV5.2 \newline ROV5.3 \newline ROV5.4 \newline ROV5.5 \newline RDV2 & Operatore \textit{AlertCoProcess} \\
 \hline
 ROF24 \newline ROF24.1 \newline ROF24.2 \newline ROF25 \newline ROF26 \newline ROF27 \newline ROV6 \newline ROV6.1 \newline ROV6.2 \newline ROV6.3 \newline RDV3 & \gls{api} di configurazione \\
 \hline
 \end{longtable}
 }
-
-
-
-
-
-\begin{figure}[!h] 
-    \centering 
-    \includegraphics[width=0.9\columnwidth]{usecase/scenario-principale} 
-    \caption{Use Case - UC0: Scenario principale}
-\end{figure}
-
-\begin{usecase}{0}{Scenario principale}
-\usecaseactors{Sviluppatore applicativi}
-\usecasepre{Lo sviluppatore è entrato nel plug-in di simulazione all'interno dell'IDE}
-\usecasedesc{La finestra di simulazione mette a disposizione i comandi per configurare, registrare o eseguire un test}
-\usecasepost{Il sistema è pronto per permettere una nuova interazione}
-\label{uc:scenario-principale}
-\end{usecase}
-
-\section{Tracciamento dei requisiti}
-
-Da un'attenta analisi dei requisiti e degli use case effettuata sul progetto è stata stilata la tabella che traccia i requisiti in rapporto agli use case.\\
-Sono stati individuati diversi tipi di requisiti e si è quindi fatto utilizzo di un codice identificativo per distinguerli.\\
-Il codice dei requisiti è così strutturato R(F/Q/V)(N/D/O) dove:
-\begin{enumerate}
-	\item[R =] requisito
-    \item[F =] funzionale
-    \item[Q =] qualitativo
-    \item[V =] di vincolo
-    \item[N =] obbligatorio (necessario)
-    \item[D =] desiderabile
-    \item[Z =] opzionale
-\end{enumerate}
-Nelle tabelle \ref{tab:requisiti-funzionali}, \ref{tab:requisiti-qualitativi} e \ref{tab:requisiti-vincolo} sono riassunti i requisiti e il loro tracciamento con gli use case delineati in fase di analisi.
-
-\newpage
-
-\begin{table}[hbt!]
-\caption{Tabella del tracciamento dei requisti funzionali}
-\label{tab:requisiti-funzionali}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RFN-1     & L'interfaccia permette di configurare il tipo di sonde del test & UC1 \\
-\hline
-\end{tabularx}
-\end{table}%
-
-\begin{table}[hbt!]
-\caption{Tabella del tracciamento dei requisiti qualitativi}
-\label{tab:requisiti-qualitativi}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RQD-1    & Le prestazioni del simulatore hardware deve garantire la giusta esecuzione dei test e non la generazione di falsi negativi & - \\
-\hline
-\end{tabularx}
-\end{table}%
-
-\begin{table}[hbt!]
-\caption{Tabella del tracciamento dei requisiti di vincolo}
-\label{tab:requisiti-vincolo}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RVO-1    & La libreria per l'esecuzione dei test automatici deve essere riutilizzabile & - \\
-\hline
-\end{tabularx}
-\end{table}%
