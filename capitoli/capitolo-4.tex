@@ -23,7 +23,7 @@ Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-
 %**************************************************************
 
 \section{Operatore Bumblebee}\label{sec:bbout}
-Per permettere la rappresentazione di gruppi di risorse differenti, viene cambiata la struttura dell'\textit{output} dell'operatore \textbf{\textit{Bumblebee}}, rappresentato inizialmente in un formato \gls{json} così formato:
+Per permettere la rappresentazione di gruppi di risorse differenti, viene cambiata la struttura dell'\textit{output} dell'operatore \textbf{\textit{Bumblebee}}, rappresentato inizialmente in un formato \textit{\gls{json}} così formato:
 
 \begin{minted}{js}
 {
@@ -89,7 +89,7 @@ Per permettere una corretta gestione di entrambi i flussi, l'operatore \textit{W
 		\item{\textbf{\textit{mapToListFutureEvents}:} mappa che gestisce la lista degli eventi arrivati in anticipo, i quali sono mappati per l'\textit{id} del gruppo;}
 		\item{\textbf{\textit{windowBeginTs}:} l'inizio dell'attuale finestra temporale;}
 		\item{\textbf{\textit{scheduledTimer}:} \textit{timer} schedulato per collezionare gli eventi visti dalla \textit{window}, il quale coincide con la fine dell'attuale finestra temporale;}
-		\item{\textbf{\textit{pipeStatus}:} mappa che gestisce la versione delle varie \gls{pipeline}, le quali sono mappate per l'\textit{id} della \gls{pipeline}.}
+		\item{\textbf{\textit{pipeStatus}:} mappa che gestisce la versione delle varie \textit{\gls{pipeline}}, le quali sono mappate per l'\textit{id} della \textit{\gls{pipeline}}.}
 \end{itemize}
 
 
@@ -101,10 +101,10 @@ Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metod
 	\item{controllo relativo a se la configurazione è presente, nel caso in cui non sia presente si saltano tutti i passaggi successivi e l'evento viene ignorato;}
 	\item{per ogni gruppo contenuto all'interno del filtro di aggregazione della \textit{window} verrà fatto il controllo per verificare che quel determinato gruppo è filtrato per accettare quel determinato evento in entrata;}
 \item{se l'evento è contenuto all'interno del filtro di un gruppo, viene controllata se la durata della \textit{window} è nulla (minore o uguale a zero), in questa casistica l'evento viene collezionato all'interno della struttura dati rappresentata dal \textit{GroupedEvents} (\S\ref{sec:ge}) senza essere aggregato o allineato con altri eventi. Il flusso relativo all'evento entrante termina;}
-\item{se la durata della \textit{window} ha una durata non nulla (maggiore di zero), l'evento verrà inserito nell'attuale \textit{window} se il suo \gls{timestamp} è contenuto nei limiti di essa (inizio e fine). Se, invece, l'evento è antecedente all'inizio della \textit{window}, viene scartato. Infine, se l'evento è successivo alla fine della finestra temporale, verrà inserito all'interno dello stato \textbf{\textit{mapToListFutureEvents}} (\S\ref{sec:stati-windowing}). Tale evento verrà trattato nella successiva \textit{window}.}
+\item{se la durata della \textit{window} ha una durata non nulla (maggiore di zero), l'evento verrà inserito nell'attuale \textit{window} se il suo \textit{\gls{timestamp}} è contenuto nei limiti di essa (inizio e fine). Se, invece, l'evento è antecedente all'inizio della \textit{window}, viene scartato. Infine, se l'evento è successivo alla fine della finestra temporale, verrà inserito all'interno dello stato \textbf{\textit{mapToListFutureEvents}} (\S\ref{sec:stati-windowing}). Tale evento verrà trattato nella successiva \textit{window}.}
 \end{enumerate}
 
-Per gestire l'inizio di una determinata nuova finestra temporale (quindi basata su una nuova \textbf{configurazione} per essa) verrà fatto un controllo per definire se l'evento entrante è il primo a partire da una nuova configurazione. In questo caso l'inizio della \textit{window} è eguale al \gls{timestamp} dell'evento entrante e la fine della \textit{window} è equivalente alla somma dell'inizio della finestra temporale con la sua durata (definita nella configurazione).
+Per gestire l'inizio di una determinata nuova finestra temporale (quindi basata su una nuova \textbf{configurazione} per essa) verrà fatto un controllo per definire se l'evento entrante è il primo a partire da una nuova configurazione. In questo caso l'inizio della \textit{window} è eguale al \textit{\gls{timestamp}} dell'evento entrante e la fine della \textit{window} è equivalente alla somma dell'inizio della finestra temporale con la sua durata (definita nella configurazione).
 \subsection{Flusso di configurazione della window}\label{sec:pr2-windowing}
 Tale flusso è gestito dal metodo \textit{processElement2}, il quale è un metodo ereditato dalla classe \textbf{KeyedCoProcessFunction} e sovrascritto dalla classe rappresentate l'operatore (\textit{Windowing}). Il flusso attuale dell'operatore prevede questi \textit{step}:
 
@@ -135,20 +135,20 @@ Il metodo \textbf{\textit{onTimer}} è colui che gestisce la logica al termine d
 	\item{in base alla modalità di aggregazione definita nella configurazione della finestra temporale, per ogni \textbf{\textit{id} del gruppo} contenuto all'interno dello stato \textbf{\textit{mapToAggregator}} verrà creato e collezionato un \textit{GroupedEvents} (\S\ref{sec:ge}) contenente gli eventi aggregati o allineati secondo la modalità definita, la quale può essere:
 	\begin{itemize}
 		\item{\textbf{\textit{barrier}:} in questa modalità gli eventi vengono \textbf{allineati} e il metodo che si occupa di questa funzionalità è il metodo \textit{selfAggregate} dell'aggregatore;}
-		\item{\textbf{\textit{aggregation\textunderscore sum}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore;}
-		\item{\textbf{\textit{aggregation\textunderscore mean}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \gls{json} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore.}
+		\item{\textbf{\textit{aggregation\textunderscore sum}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \textit{\gls{json}} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore;}
+		\item{\textbf{\textit{aggregation\textunderscore mean}:} in questa modalità gli eventi vengono raggruppati in uno unico, per cui verrà creato un nuovo \textit{BumblebeeOutput} che come parametri avrà il \textit{\gls{json}} ritornato dal metodo \textit{groupAggregateDataFields} dell'aggregatore.}
 	\end{itemize}
 	Per la logica specifica di aggregazione vedere la sezione \S\ref{sec:aggregator};}
-	\item{Creazione della nuova finestra temporale, cui l'inizio e la fine sono impostati rispettivamente con il \gls{timestamp} che ha attivato il metodo \textit{onTimer} e tale \gls{timestamp} sommato alla durata della \textit{window}. Di seguito vengono rimossi gli aggregatori all'interno dello stato \textbf{\textit{mapToAggregator}} che non contengono eventi inseriti nello stato \textbf{\textit{mapToListFutureEvents}} (nel caso in cui siano presenti degli eventi futuri, verrà istanziato un nuovo aggregatore contente già questi eventi). Infine viene svuotato lo stato \textbf{\textit{mapToListFutureEvents}}.
+	\item{Creazione della nuova finestra temporale, cui l'inizio e la fine sono impostati rispettivamente con il \textit{\gls{timestamp}} che ha attivato il metodo \textit{onTimer} e tale \textit{\gls{timestamp}} sommato alla durata della \textit{window}. Di seguito vengono rimossi gli aggregatori all'interno dello stato \textbf{\textit{mapToAggregator}} che non contengono eventi inseriti nello stato \textbf{\textit{mapToListFutureEvents}} (nel caso in cui siano presenti degli eventi futuri, verrà istanziato un nuovo aggregatore contente già questi eventi). Infine viene svuotato lo stato \textbf{\textit{mapToListFutureEvents}}.
 	}
 \end{enumerate}
 
 \subsection{GroupedEvents}\label{sec:ge}
-L'\textit{output} dell'operatore, dapprima rappresentava solo una \textbf{risorsa singola}, ora invece tratterà un \textbf{gruppo}, il quale è identificato da un \textbf{\textit{id}}, da un \textbf{\gls{timestamp}} e da un \textbf{\textit{array}} di risorse di tipo \textit{BumblebeeOutput}.\\
+L'\textit{output} dell'operatore, dapprima rappresentava solo una \textbf{risorsa singola}, ora invece tratterà un \textbf{gruppo}, il quale è identificato da un \textbf{\textit{id}}, da un \textbf{\textit{\gls{timestamp}}} e da un \textbf{\textit{array}} di risorse di tipo \textit{BumblebeeOutput}.\\
 Il \textit{GroupedEvents} può rappresentare logicamente due tipi logici di dato:
 \begin{itemize}
-	\item{\textbf{singolo elemento aggregato:} dove l'\textit{array} degli eventi è formato da un singolo elemento, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\gls{timestamp}} equivale a quello definito durante l'aggregazione effettiva;}
-	\item{\textbf{allineamento:} dove l'\textit{array} degli eventi è formato da \textit{N} elementi, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\gls{timestamp}} equivale a quello definito durante l'aggregazione effettiva.}
+	\item{\textbf{singolo elemento aggregato:} dove l'\textit{array} degli eventi è formato da un singolo elemento, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva;}
+	\item{\textbf{allineamento:} dove l'\textit{array} degli eventi è formato da \textit{N} elementi, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva.}
 \end{itemize}
 
 \subsection{Aggregatore}\label{sec:aggregator}
@@ -170,7 +170,7 @@ Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata con
 	\item{\textbf{\textit{selfAggregate}:} tale metodo si occupa della vera e propria aggregazione degli \textit{asset} \textbf{su se stessi}, cioè per ogni \textit{asset} all'interno della mappa \textit{acc} (dove l'\textit{asset} è la chiave stessa) verranno aggregati i valori contenuti nel parametro \textit{dataFields} e \textit{ctxDataFields} secondo il metodo di aggregazione definito da \textit{selfAggregatorMode}.\\
 	Se un determinato parametro ha la lista dei rispettivi valori minore o uguale a zero, vuol dire che esso non è appartenuto allo specifico \textit{BumblebeeOutput} che si sta aggregando, perciò tale parametro \textbf{non} verrà aggiunto con un valore di default durante l'aggregazione.\\
 	Come tipo di ritorno tale metodo ritornerà un \textit{array} di \textit{BumbleebeeOutput} dove ogni \textit{asset} avrà i parametri interni a \textit{dataFields} e \textit{ctxDataFields} aggregati secondo il metodo definito e i parametri non interni ai due \textit{array} appena citati valorizzati con l'ultimo elemento visto di quel parametro. Se un determinato \textbf{asset} non contiene nessuno \textit{dataField}, non viene aggiunto all'\textit{array} ritornato;}
-	\item{\textbf{\textit{groupAggregateDataFields}:} tale metodo si occupa di aggregare i parametri all'interno di \textit{asset} diversi fra di loro aggregati precedentemente su se stessi tramite il metodo \textit{selfAggregate}. Per ogni parametro contenuto nell'\textit{array} all'interno di \textit{dataFields} viene fatta l'aggregazione dei valori di quel determinato parametro all'interno dei \textit{BumblebeeOutput} ritornati dal metodo \textit{selfAggregate}. Il metodo ritorna un \gls{json} contenente l'aggregazione dei parametri contenuti in \textit{dataFields} secondo il metodo definito in \textit{groupAccumulatorMode}. Se un determinato parametro non è contenuto in almeno un \textit{BumblebeeOutput}, viene ritornato un \gls{json} vuoto, per permettere all'operatore di \textit{Windowing} di poter saltare la collezione del \textit{groupedEvents} che verrebbe creato.}
+	\item{\textbf{\textit{groupAggregateDataFields}:} tale metodo si occupa di aggregare i parametri all'interno di \textit{asset} diversi fra di loro aggregati precedentemente su se stessi tramite il metodo \textit{selfAggregate}. Per ogni parametro contenuto nell'\textit{array} all'interno di \textit{dataFields} viene fatta l'aggregazione dei valori di quel determinato parametro all'interno dei \textit{BumblebeeOutput} ritornati dal metodo \textit{selfAggregate}. Il metodo ritorna un \textit{\gls{json}} contenente l'aggregazione dei parametri contenuti in \textit{dataFields} secondo il metodo definito in \textit{groupAccumulatorMode}. Se un determinato parametro non è contenuto in almeno un \textit{BumblebeeOutput}, viene ritornato un \textit{\gls{json}} vuoto, per permettere all'operatore di \textit{Windowing} di poter saltare la collezione del \textit{groupedEvents} che verrebbe creato.}
 \end{itemize}
 
 
@@ -197,7 +197,7 @@ Per permettere una corretta gestione di entrambi i flussi, l'operatore \textit{A
 		\item{\textbf{\textit{mapToDetectorID}:} mappa che gestisce la correlazione fra l'\textit{id} del gruppo (chiave) e l'\textit{id} del \textit{detector} (valore);}
 		\item{\textbf{\textit{mapToDetector}:} mappa che gestisce la correlazione fra il l'\textit{id} del \textit{detector} (chiave) e un ulteriore mappa (valore) che lega l'\textit{id} di un \textbf{soggetto}/\textbf{gruppo} con il suo vero e proprio \textit{detector};}
 		\item{\textbf{\textit{detectorsConfigs}:} l'attuale configurazione del tipo di \textit{detector};}
-		\item{\textbf{\textit{pipeStatus}:} mappa che gestisce la versione delle varie \gls{pipeline}, le quali sono mappate per l'\textit{id} della \gls{pipeline}.}
+		\item{\textbf{\textit{pipeStatus}:} mappa che gestisce la versione delle varie \textit{\gls{pipeline}}, le quali sono mappate per l'\textit{id} della \textit{\gls{pipeline}}.}
 \end{itemize}
 
 \subsection{Flusso degli eventi da controllare}\label{sec:pr1-alertcoprocess}
@@ -226,21 +226,21 @@ Tale flusso è gestito dal metodo \textit{processElement2}, il quale è un metod
 \subsection{Lista dei detector}\label{sec:detector-alertcoprocess}
 Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{AlertCoProcess}:
 \begin{itemize}
-	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \gls{Apprendimento automatico};}
-	\item{\textbf{\textit{Crosscorel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico). Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \gls{Apprendimento automatico};}
-	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \gls{Apprendimento automatico} di tipo \gls{Apprendimento supervisionato}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione.}
+	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
+	\item{\textbf{\textit{Crosscorel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico). Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
+	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento supervisionato}}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione.}
 \end{itemize}
 
 %**************************************************************
 
 \section{API della configurazione}
-Dopo le modifiche apportate agli operatori precedenti è richiesta una nuova definizione delle \gls{api} di governo che gestiscono i messaggi che vanno a definire la configurazione dell'\textit{anomaly detection}, cioè la configurazione dell'operatore \textit{Windowing} e dell'operatore \textit{AlertCoProcess}. La nuova definizione delle \gls{api} consiste in:
+Dopo le modifiche apportate agli operatori precedenti è richiesta una nuova definizione delle \textit{\gls{api}} di governo che gestiscono i messaggi che vanno a definire la configurazione dell'\textit{anomaly detection}, cioè la configurazione dell'operatore \textit{Windowing} e dell'operatore \textit{AlertCoProcess}. La nuova definizione delle \textit{\gls{api}} consiste in:
 
 \begin{itemize}
-	\item{definizione della nuova struttura del messaggio in formato \gls{json} contenente le configurazioni decise dall'utente;}
+	\item{definizione della nuova struttura del messaggio in formato \textit{\gls{json}} contenente le configurazioni decise dall'utente;}
 	\item{controllo relativo alla correttezza e consistenza dei dati passati dall'utente.}
 \end{itemize}
-Per semplicità la definizione del messaggio fornito dall'\gls{api} viene suddiviso e analizzato in sezioni differenti per esplicitare al meglio la parte relativa all'operatore \textit{Windowing} e quella relativa ai \textit{detector} utilizzati all'interno dell'operatore \textit{AlertCoProcess}.
+Per semplicità la definizione del messaggio fornito dall'\textit{\gls{api}} viene suddiviso e analizzato in sezioni differenti per esplicitare al meglio la parte relativa all'operatore \textit{Windowing} e quella relativa ai \textit{detector} utilizzati all'interno dell'operatore \textit{AlertCoProcess}.
 
 
 
@@ -278,7 +278,7 @@ La definizione della configurazione relativa all'operatore \textit{Windowing} è
     }
 }
 \end{minted}
-Le principali informazioni aggiuntive introdotte nel formato \gls{json} relativo alla configurazione della finestra temporale sono:
+Le principali informazioni aggiuntive introdotte nel formato \textit{\gls{json}} relativo alla configurazione della finestra temporale sono:
 \begin{itemize}
 	\item{\textbf{\textit{windowingMode}:} definizione della modalità di raggruppamento su gruppi;}
 	\item{\textbf{\textit{assetFilters}}: ora i filtri da applicare ad una finestra temporale sono mappati per l'\textit{id} del gruppo. Così facendo si permette di avere filtraggi differenti per gruppi differenti.}
@@ -306,11 +306,11 @@ La definizione della configurazione relativa ai \textit{detector} è così rappr
   ]
 }
 \end{minted}
-La principale informazione aggiuntiva introdotta nel formato \gls{json} relativo alla configurazione dei \textit{detector} è rappresentata dall'\textit{id} relativo al gruppo introdotto all'interno di \textit{assetFilters}. Tale \textit{id} permette una corretta mappatura del gruppo con l'\textit{id} del \textit{detector} all'interno dell'operatore \textit{AlertCoProcess}.\\
+La principale informazione aggiuntiva introdotta nel formato \textit{\gls{json}} relativo alla configurazione dei \textit{detector} è rappresentata dall'\textit{id} relativo al gruppo introdotto all'interno di \textit{assetFilters}. Tale \textit{id} permette una corretta mappatura del gruppo con l'\textit{id} del \textit{detector} all'interno dell'operatore \textit{AlertCoProcess}.\\
 Si è deciso di non rappresentare la struttura relativa ai parametri che identificano il \textit{detector} (rappresentanti dal campo \textit{parameters}) perchè essi rimangono invariati anche dopo l'aggiunta delle nuove funzionalità e sono scollegate da essa.
 
 \subsection{JSON configurazione Anomaly Detection}
-Di seguito viene rappresentato il messaggio \gls{json} di configurazione globale fornito dall'\gls{api} che si occupa di definire la configurazione decisa dall'utente:
+Di seguito viene rappresentato il messaggio \textit{\gls{json}} di configurazione globale fornito dall'\textit{\gls{api}} che si occupa di definire la configurazione decisa dall'utente:
 
 \begin{minted}{js}
 {
@@ -346,7 +346,7 @@ Dopo la ricezione dei dati forniti dall'utente viene effettuato il seguente cont
 	\item{\textbf{verifica della consistenze della nuova configurazione relativamente a quelle preesistente:} per ogni chiave della mappa \textit{windowing.assetFilters}, preesistente nella vecchia configurazione, viene verificato che il valore di tale mappa sia rimasto invariato rispetto alla precedente configurazione.}
 \end{itemize}
 
-Per ogni nuovo gruppo viene sostituito l'\textit{id} fornito dall'utente, richiesto per identificare la correlazione fra l'\textit{assetFilters} del gruppo contenuto all'interno della mappa \textit{windowing.assetFilters} e il medesimo \textit{assetFilters} contenuto nell'\textit{array} \textit{detectors}, con un \textit{id} appositamente creato dall'\gls{api}.\\
+Per ogni nuovo gruppo viene sostituito l'\textit{id} fornito dall'utente, richiesto per identificare la correlazione fra l'\textit{assetFilters} del gruppo contenuto all'interno della mappa \textit{windowing.assetFilters} e il medesimo \textit{assetFilters} contenuto nell'\textit{array} \textit{detectors}, con un \textit{id} appositamente creato dall'\textit{\gls{api}}.\\
 Per ogni controllo appena elencato viene fornito un messaggio d'errore all'utente nel caso non venga superato tale controllo, questo per comunicare all'utente che tale configurazione non è corretta.
 
 

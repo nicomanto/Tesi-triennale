@@ -108,7 +108,7 @@ TU28 & L'operatore ignora l'aggiornamento della configurazione perchè la nuova 
 }
 
 \section{API di configurazione}
-Tale sezione elenca i test effettuati per garantire il corretto funzionamento delle \gls{api} di governo per la gestione della configurazione della componente di \textit{anomaly detection}
+Tale sezione elenca i test effettuati per garantire il corretto funzionamento delle \textit{\gls{api}} di governo per la gestione della configurazione della componente di \textit{anomaly detection}
 
 {
 \centering
@@ -123,9 +123,9 @@ TU29 & Viene verificata la correttezza dei messaggi d'errore forniti all'utente 
 \hline
 TU30 & Viene verificata la correttezza dei messaggi d'errore forniti all'utente nel caso sia passata una configurazione non conforme alle attese, avendo una configurazione preesistente & Superato\\
 \hline
-TU31 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente, all'interno della configurazione, con gli \textit{id} generati dall'\gls{api}, senza avere una configurazione preesistente & Superato\\
+TU31 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente, all'interno della configurazione, con gli \textit{id} generati dall'\textit{\gls{api}}, senza avere una configurazione preesistente & Superato\\
 \hline
-TU32 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente (sui nuovi gruppi), all'interno della configurazione, con gli \textit{id} generati dall'\gls{api}, avendo una configurazione preesistente & Superato\\
+TU32 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente (sui nuovi gruppi), all'interno della configurazione, con gli \textit{id} generati dall'\textit{\gls{api}}, avendo una configurazione preesistente & Superato\\
 \hline
 \end{longtable}
 }
@@ -144,11 +144,11 @@ TU1 \newline TU2 \newline TU3 \newline TU4 \newline TU5 \newline TU6 \newline TU
 \hline
 TU23 \newline TU24 \newline TU25 \newline TU26 \newline TU27 \newline TU28 & Operatore \textit{AlertCoProcess} \\
 \hline
-TU29 \newline TU30 \newline TU31 \newline TU32 & \gls{api} di configurazione\\
+TU29 \newline TU30 \newline TU31 \newline TU32 & \textit{\gls{api}} di configurazione\\
 \hline
 \end{longtable}
 }
 
 
 \section{Considerazioni}
-I test elencati hanno tutti come esito \textbf{"Superato"}, inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori \textit{Windowing} e \textit{AlertCoProcess}, si è deciso di creare dei test per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test sono state sfruttate le funzionalità offerte da Flink relative ai test di unità (\S\ref{sec:flink-testing}) ed il \gls{framework} \textit{ScalaTest} (\S\ref{sec:scala-test}) per quanto riguarda gli operatori citati in precedenza. Per i test relativi alle \gls{api} di governo, è stato utilizzato la funzionalità di \textit{testing} nativa nel linguaggio \textit{Go} (\S\ref{sec:go}).
+I test elencati hanno tutti come esito \textbf{"Superato"}, inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori \textit{Windowing} e \textit{AlertCoProcess}, si è deciso di creare dei test per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test sono state sfruttate le funzionalità offerte da Flink relative ai test di unità (\S\ref{sec:flink-testing}) ed il \textit{\textit{\gls{framework}}} \textit{ScalaTest} (\S\ref{sec:scala-test}) per quanto riguarda gli operatori citati in precedenza. Per i test relativi alle \textit{\gls{api}} di governo, è stato utilizzato la funzionalità di \textit{testing} nativa nel linguaggio \textit{Go} (\S\ref{sec:go}).

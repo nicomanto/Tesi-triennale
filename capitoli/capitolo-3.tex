@@ -11,7 +11,7 @@
 
 
 \section{Casi d'uso}
-Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi \gls{uml}. Tali diagrammi descrivono le funzionalità offerte dal sistema riguardo la configurazione del flusso di \textit{anomaly detection}. Il progetto realizzato, trattando principalmente la parte di gestione relativa al flusso di \textit{anomaly detection} lato \textit{server}, non tratta la totalità delle interazioni che l'utente intraprende con la piattaforma \textit{SYN}, per cui i casi d'uso descritti sono di un numero ristretto e incentrati solo sulla configurazione della finestra temporale e sulla configurazione dei \textit{detector} cui scopo è rilevare una possibile anomalia.
+Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi \textit{\gls{uml}}. Tali diagrammi descrivono le funzionalità offerte dal sistema riguardo la configurazione del flusso di \textit{anomaly detection}. Il progetto realizzato, trattando principalmente la parte di gestione relativa al flusso di \textit{anomaly detection} lato \textit{server}, non tratta la totalità delle interazioni che l'utente intraprende con la piattaforma \textit{SYN}, per cui i casi d'uso descritti sono di un numero ristretto e incentrati solo sulla configurazione della finestra temporale e sulla configurazione dei \textit{detector} cui scopo è rilevare una possibile anomalia.
 
 \begin{figure}[H] 
     \centering 
@@ -170,7 +170,7 @@ ROF13 & Obbligatorio & L'operatore deve poter creare un \textit{output} di tipo 
 \begin{itemize}
 	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
 	\item{\textbf{\textit{events}:} \textit{array} di eventi raggruppati o allineati;}
-	\item{\textbf{\textit{\gls{timestamp}}:} fine della finestra temporale}
+	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} fine della finestra temporale}
 \end{itemize}\\
 \hline
 ROF13.1 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di allineamento, solo se l'\textit{array} degli eventi risultante non è vuoto\\
@@ -181,7 +181,7 @@ ROF13.3 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \te
 \begin{itemize}
 	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
 	\item{\textbf{\textit{events}:} \textit{array} contenente solo l'evento entrante;}
-	\item{\textbf{\textit{\gls{timestamp}}:} \gls{timestamp} dell'evento.}
+	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} \textit{\gls{timestamp}} dell'evento.}
 \end{itemize}\\
 \hline
 ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemnto all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
@@ -256,7 +256,7 @@ ROF21 & Obbligatorio & L'operatore, durante la modifica di una configurazione, d
 \hline
 ROF21.1 & Obbligatorio & L'operatore, durante la modifica di una configurazione, aggiorna i \textit{detector} tramite la configurazione fornita se si tratta di un \textit{LazyLoadDetector}\\
 \hline
-ROF21.2 & Obbligatorio & L'operatore, durante la modifica di una configurazione, scarica i \textit{detector} di tipo \textit{LazyLoadDetector} se essi hanno un modello differente da quello salvato (addestrando l'algoritmo di \gls{Apprendimento automatico}) \\
+ROF21.2 & Obbligatorio & L'operatore, durante la modifica di una configurazione, scarica i \textit{detector} di tipo \textit{LazyLoadDetector} se essi hanno un modello differente da quello salvato (addestrando l'algoritmo di \textit{\gls{Apprendimento automatico}}) \\
 \hline
 ROF21.3 & Obbligatorio & L'operatore, durante la modifica di una configurazione, crea la futura mappa dei \textit{detector} se non è presente il determinato \textit{id} del \textit{detector} passato dalla configurazione\\
 \hline
@@ -307,15 +307,15 @@ RDV2 & Desiderabile & L'operatore deve essere testato per garantire la correttez
 \textbf{Descrizione}\\
 \endhead
 \hline
-ROF24 & Obbligatorio & La configurazione fornita dall'\gls{api} deve rispecchiare la configurazione attesa dagli operatori\\
+ROF24 & Obbligatorio & La configurazione fornita dall'\textit{\gls{api}} deve rispecchiare la configurazione attesa dagli operatori\\
 \hline
-ROF24.1 & Obbligatorio & La configurazione fornita dall'\gls{api}, riguardo all'operatore \textit{Windowing}, deve contenere una mappa \textit{assetFilters} dove per chiave è presente l'\textit{id} del gruppo e come valore i filtri applicati ad esso\\
+ROF24.1 & Obbligatorio & La configurazione fornita dall'\textit{\gls{api}}, riguardo all'operatore \textit{Windowing}, deve contenere una mappa \textit{assetFilters} dove per chiave è presente l'\textit{id} del gruppo e come valore i filtri applicati ad esso\\
 \hline
-ROF24.2 & Obbligatorio & La configurazione fornita dall'\gls{api}, riguardo all'operatore \textit{AlertCoProcess}, deve contenere un \textit{array} di \textit{detectors}, i quali devono contenere \textit{assetFilters} corrispondenti alla configurazione fornita all'operatore \textit{Windowing}\\
+ROF24.2 & Obbligatorio & La configurazione fornita dall'\textit{\gls{api}}, riguardo all'operatore \textit{AlertCoProcess}, deve contenere un \textit{array} di \textit{detectors}, i quali devono contenere \textit{assetFilters} corrispondenti alla configurazione fornita all'operatore \textit{Windowing}\\
 \hline
 ROF25 & Obbligatorio & La configurazione relativa all'operatore \textit{Windowing}, per ogni gruppo contenuto all'interno della mappa \textit{assetFilters}, deve avere il relativo valore contenente un \textit{id} eguale alla chiave della mappa\\
 \hline
-ROF26 & Obbligatorio & Durante la creazione di un nuovo gruppo tramite la configurazione data dall'utente, l'\gls{api} deve sostituire l'\textit{id} del gruppo dato, sia nel parametro \textit{windowing.AssetFilters}, che nel parametro \textit{detectors}, con un \textit{id} creato dall'\gls{api} stessa\\
+ROF26 & Obbligatorio & Durante la creazione di un nuovo gruppo tramite la configurazione data dall'utente, l'\textit{\gls{api}} deve sostituire l'\textit{id} del gruppo dato, sia nel parametro \textit{windowing.AssetFilters}, che nel parametro \textit{detectors}, con un \textit{id} creato dall'\textit{\gls{api}} stessa\\
 \hline
 ROF27 & Obbligatorio & Durante la modifica di una configurazione precedente, i gruppi presenti all'interno della nuova configurazione e preesistenti nella precedente configurazione, devono mantenere lo stesso tipo di valore\\
 \hline
@@ -332,15 +332,15 @@ ROF27 & Obbligatorio & Durante la modifica di una configurazione precedente, i g
 \textbf{Descrizione}\\
 \endhead
 \hline
-ROV6 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia stata fornita una configurazione erronea\\
+ROV6 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia stata fornita una configurazione erronea\\
 \hline
-ROV6.1 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia stata fornito una coppia chiave-valore all'interno del parametro \textit{windowing} cui \textit{valore} non contiene un \textit{id} eguale alla chiave\\
+ROV6.1 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia stata fornito una coppia chiave-valore all'interno del parametro \textit{windowing} cui \textit{valore} non contiene un \textit{id} eguale alla chiave\\
 \hline
-ROV6.2 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso siano stati forniti, all'interno della configurazione, parametri di \textit{windowing} e \textit{detectors} che non contengono i medesimi gruppi\\
+ROV6.2 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso siano stati forniti, all'interno della configurazione, parametri di \textit{windowing} e \textit{detectors} che non contengono i medesimi gruppi\\
 \hline
-ROV6.3 & Obbligatorio & L'\gls{api} deve fornire un messaggio d'errore all'utente nel caso sia fornito una configurazione contenente gruppi preesistenti nella configurazione precedente, ma con differente lista di valori\\
+ROV6.3 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia fornito una configurazione contenente gruppi preesistenti nella configurazione precedente, ma con differente lista di valori\\
 \hline
-RDV3 & Desiderabile & L'\gls{api} deve essere testata per garantire la correttezza della sua operatività\\
+RDV3 & Desiderabile & L'\textit{\gls{api}} deve essere testata per garantire la correttezza della sua operatività\\
 \hline
 \end{longtable}
 }
@@ -362,7 +362,7 @@ ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \n
 \hline
 ROF17 \newline ROF17.1 \newline ROF17.2 \newline ROF18 \newline ROF18.1 \newline ROF18.2 \newline ROF19 \newline ROF20 \newline ROF21 \newline ROF21.1 \newline ROF21.2 \newline ROF21.3 \newline ROF21.4 \newline ROF22 \newline ROF23 \newline ROV5 \newline ROV5.1 \newline ROV5.2 \newline ROV5.3 \newline ROV5.4 \newline ROV5.5 \newline RDV2 & Operatore \textit{AlertCoProcess} \\
 \hline
-ROF24 \newline ROF24.1 \newline ROF24.2 \newline ROF25 \newline ROF26 \newline ROF27 \newline ROV6 \newline ROV6.1 \newline ROV6.2 \newline ROV6.3 \newline RDV3 & \gls{api} di configurazione \\
+ROF24 \newline ROF24.1 \newline ROF24.2 \newline ROF25 \newline ROF26 \newline ROF27 \newline ROV6 \newline ROV6.1 \newline ROV6.2 \newline ROV6.3 \newline RDV3 & \textit{\gls{api}} di configurazione \\
 \hline
 \end{longtable}
 }
