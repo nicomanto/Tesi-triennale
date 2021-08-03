@@ -10,6 +10,20 @@
 \intro{Il capitolo contiene la rappresentazione dei casi d'uso per l'inserimento dei dati relativi alla configurazione del flusso di \textit{anomaly detection} e l'analisi dei requisiti effettuata per la realizzazione delle nuove funzionalità all'interno dell'applicativo \textit{SYN}. Il capitolo è strutturato suddividendo i requisiti in aree di sviluppo (operatori e API), questo per garantire un'analisi di essi più mirata.}\\
 
 
+\section{Classificazione dei casi d'uso}
+I casi d'uso individuati sono identificati secondo la seguente codifica:
+\begin{center}
+\textbf{UC[CodicePadre].\{CodiceFiglio\}}\\
+\end{center}
+dove:
+
+
+\begin{itemize}
+\item \textbf{CodicePadre}: rappresenta il codice di un caso d'uso generico;
+\item \textbf{CodiceFiglio} (opzionale): rappresenta il codice di un sotto caso di un caso d'uso.
+\end{itemize}
+
+
 \section{Casi d'uso}
 Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi \textit{\gls{uml}}. Tali diagrammi descrivono le funzionalità offerte dal sistema riguardo la configurazione del flusso di \textit{anomaly detection}. Il progetto realizzato, trattando principalmente la parte di gestione relativa al flusso di \textit{anomaly detection} lato \textit{server}, non tratta la totalità delle interazioni che l'utente intraprende con la piattaforma \textit{SYN}, per cui i casi d'uso descritti sono di un numero ristretto e incentrati solo sulla configurazione della finestra temporale e sulla configurazione dei \textit{detector} cui scopo è rilevare una possibile anomalia.
 
@@ -75,7 +89,7 @@ dove:
 \item \textbf{V (Vincolo)}: descrive i vincoli che l'applicativo è tenuto a rispettare.
 \end{itemize}}
 \item \textbf{CodicePadre}: rappresenta il codice di un requisito generico;
-\item \textbf{CodiceFiglio} (opzionale): rappresenta il codice di un sotto caso di requisito;
+\item \textbf{CodiceFiglio} (opzionale): rappresenta il codice di un sotto caso di requisito.
 \end{itemize}
 
 
