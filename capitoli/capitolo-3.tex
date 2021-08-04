@@ -105,13 +105,11 @@ dove:
 \endhead
 \hline
 
-ROF1 & Obbligatorio & L'operatore deve garantire un'\textit{output} informativo che possa trattare un'\textit{asset} singolo\\
+ROF1 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un \textit{asset} singolo\\
 \hline
-ROF2 & Obbligatorio & L'operatore deve garantire un'\textit{output} informativo che possa trattare un agglomerato di \textit{asset}\\
+ROF2 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un agglomerato di \textit{asset}\\
 \hline
-ROF2.1 & Obbligatorio & L'operatore deve garantire un'\textit{output} informativo che possa trattare un agglomerato di \textit{asset} suddivisi per categoria\\
-\hline
-ROF2.2 & Obbligatorio & L'operatore deve garantire un'\textit{output} informativo che possa trattare un agglomerato di \textit{asset} suddivisa per un gruppo definito dall'utente\\
+ROF2.1 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un agglomerato di \textit{asset} suddivisa per un gruppo definito dall'utente\\
 \hline
 \end{longtable}
 }
@@ -148,7 +146,7 @@ ROV1 & Obbligatorio & L'operatore deve garantire un unico tipo di \textit{output
 \endhead
 \hline
 
-ROF3 & Obbligatorio & L'operatore deve garantire il l'aggregazione di \textit{asset} su se stessi\\
+ROF3 & Obbligatorio & L'operatore deve garantire l'aggregazione di \textit{asset} su se stessi\\
 \hline
 ROF4 & Obbligatorio & L'operatore deve garantire il raggruppamento di \textit{asset} diversi fra di loro\\
 \hline
@@ -156,9 +154,9 @@ ROF4.1 & Obbligatorio & L'operatore deve garantire l'aggregazione di \textit{ass
 \hline
 ROF4.2 & Obbligatorio & L'operatore deve garantire l'allineamento di \textit{asset} diversi fra di loro\\
 \hline
-ROF5 & Obbligatorio & L'operatore deve garantire la creazione di un \textit{output} informativo che rappresenti un'aggregazione su se stessi degli \textit{asset}\\
+ROF5 & Obbligatorio & L'operatore deve garantire la creazione di un \textit{output} informativo che rappresenti un'aggregazione degli \textit{asset} su se stessi\\
 \hline
-ROF6 & Obbligatorio & L'operatore deve garantire la creazione di un \textit{output} informativo che rappresenti un raggruppamento di \textit{asset}\\
+ROF6 & Obbligatorio & L'operatore deve garantire la creazione di un \textit{output} informativo che rappresenti un raggruppamento di \textit{asset} differenti\\
 \hline
 ROF6.1 & Obbligatorio & L'operatore deve garantire la creazione di un \textit{output} informativo che rappresenti un'aggregazione di \textit{asset} differenti fra di loro\\
 \hline
@@ -174,7 +172,7 @@ ROF8.2 & Obbligatorio & L'operatore deve scartare eventi in anticipo se essi non
 \hline
 ROF9 & Obbligatorio & L'operatore deve gestire l'inizio e la fine della prima finestra temporale in base al primo evento ricevuto\\
 \hline
-ROF10 & Obbligatorio & L'operatore deve collezionare gli eventi relativi alla configurazione in un output diversi se questi non sono di tipo "\textit{update}" o "\textit{delete}"\\
+ROF10 & Obbligatorio & L'operatore deve collezionare gli eventi relativi alla configurazione in un \textit{output} diverso se questi non sono di tipo "\textit{update}" o "\textit{delete}"\\
 \hline
 ROF11 & Obbligatorio & L'operatore deve aggiornare la configurazione se questa è diversa da quella precedente o se quella precedente è inesistente\\
 \hline
@@ -184,7 +182,7 @@ ROF13 & Obbligatorio & L'operatore deve poter creare un \textit{output} di tipo 
 \begin{itemize}
 	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
 	\item{\textbf{\textit{events}:} \textit{array} di eventi raggruppati o allineati;}
-	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} fine della finestra temporale}
+	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} fine della finestra temporale.}
 \end{itemize}\\
 \hline
 ROF13.1 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di allineamento, solo se l'\textit{array} degli eventi risultante non è vuoto\\
@@ -198,7 +196,7 @@ ROF13.3 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \te
 	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} \textit{\gls{timestamp}} dell'evento.}
 \end{itemize}\\
 \hline
-ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemnto all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
+ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemento all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
 ROF15 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve poter configurare l'inizio e la fine della futura finestra temporale\\
 \hline
 ROF16 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve rimuovere gli aggregatori che non contengono eventi futuri per la futura finestra temporale\\
@@ -220,7 +218,7 @@ ROV2 & Obbligatorio & L'operatore deve garantire un unico tipo di \textit{output
 \hline
 ROV3 & Obbligatorio & L'operatore deve garantire che nel caso siano presenti errori riguardanti la struttura di eventi entranti, essi vengano scartati senza provocare l'interruzione del programma\\
 \hline
-ROV3.1 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso esso non contengano le informazioni richieste\\
+ROV3.1 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso essi non contengano le informazioni richieste\\
 \hline
 ROV3.2 & Obbligatorio & L'operatore deve scartare gli eventi entranti nel caso sia presente un inizio ed una fine di una finestra temporale inconsistente\\
 \hline
@@ -266,7 +264,7 @@ ROF19 & Obbligatorio & L'operatore deve operare tramite \textit{detector} che ac
 \hline
 ROF20 & Obbligatorio & L'operatore deve supportare la modifica, cancellazione e ispezione della configurazione\\
 \hline
-ROF21 & Obbligatorio & L'operatore, durante la modifica di una configurazione, deve poter aggiornare la configurazione dei \textit{detector} esistenti, definiti tramite l'\textit{id} del d\textit{detector}\\
+ROF21 & Obbligatorio & L'operatore, durante la modifica di una configurazione, deve poter aggiornare la configurazione dei \textit{detector} esistenti, definiti tramite l'\textit{id} del \textit{detector}\\
 \hline
 ROF21.1 & Obbligatorio & L'operatore, durante la modifica di una configurazione, aggiorna i \textit{detector} tramite la configurazione fornita se si tratta di un \textit{LazyLoadDetector}\\
 \hline
@@ -348,7 +346,7 @@ ROF27 & Obbligatorio & Durante la modifica di una configurazione precedente, i g
 \hline
 ROV6 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia stata fornita una configurazione erronea\\
 \hline
-ROV6.1 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia stata fornito una coppia chiave-valore all'interno del parametro \textit{windowing} cui \textit{valore} non contiene un \textit{id} eguale alla chiave\\
+ROV6.1 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso sia stata fornita una coppia chiave-valore all'interno del parametro \textit{windowing} cui \textit{valore} non contiene un \textit{id} eguale alla chiave\\
 \hline
 ROV6.2 & Obbligatorio & L'\textit{\gls{api}} deve fornire un messaggio d'errore all'utente nel caso siano stati forniti, all'interno della configurazione, parametri di \textit{windowing} e \textit{detectors} che non contengono i medesimi gruppi\\
 \hline
@@ -370,7 +368,7 @@ RDV3 & Desiderabile & L'\textit{\gls{api}} deve essere testata per garantire la 
 \endhead
 \hline
 
-ROF1 \newline ROF2 \newline ROF2.1 \newline ROF2.2 \newline ROV1 & Operatore \textit{Bumblebee} \\
+ROF1 \newline ROF2 \newline ROF2.1 \newline ROV1 & Operatore \textit{Bumblebee} \\
 \hline
 ROF3\newline ROF4 \newline ROF4.1 \newline ROF4.2 \newline ROF5 \newline ROF6 \newline ROF6.1 \newline ROF6.2 \newline ROF7 \newline ROF8 \newline ROF8.2 \newline ROF9 \newline ROF10 \newline ROF11 \newline ROF12 \newline ROF13 \newline ROF13.1 \newline ROF13.2 \newline ROF13.3 \newline ROF14 \newline ROF15 \newline ROF16 \newline ROV2 \newline ROV3 \newline ROV3.1 \newline ROV3.2 \newline ROV3.3 \newline ROV4 \newline ROV4.1 \newline ROV4.2 \newline RDV1 & Operatore \textit{Windowing} \\
 \hline
