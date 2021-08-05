@@ -10,10 +10,10 @@
 \intro{Tale capitolo descrive in dettaglio la struttura del progetto, la progettazione e codifica delle nuove funzionalità, nonchè l'integrazione di esse con la struttura preesistente. La fase di progettazione e codifica non sono intese come attività prettamente distinte, infatti alcune analisi effettuate durante la progettazione iniziale antecedente alla codifica sono risultate non sufficienti a coprire numerose casistiche sorte durante lo sviluppo effettivo, per cui è stato necessario una riprogettazione mirata a risolvere le problematiche sorte.}
 
 \section{Adattamento degli operatori preesistenti}
-Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti subito dei problemi relativi all'adattabilità degli operatori preesistenti con la nuove funzionalità create. Tali problematiche di adattabilità si possono riassumere in micro-aree:
+Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti subito dei problemi relativi all'adattabilità degli operatori preesistenti con le nuove funzionalità create. Tali problematiche di adattabilità si possono riassumere in micro-aree:
 
 \begin{itemize}
-	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti da informazioni necessarie per il loro processamento;}
+	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti con informazioni necessarie per il loro processamento;}
 	\item{adattabilità dell'\textbf{operatore \textit{Windowing}} che ora non deve solo trattare aggregazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
 	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse.}
 \end{itemize}
@@ -38,7 +38,7 @@ Per permettere la rappresentazione di gruppi di risorse differenti, viene cambia
   "data": //payload dei dati dell'evento trasformati in formato JSON,
   "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di BumblebeeOutput", in formato Option[String],
+  "type": //tipo di BumblebeeOutput, in formato Option[String],
   "srcID": //id della fonte dell'evento in formato String
 }
 \end{minted}
@@ -61,7 +61,7 @@ Dopo l'opportuna modifica, la struttura rappresentate il \textbf{\textit{Bumbleb
   "data": //payload dei dati dell'evento trasformati in formato JSON,
   "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di BumblebeeOutput", in formato Option[String],
+  "type": //tipo di BumblebeeOutput, in formato Option[String],
   "srcID": //id della fonte dell'evento in formato String
 }
 \end{minted}
@@ -178,7 +178,7 @@ Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata con
 %**************************************************************
 \section{Operatore AlertCoProcess}
 L'operatore \textbf{\textit{AlertCoProcess}} è colui che si occupa di sollevare segnalazioni nel caso sia presente un'anomalia riguardo l'evento entrante di tipo \textit{GroupedEvents} (\S\ref{sec:ge}). Dapprima l'\textit{AlertCoProcess} lavorava solo su un tipo di evento legato ad una risorsa singola, mappando l'\textit{id} del \textit{detector} ad un'altra mappa dove la chiave è rappresentata dall'\textit{id} della risorsa e il valore è rappresentato dal vero e proprio \textit{detector}.\\
-Ora, invece, la struttura è basata sull'\textit{id} del gruppo, per cui è stata creata un'ulteriore mappa fra \textit{id} del gruppo e \textit{id} del \textit{detector}, inoltre la chiave della mappa interna non è più rappresentata da un'\textit{id} della risorsa, ma da un \textit{id} del soggetto dopo la modifica di \textit{Bumblebee} (\S\ref{sec:bbout}).\\
+Ora, invece, la struttura è basata sull'\textit{id} del gruppo, per cui è stata creata un'ulteriore mappa fra \textit{id} del gruppo e \textit{id} del \textit{detector}, inoltre la chiave della mappa interna non è più rappresentata da un \textit{id} della risorsa, ma da un \textit{id} del soggetto dopo la modifica di \textit{Bumblebee} (\S\ref{sec:bbout}).\\
 L'operatore \textit{AlertCoProcess} è una \textbf{\textit{KeyedCoProcessFunction}}, così definita:
 \begin{minted}{scala}
 class AlertCoProcess (inspectionTag: OutputTag[MongoInsertDocument]) extends KeyedCoProcessFunction[String, GroupedEvents, AnomalyStepConfigurationCommand, (String, BumblebeeOutput)] {
