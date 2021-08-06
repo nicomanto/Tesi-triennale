@@ -15,10 +15,10 @@ I test realizzati sono \textbf{\textit{test di unità}} e sono codificati come s
 \begin{center}
 \textbf{TU[Codice]}\\
 \end{center}
-dove \textbf{Codice} identifica un numero incrementale che distingue i vari test
+dove \textbf{Codice} identifica un numero incrementale che distingue i vari test.
 
 \section{Operatore Windowing}
-Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{Windowing} rispetto ai requisiti prefissati
+Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{Windowing} rispetto ai requisiti prefissati.
 
 {
 \centering
@@ -34,7 +34,7 @@ TU1 & L'operatore non deve aggiornare la propria configurazione se essa è egual
 \hline
 TU2 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una lunghezza dell'\textit{array DataFields} differente rispetto a quella nuova & Superato \\
 \hline
-TU3 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{id} del gruppo all'interno del campo \textit{assetFilters} mancante nella nuova configurazione & Superato\\
+TU3 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{id} del gruppo, all'interno del campo \textit{assetFilters}, mancante nella nuova configurazione & Superato\\
 \hline
 TU4 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{DataField} non più presente in quella nuova & Superato \\
 \hline
@@ -50,7 +50,7 @@ TU9 & L'operatore configurato con la modalità \textit{barrier} crea correttamen
 \hline
 TU10 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi escludendo \textit{asset} che non contengono alcun \textit{DataField} & Superato \\
 \hline
-TU11 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi i quali mantengono i rispettivi dati che non devono essere aggregati. Inoltre gli eventi che non contenevano un determinato dato su cui andava fatta l'aggregazione, non contengono quel determinato parametro settato con un valore di \textit{default} & Superato \\
+TU11 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents}, allineando eventi aggregati su se stessi, i quali mantengono i rispettivi dati che non devono essere aggregati. Inoltre gli eventi che non contenevano un determinato dato da aggregare, risultano non avere tale parametro settato con un valore di \textit{default} & Superato \\
 \hline
 TU12 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato correttamente su se stesso secondo la modalità "\textit{somma}" & Superato \\
 \hline
@@ -66,11 +66,11 @@ TU17 & L'operatore configurato con la modalità \textit{barrier} colleziona corr
 \hline
 TU18 & L'operatore configurato con la modalità \textit{barrier} gestisce correttamente la chiusura di tre finestre temporali & Superato \\
 \hline
-TU19 & L'operatore configurato con la modalità \textit{aggregatormean} non colleziona il \textit{GroupedEvents} poichè almeno un elemento durante l'aggregazione collettiva di \textit{asset} differenti non conteneva un particolare \textit{DataField} richiesto per l'aggregazione stessa & Superato \\
+TU19 & L'operatore configurato con la modalità \textit{aggregation\_mean} non colleziona il \textit{GroupedEvents} poichè almeno un elemento durante l'aggregazione collettiva di \textit{asset} differenti non conteneva un particolare \textit{DataField} richiesto per l'aggregazione stessa & Superato \\
 \hline
-TU20 & L'operatore configurato con la modalità \textit{aggregatorsum} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+TU20 & L'operatore configurato con la modalità \textit{aggregation\_sum} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
 \hline
-TU21 & L'operatore configurato con la modalità \textit{aggregatormean} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+TU21 & L'operatore configurato con la modalità \textit{aggregation\_mean} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
 \hline
 TU22 & L'operatore configurato con una modalità non prevista non crea nessun \textit{GroupedEvents} & Superato \\
 \hline
@@ -151,4 +151,5 @@ TU29 \newline TU30 \newline TU31 \newline TU32 & \textit{\gls{api}} di configura
 
 
 \section{Considerazioni}
-I test elencati hanno tutti come esito \textbf{"Superato"}, inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori \textit{Windowing} e \textit{AlertCoProcess}, si è deciso di creare dei test per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test sono state sfruttate le funzionalità offerte da Flink relative ai test di unità (\S\ref{sec:flink-testing}) ed il \textit{\textit{\gls{framework}}} \textit{ScalaTest} (\S\ref{sec:scala-test}) per quanto riguarda gli operatori citati in precedenza. Per i test relativi alle \textit{\gls{api}} di governo, è stato utilizzato la funzionalità di \textit{testing} nativa nel linguaggio \textit{Go} (\S\ref{sec:go}).
+I test elencati hanno tutti come esito \textbf{"Superato"}. Inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori \textit{Windowing} e \textit{AlertCoProcess}, sono stati creati test specifici per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test relativi agli operatori citati in precedenza, vengono sfruttate le funzionalità offerte da \textit{Flink} relative ai test di unità (\S\ref{sec:flink-testing}) ed il \textit{\textit{\gls{framework}}} \textit{ScalaTest} (\S\ref{sec:scala-test}).\\
+Per i test relativi alle \textit{\gls{api}} di governo, viene sfruttata la funzionalità di \textit{testing} nativa nel linguaggio \textit{Go} (\S\ref{sec:go}).
