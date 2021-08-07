@@ -41,10 +41,10 @@ Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi 
 \usecasescenprinc{La finestra visualizzata mette a disposizione una \textit{form} per la compilazione dei campi necessari per la configurazione della componente di \textit{anomaly detection} (\textbf{UC1})}
 \usecasealt{La finestra visualizza un messaggio d'errore se i valori inseriti non sono conformi alle attese (\textbf{UC2}), nello specifico vengono visualizzati i seguenti errori:
 \begin{itemize}
-	\item{La configurazione della \textit{window} non è consistente perchè è presente un gruppo che al suo interno contiene filtri con un \textit{id} non corrispondente a tale gruppo (\textbf{UC3});}
-	\item{La configurazione non contiene tutti i \textit{detector} necessari per i gruppi assegnati alla \textit{window} (\textbf{UC4});}
-	\item{A parità di gruppo nella nuova configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC5});}
-	\item{A parità di gruppo rispetto la vecchia configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC6}).}
+	\item{la configurazione della \textit{window} non è consistente perchè è presente un gruppo che al suo interno contiene filtri con un \textit{id} non corrispondente a tale gruppo (\textbf{UC3});}
+	\item{la configurazione non contiene tutti i \textit{detector} necessari per i gruppi assegnati alla \textit{window} (\textbf{UC4});}
+	\item{a parità di gruppo nella nuova configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC5});}
+	\item{a parità di gruppo rispetto la vecchia configurazione, all'interno della configurazione della \textit{window} e dei \textit{detector}, i filtri risultano essere differenti (\textbf{UC6}).}
 \end{itemize}}
 \label{uc:scenario-principale}
 \end{usecase}
@@ -94,6 +94,7 @@ dove:
 
 
 \section{Requisiti operatore Bumblebee}
+Tale sezione elenca i requisiti Funzionali e di Vincolo individuati per l'operatore \textit{Bumblebee}.
 \subsection{Requisiti Funzionali}
 {
 \centering
@@ -109,7 +110,7 @@ ROF1 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo 
 \hline
 ROF2 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un agglomerato di \textit{asset}\\
 \hline
-ROF2.1 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un agglomerato di \textit{asset} suddivisa per un gruppo definito dall'utente\\
+ROF2.1 & Obbligatorio & L'operatore deve garantire un \textit{output} informativo che possa trattare un agglomerato di \textit{asset} suddivisi per un gruppo definito dall'utente\\
 \hline
 \end{longtable}
 }
@@ -135,6 +136,7 @@ ROV1 & Obbligatorio & L'operatore deve garantire un unico tipo di \textit{output
 
 
 \section{Requisiti operatore Windowing}
+Tale sezione elenca i requisiti Funzionali e di Vincolo individuati per l'operatore \textit{Windowing}.
 \subsection{Requisiti Funzionali}
 {
 \centering
@@ -197,6 +199,7 @@ ROF13.3 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \te
 \end{itemize}\\
 \hline
 ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemento all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
+\hline
 ROF15 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve poter configurare l'inizio e la fine della futura finestra temporale\\
 \hline
 ROF16 & Obbligatorio & L'operatore, dopo la fine di una finestra temporale, deve rimuovere gli aggregatori che non contengono eventi futuri per la futura finestra temporale\\
@@ -238,6 +241,7 @@ RDV1 & Desiderabile & L'operatore deve essere testato per garantire la correttez
 
 
 \section{Requisiti operatore AlertCoProcess}
+Tale sezione elenca i requisiti Funzionali e di Vincolo individuati per l'operatore \textit{AlertCoProcess}.
 \subsection{Requisiti Funzionali}
 {
 \centering
@@ -309,6 +313,7 @@ RDV2 & Desiderabile & L'operatore deve essere testato per garantire la correttez
 }
 
 \section{Requisiti API di configurazione}
+Tale sezione elenca i requisiti Funzionali e di Vincolo individuati per le \textit{\gls{api}} di governo relative alla configurazione della componente di \textit{anomaly detection}.
 \subsection{Requisiti Funzionali}
 {
 \centering
