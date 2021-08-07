@@ -9,68 +9,93 @@
 
 \intro{Tale capitolo descrive in dettaglio la struttura del progetto, la progettazione e codifica delle nuove funzionalità, nonchè l'integrazione di esse con la struttura preesistente. La fase di progettazione e codifica non sono intese come attività prettamente distinte, infatti alcune analisi effettuate durante la progettazione iniziale antecedente alla codifica sono risultate non sufficienti a coprire numerose casistiche sorte durante lo sviluppo effettivo, per cui è stato necessario una riprogettazione mirata a risolvere le problematiche sorte.}
 
-\section{Adattamento degli operatori preesistenti}
-Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti subito dei problemi relativi all'adattabilità degli operatori preesistenti con le nuove funzionalità create. Tali problematiche di adattabilità si possono riassumere in micro-aree:
+%\section{Adattamento degli operatori preesistenti}
+%Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti dei problemi architetturali relativi %all'adattabilità degli operatori preesistenti con le nuove funzionalità create. Tali problematiche di adattabilità si possono %riassumere in micro-aree:
+
+%\begin{itemize}
+%	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} %definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti %con informazioni necessarie per il loro processamento;}
+%	\item{adattabilità dell'\textbf{operatore \textit{Windowing}} che ora non deve solo trattare aggregazione di eventi ricevuti %dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere %all'operatore \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
+%	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di %eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia %relativa ad un gruppo di risorse.}
+%\end{itemize}
+	
+%Nello specifico si va ad analizzare le soluzioni proposte, nonchè la codifica effettiva, riguardo i problemi architetturali appena %descritti.
+
+%**************************************************************
+
+\section{Architettura componente anomaly detection}
+L'architettura rappresentate la componente di \textit{anomaly detection} è descritta tramite un \gls{diagramma delle classi}, il quale espone le seguenti strutture dati:
+\begin{itemize}
+	\item{\textbf{\textit{GroupedEvents}:} classe rappresentate i dati aggregati per uno specifico gruppo (\S\ref{sec:ge});}
+	\item{\textbf{\textit{BboutAggregator}:} classe che si occupa di aggregare/allineare gli \textit{asset} entranti nella finestra temporale (\S\ref{sec:aggregator});}
+	\item{\textbf{\textit{Windowing}:} classe rappresentate l'operatore che gestisce l'aggregazione dei dati su una finestra temporale (\S\ref{sec:windowing});}
+	\item{\textbf{\textit{AlertCoProcess}:} classe rappresentate l'operatore che si occupa del rilevamento di anomalie (\S\ref{sec:alertcoprocess});}
+	\item{\textbf{\textit{KeyedCoProcess}:} classe astratta offerta da \textit{Flink}, da cui ereditano i due operatori citati precedentemente.}
+\end{itemize}
+All'interno del diagramma, per semplicità, vengono citate ma non descritte tutte le strutture dati con cui le classi operano, questo perchè tali strutture non risultano modificate durante la realizzazione del progetto e mantengono le funzionalità preesistenti. Inoltre la classe \textit{BumblebeeOutput} viene omessa perchè rappresenta semplicemente la struttura di un evento entrante descritto nella sezione \S\ref{sec:bbout}.
+Di seguito la rappresentazione del diagramma appena descritto.
+
+\newpage
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=1\columnwidth]{diagrammaClassi/anomaly_detection} 
+    \caption{Diagramma delle classi componente \textit{anomaly detection}}
+\end{figure}
+
+\section{Classe GroupedEvents}\label{sec:ge}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.4\columnwidth]{diagrammaClassi/groupedEventsClass} 
+    \caption{Classe \textit{GroupedEvents}}
+\end{figure}
+La classe rappresentate un gruppo di \textit{asset} raggruppati è denominata \textit{GroupedEvents}. Dapprima tale struttura rappresentava solo una \textbf{risorsa singola}, ora invece tratta un \textbf{gruppo}, il quale è identificato da:
+\begin{itemize}
+	\item{\textbf{\textit{groupID}:} \textit{id} identificativo del gruppo;}
+	\item{\textbf{\textit{ts}:} \textit{\gls{timestamp}} dell'evento raggruppato;}
+	\item{\textbf{\textit{events}:} \textit{array} di risorse di tipo \textit{BumblebeeOutput}.}
+\end{itemize}
+Il \textit{GroupedEvents} può rappresentare logicamente due tipi logici di dato:
+\begin{itemize}
+	\item{\textbf{singolo elemento aggregato:} dove l'\textit{array} degli eventi è formato da un singolo elemento, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva;}
+	\item{\textbf{allineamento:} dove l'\textit{array} degli eventi è formato da \textit{N} elementi, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva.}
+\end{itemize}
+
+\section{Classe BboutAggregator}\label{sec:aggregator}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.7\columnwidth]{diagrammaClassi/bboutAggregatorClass} 
+    \caption{Classe \textit{BboutAggregator}}
+\end{figure}
+\textit{BboutAggregator} è la componente che si occupa di aggregare o allineare gli eventi all'interno della finestra temporale. L'aggregatore in questione è una classe contenente i seguenti parametri:
 
 \begin{itemize}
-	\item{adattabilità della rappresentazione degli eventi tramite l'\textit{output} dell'\textbf{operatore \textit{Bumblebee}} definito come \textbf{\textit{BumblebeeOutput}}, che va a definire la trasformazione degli eventi "grezzi" in eventi arricchiti con informazioni necessarie per il loro processamento;}
-	\item{adattabilità dell'\textbf{operatore \textit{Windowing}} che ora non deve solo trattare aggregazione di eventi ricevuti dallo stesso tipo di risorsa, ma deve gestire l'aggregazione e/o l'allineamento anche di risorse di tipo differente per permettere all'operatore \textit{AlertCoProcess} di eseguire un controllo a livello di insieme relativo a risorse differenti;}
-	\item{adattabilità dell'\textbf{operatore \textit{AlertCoProcess}} per permettere ad esso di gestire e di controllare gruppi di eventi derivanti da risorse non più eguali fra di loro. Quindi di gestire il controllo relativo alla presenza di una anomalia relativa ad un gruppo di risorse.}
+	\item{\textbf{\textit{selfAggregatorMode}:} definisce il tipo di aggregazione che verrà fatto sugli \textit{asset} equivalenti fra di loro;}
+	\item{\textbf{\textit{groupAccumulatorMode}:} definisce il tipo di aggregazione che verrà eseguito su \textit{asset} all'interno dello stesso gruppo;}
+	\item{\textbf{\textit{acc}:} struttura che gestisce la mappatura fra un particolare \textit{asset} con una mappa che per chiave ha il nome di uno specifico parametro su cui si vuole andare a fare l'aggregazione e per valore ha la lista dei valori di quel parametro visti fino a quel determinato momento;}
+	\item{\textbf{\textit{dataFields}:} \textit{array} contente i parametri degli eventi su cui si vuole fare l'aggregazione, decisi all'interno della \textbf{configurazione della \textit{window}};}
+	\item{\textbf{\textit{ctxDataFields}:} \textit{array} contente i parametri del contesto degli eventi su cui si vuole fare l'aggregazione, decisi all'interno della \textbf{configurazione della \textit{window}}}
 \end{itemize}
-	
-Nello specifico si va ad analizzare le modifiche adottate riguardo le tre micro-aree descritte precedentemente.
+
+I metodi principali che gestiscono l'aggregazione a livello di \textbf{\textit{asset}} e a livello di \textbf{gruppo} sono:
+
+\begin{itemize}
+	\item{\textbf{\textit{add}:} tale metodo si occupa di salvare i valori dei parametri relativi agli \textit{asset} entranti nell'operatore \textit{Windowing}, dove tali parametri sono la concatenazione di \textit{dataFields} e \textit{ctxDataFields}. Per cui ad ogni chiamata di tale metodo verrà passato un particolare evento di tipo \textit{BumblebeeOutput}, tramite l'\textit{id} dell'evento viene estratta la mappa corrispondente ai parametri di \textit{dataFields} e \textit{ctxDataFields} e verrà aggiunto il valore del determinato parametro alla \textbf{lista dei valori} se esso è contenuto all'interno dell'evento.\\
+Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata contenente la lista dei valori arricchita del nuovo valore, se trovato;}
+	\item{\textbf{\textit{selfAggregate}:} tale metodo si occupa della vera e propria aggregazione degli \textit{asset} \textbf{su se stessi}, cioè per ogni \textit{asset} all'interno della mappa \textit{acc} (dove l'\textit{asset} è la chiave stessa) verranno aggregati i valori contenuti nel parametro \textit{dataFields} e \textit{ctxDataFields} secondo il metodo di aggregazione definito da \textit{selfAggregatorMode}.\\
+	Se un determinato parametro ha la lista dei rispettivi valori minore o uguale a zero, vuol dire che esso non è appartenuto allo specifico \textit{BumblebeeOutput} che si sta aggregando, perciò tale parametro \textbf{non} verrà aggiunto con un valore di default durante l'aggregazione.\\
+	Come tipo di ritorno tale metodo ritornerà un \textit{array} di \textit{BumbleebeeOutput} dove ogni \textit{asset} avrà i parametri interni a \textit{dataFields} e \textit{ctxDataFields} aggregati secondo il metodo definito e i parametri non interni ai due \textit{array} appena citati valorizzati con l'ultimo elemento visto di quel parametro. Se un determinato \textbf{asset} non contiene nessuno \textit{dataField}, non viene aggiunto all'\textit{array} ritornato;}
+	\item{\textbf{\textit{groupAggregateDataFields}:} tale metodo si occupa di aggregare i parametri all'interno di \textit{asset} diversi fra di loro aggregati precedentemente su se stessi tramite il metodo \textit{selfAggregate}. Per ogni parametro contenuto nell'\textit{array} all'interno di \textit{dataFields} viene fatta l'aggregazione dei valori di quel determinato parametro all'interno dei \textit{BumblebeeOutput} ritornati dal metodo \textit{selfAggregate}. Il metodo ritorna un \textit{\gls{json}} contenente l'aggregazione dei parametri contenuti in \textit{dataFields} secondo il metodo definito in \textit{groupAccumulatorMode}. Se un determinato parametro non è contenuto in almeno un \textit{BumblebeeOutput}, viene ritornato un \textit{\gls{json}} vuoto, per permettere all'operatore di \textit{Windowing} di poter saltare la collezione del \textit{groupedEvents} che verrebbe creato.}
+\end{itemize}
+  
+
 
 %**************************************************************
 
-\section{Operatore Bumblebee}\label{sec:bbout}
-Per permettere la rappresentazione di gruppi di risorse differenti, viene cambiata la struttura dell'\textit{output} dell'operatore \textbf{\textit{Bumblebee}}, rappresentato inizialmente in un formato \textit{\gls{json}} così formato:
-
-\begin{minted}{js}
-{
-  "id": // id dell'evento, generato o trasformato dall'evento originale, in formato String,
-  "pipeID": // id della pipeline, in formato String,
-  "pipeVersion": //versione della pipeline, in formato String,
-  "adapterID": //id dell'adattatore, in formato String,
-  "tid": //id del cliente, in formato String,
-  "assetID": //id della risorsa, in formato String,
-  "ts": //timestamp dell'evento, in formato String,
-  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
-  "data": //payload dei dati dell'evento trasformati in formato JSON,
-  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
-  "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di BumblebeeOutput, in formato Option[String],
-  "srcID": //id della fonte dell'evento in formato String
-}
-\end{minted}
-
-Dopo l'opportuna modifica, la struttura rappresentate il \textbf{\textit{BumblebeeOutput}} risulta la seguente:
-
-\begin{minted}{js}
-{
-  "id": // id dell'evento, generato o trasformato dall'evento originale, in formato String,
-  "pipeID": // id della pipeline, in formato String,
-  "pipeVersion": //versione della pipeline, in formato String,
-  "adapterID": //id dell'adattatore, in formato String,
-  "tid": //id del cliente, in formato String,
-  "subject": {
-	  "id": //id dell'oggetto, in formato String,
-	  "type": //tipo dell'oggetto rapresentanto (asset,category,group), in formato String
-  }
-  "ts": //timestamp dell'evento, in formato String,
-  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
-  "data": //payload dei dati dell'evento trasformati in formato JSON,
-  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
-  "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
-  "type": //tipo di BumblebeeOutput, in formato Option[String],
-  "srcID": //id della fonte dell'evento in formato String
-}
-\end{minted}
-dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Per cui l'\textit{output} sarà adattato ad un \textbf{soggetto} generale, rappresentato da un proprio \textbf{\textit{id}} e da un suo \textbf{tipo}.
-Tale struttura finale garantisce un corretto processamento del dato nel caso in cui si tratti di una risorsa singola oppure di un raggruppamento di quest'ultime.
-
-%**************************************************************
-
-\section{Operatore Windowing}
+\section{Operatore Windowing}\label{sec:windowing}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.9\columnwidth]{diagrammaClassi/windowingClass} 
+    \caption{Classe \textit{Windowing}}
+\end{figure}
 L'\textbf{operatore \textit{Windowing}} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textbf{risorsa} su se stessa, cioè \textbf{sommando} o \textbf{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare e/o aggregare fra di loro risorse di tipo differente, per permettere un processamento dei dati a livello collettivo. Per definire il comportamento della finestra temporale, è necessaria un'apposita \textbf{configurazione} che sarà iniettata durante l'elaborazione attiva dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
 L'operatore \textit{Windowing} è una \textbf{\textit{KeyedCoProcessFunction}}, così definita:
 \begin{minted}{scala}
@@ -143,40 +168,17 @@ Il metodo \textbf{\textit{onTimer}} è colui che gestisce la logica al termine d
 	}
 \end{enumerate}
 
-\subsection{GroupedEvents}\label{sec:ge}
-L'\textit{output} dell'operatore, dapprima rappresentava solo una \textbf{risorsa singola}, ora invece tratterà un \textbf{gruppo}, il quale è identificato da un \textbf{\textit{id}}, da un \textbf{\textit{\gls{timestamp}}} e da un \textbf{\textit{array}} di risorse di tipo \textit{BumblebeeOutput}.\\
-Il \textit{GroupedEvents} può rappresentare logicamente due tipi logici di dato:
-\begin{itemize}
-	\item{\textbf{singolo elemento aggregato:} dove l'\textit{array} degli eventi è formato da un singolo elemento, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva;}
-	\item{\textbf{allineamento:} dove l'\textit{array} degli eventi è formato da \textit{N} elementi, l'\textit{id} del gruppo equivale all'\textit{id} definito dalla configurazione e il \textit{\textit{\gls{timestamp}}} equivale a quello definito durante l'aggregazione effettiva.}
-\end{itemize}
 
-\subsection{Aggregatore}\label{sec:aggregator}
-L'aggregatore è la componente che si occupa di aggregare o allineare gli eventi all'interno della finestra temporale. L'operatore \textit{Windowing}, come spiegato nella sezione \S\ref{sec:stati-windowing} avrà uno stato che mapperà ogni \textit{id} del gruppo al suo specifico aggregatore. L'aggregatore in questione è di tipo \textit{BboutAggregator}, che è una classe contenente i seguenti parametri:
-
-\begin{itemize}
-	\item{\textbf{\textit{selfAggregatorMode}:} definisce il tipo di aggregazione che verrà fatto sugli \textit{asset} equivalenti fra di loro;}
-	\item{\textbf{\textit{groupAccumulatorMode}:} definisce il tipo di aggregazione che verrà eseguito su \textit{asset} all'interno dello stesso gruppo;}
-	\item{\textbf{\textit{acc}:} struttura che gestisce la mappatura fra un particolare \textit{asset} con una mappa che per chiave ha il nome di uno specifico parametro su cui si vuole andare a fare l'aggregazione e per valore ha la lista dei valori di quel parametro visti fino a quel determinato momento;}
-	\item{\textbf{\textit{dataFields}:} \textit{array} contente i parametri degli eventi su cui si vuole fare l'aggregazione, decisi all'interno della \textbf{configurazione della \textit{window}};}
-	\item{\textbf{\textit{ctxDataFields}:} \textit{array} contente i parametri del contesto degli eventi su cui si vuole fare l'aggregazione, decisi all'interno della \textbf{configurazione della \textit{window}}}
-\end{itemize}
-
-I metodi principali che gestiscono l'aggregazione a livello di \textbf{\textit{asset}} e a livello di \textbf{gruppo} sono:
-
-\begin{itemize}
-	\item{\textbf{\textit{add}:} tale metodo si occupa di salvare i valori dei parametri relativi agli \textit{asset} entranti nell'operatore \textit{Windowing}, dove tali parametri sono la concatenazione di \textit{dataFields} e \textit{ctxDataFields}. Per cui ad ogni chiamata di tale metodo verrà passato un particolare evento di tipo \textit{BumblebeeOutput}, tramite l'\textit{id} dell'evento viene estratta la mappa corrispondente ai parametri di \textit{dataFields} e \textit{ctxDataFields} e verrà aggiunto il valore del determinato parametro alla \textbf{lista dei valori} se esso è contenuto all'interno dell'evento.\\
-Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata contenente la lista dei valori arricchita del nuovo valore, se trovato;}
-	\item{\textbf{\textit{selfAggregate}:} tale metodo si occupa della vera e propria aggregazione degli \textit{asset} \textbf{su se stessi}, cioè per ogni \textit{asset} all'interno della mappa \textit{acc} (dove l'\textit{asset} è la chiave stessa) verranno aggregati i valori contenuti nel parametro \textit{dataFields} e \textit{ctxDataFields} secondo il metodo di aggregazione definito da \textit{selfAggregatorMode}.\\
-	Se un determinato parametro ha la lista dei rispettivi valori minore o uguale a zero, vuol dire che esso non è appartenuto allo specifico \textit{BumblebeeOutput} che si sta aggregando, perciò tale parametro \textbf{non} verrà aggiunto con un valore di default durante l'aggregazione.\\
-	Come tipo di ritorno tale metodo ritornerà un \textit{array} di \textit{BumbleebeeOutput} dove ogni \textit{asset} avrà i parametri interni a \textit{dataFields} e \textit{ctxDataFields} aggregati secondo il metodo definito e i parametri non interni ai due \textit{array} appena citati valorizzati con l'ultimo elemento visto di quel parametro. Se un determinato \textbf{asset} non contiene nessuno \textit{dataField}, non viene aggiunto all'\textit{array} ritornato;}
-	\item{\textbf{\textit{groupAggregateDataFields}:} tale metodo si occupa di aggregare i parametri all'interno di \textit{asset} diversi fra di loro aggregati precedentemente su se stessi tramite il metodo \textit{selfAggregate}. Per ogni parametro contenuto nell'\textit{array} all'interno di \textit{dataFields} viene fatta l'aggregazione dei valori di quel determinato parametro all'interno dei \textit{BumblebeeOutput} ritornati dal metodo \textit{selfAggregate}. Il metodo ritorna un \textit{\gls{json}} contenente l'aggregazione dei parametri contenuti in \textit{dataFields} secondo il metodo definito in \textit{groupAccumulatorMode}. Se un determinato parametro non è contenuto in almeno un \textit{BumblebeeOutput}, viene ritornato un \textit{\gls{json}} vuoto, per permettere all'operatore di \textit{Windowing} di poter saltare la collezione del \textit{groupedEvents} che verrebbe creato.}
-\end{itemize}
 
 
 
 %**************************************************************
-\section{Operatore AlertCoProcess}
+\section{Operatore AlertCoProcess}\label{sec:alertcoprocess}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.9\columnwidth]{diagrammaClassi/alertCoProcessClass} 
+    \caption{Classe \textit{AlertCoProcess}}
+\end{figure}
 L'operatore \textbf{\textit{AlertCoProcess}} è colui che si occupa di sollevare segnalazioni nel caso sia presente un'anomalia riguardo l'evento entrante di tipo \textit{GroupedEvents} (\S\ref{sec:ge}). Dapprima l'\textit{AlertCoProcess} lavorava solo su un tipo di evento legato ad una risorsa singola, mappando l'\textit{id} del \textit{detector} ad un'altra mappa dove la chiave è rappresentata dall'\textit{id} della risorsa e il valore è rappresentato dal vero e proprio \textit{detector}.\\
 Ora, invece, la struttura è basata sull'\textit{id} del gruppo, per cui è stata creata un'ulteriore mappa fra \textit{id} del gruppo e \textit{id} del \textit{detector}, inoltre la chiave della mappa interna non è più rappresentata da un \textit{id} della risorsa, ma da un \textit{id} del soggetto dopo la modifica di \textit{Bumblebee} (\S\ref{sec:bbout}).\\
 L'operatore \textit{AlertCoProcess} è una \textbf{\textit{KeyedCoProcessFunction}}, così definita:
@@ -230,6 +232,54 @@ Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{A
 	\item{\textbf{\textit{Crosscorel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico). Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
 	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento su \textit{N} risorse uguali ad essa. Utilizza un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento supervisionato}}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione.}
 \end{itemize}
+
+%**************************************************************
+
+\section{Operatore Bumblebee}\label{sec:bbout}
+Per permettere la rappresentazione di gruppi di risorse differenti su cui ora operano gli operatori \textit{Windowing} e \textit{AlertCoProcess}, viene cambiata la struttura dell'\textit{output} dell'operatore \textbf{\textit{Bumblebee}}, rappresentato inizialmente in un formato \textit{\gls{json}} così formato:
+
+\begin{minted}{js}
+{
+  "id": // id dell'evento, generato o trasformato dall'evento originale, in formato String,
+  "pipeID": // id della pipeline, in formato String,
+  "pipeVersion": //versione della pipeline, in formato String,
+  "adapterID": //id dell'adattatore, in formato String,
+  "tid": //id del cliente, in formato String,
+  "assetID": //id della risorsa, in formato String,
+  "ts": //timestamp dell'evento, in formato String,
+  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
+  "data": //payload dei dati dell'evento trasformati in formato JSON,
+  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
+  "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
+  "type": //tipo di BumblebeeOutput, in formato Option[String],
+  "srcID": //id della fonte dell'evento in formato String
+}
+\end{minted}
+
+Dopo l'opportuna modifica, la struttura rappresentate il \textbf{\textit{BumblebeeOutput}} risulta la seguente:
+
+\begin{minted}{js}
+{
+  "id": // id dell'evento, generato o trasformato dall'evento originale, in formato String,
+  "pipeID": // id della pipeline, in formato String,
+  "pipeVersion": //versione della pipeline, in formato String,
+  "adapterID": //id dell'adattatore, in formato String,
+  "tid": //id del cliente, in formato String,
+  "subject": {
+	  "id": //id dell'oggetto, in formato String,
+	  "type": //tipo dell'oggetto rapresentanto (asset,category,group), in formato String
+  }
+  "ts": //timestamp dell'evento, in formato String,
+  "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
+  "data": //payload dei dati dell'evento trasformati in formato JSON,
+  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON,
+  "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta],
+  "type": //tipo di BumblebeeOutput, in formato Option[String],
+  "srcID": //id della fonte dell'evento in formato String
+}
+\end{minted}
+dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Per cui l'\textit{output} sarà adattato ad un \textbf{soggetto} generale, rappresentato da un proprio \textbf{\textit{id}} e da un suo \textbf{tipo}.
+Tale struttura finale garantisce un corretto processamento del dato nel caso in cui si tratti di una risorsa singola oppure di un raggruppamento di quest'ultime.
 
 %**************************************************************
 
