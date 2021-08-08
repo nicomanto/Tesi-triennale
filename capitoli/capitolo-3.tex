@@ -183,8 +183,8 @@ ROF12 & Obbligatorio & L'operatore deve svuotare tutti gli stati se in un evento
 ROF13 & Obbligatorio & L'operatore deve poter creare un \textit{output} di tipo \textit{GroupedEvents} il quale deve essere così formato:
 \begin{itemize}
 	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
-	\item{\textbf{\textit{events}:} \textit{array} di eventi raggruppati o allineati;}
-	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} fine della finestra temporale.}
+	\item{\textbf{\textit{ts}:} \textit{\gls{timestamp}} rappresentante la fine della finestra temporale;}
+	\item{\textbf{\textit{events}:} \textit{array} di eventi raggruppati o allineati.}
 \end{itemize}\\
 \hline
 ROF13.1 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di allineamento, solo se l'\textit{array} degli eventi risultante non è vuoto\\
@@ -194,8 +194,8 @@ ROF13.2 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \te
 ROF13.3 & Obbligatorio & L'operatore deve creare un \textit{output} del tipo \textit{GroupedEvents}, nel caso di evento non raggruppato, così formato:
 \begin{itemize}
 	\item{\textbf{\textit{groupID}:} \textit{id} del gruppo relativo;}
-	\item{\textbf{\textit{events}:} \textit{array} contenente solo l'evento entrante;}
-	\item{\textbf{\textit{\textit{\gls{timestamp}}}:} \textit{\gls{timestamp}} dell'evento.}
+	\item{\textbf{\textit{ts}:} \textit{\gls{timestamp}} rappresentante la fine della finestra temporale;}
+	\item{\textbf{\textit{events}:} \textit{array} contenente solo l'evento entrante.}
 \end{itemize}\\
 \hline
 ROF14 & Obbligatorio & L'operatore, nel caso di aggregazione di \textit{asset} diversi, deve creare un evento riassuntivo di tutti gli eventi aggregati, il quale verrà inserito come unico elemento all'interno dell'\textit{array} del \textit{GroupedEvents} creato\\
