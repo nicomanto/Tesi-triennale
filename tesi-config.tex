@@ -2,8 +2,10 @@
 % file contenente le impostazioni della tesi
 %**************************************************************
 
-
-
+%**************************************************************
+% Impostazione paragraph
+%**************************************************************
+\newcommand{\myParagraph}[1]{\paragraph{#1}\mbox{}\\ \\}
 
 %**************************************************************
 % Frontespizio
@@ -12,7 +14,7 @@
 % Autore
 \newcommand{\myName}{Niccolò Mantovani}
 \newcommand{\myMatr}{1187325}                                   
-\newcommand{\myTitle}{Location digital twin}
+\newcommand{\myTitle}{Componente di controllo per l'elaborazione in tempo reale di flussi di dati aggregati}
 
 % Tipo di tesi                   
 \newcommand{\myDegree}{Tesi di laurea}
@@ -182,6 +184,15 @@ fontsize=\footnotesize,
 breaklines
 }
 
+\setminted[js]{
+framesep=2mm,
+frame=single,
+framesep=10pt,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+breaklines
+}
+
 %**************************************************************
 % Impostazioni di xcolor
 %**************************************************************
@@ -258,9 +269,10 @@ breaklines
 \newcommand{\usecasename}{UC}
 
 \newcommand{\usecaseactors}[1]{\textbf{\\Attori Principali:} #1. \vspace{4pt}}
-\newcommand{\usecasepre}[1]{\textbf{\\Precondizioni:} #1. \vspace{4pt}}
 \newcommand{\usecasedesc}[1]{\textbf{\\Descrizione:} #1. \vspace{4pt}}
+\newcommand{\usecasepre}[1]{\textbf{\\Precondizioni:} #1. \vspace{4pt}}
 \newcommand{\usecasepost}[1]{\textbf{\\Postcondizioni:} #1. \vspace{4pt}}
+\newcommand{\usecasescenprinc}[1]{\textbf{\\Scenario Principale:} #1. \vspace{4pt}}
 \newcommand{\usecasealt}[1]{\textbf{\\Scenario Alternativo:} #1. \vspace{4pt}}
 
 %**************************************************************
@@ -282,8 +294,16 @@ breaklines
 %**************************************************************
 % Set enumeration of subsubsection
 %**************************************************************
-\setcounter{secnumdepth}{4} % into section
-\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+\setcounter{secnumdepth}{3} % into section
+\setcounter{tocdepth}{2}    % how many sectioning levels to show in ToC
+
+%**************************************************************
+\renewcommand{\arraystretch}{2}
+
+%%Separare i vari componenti della tabella
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 
 
