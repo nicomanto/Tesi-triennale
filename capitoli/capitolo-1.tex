@@ -13,7 +13,7 @@
 \section{L'azienda}
 
 Datasoil s.r.l. è una \textit{Startup} Innovativa fondata nel 2016 come \textit{Open Innovation} nell'ambito delle aziende manifatturiere.\\
-L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in \textit{cloud} \textit{\gls{b2b}} e \textit{\gls{b2c}} e opera principalmente nell'ambito dell'analisi, processamento e fruizione di dati per supportare processi decisionali mirati da parte delle aziende e degli utenti. Fulcro di tale servizio è la piattaforma proprietaria \textbf{\textit{SYN}}, la quale fornisce una visione coesa su processi ed infrastruttura derivata dall'analisi in tempo reale di dati provenienti da \textit{asset} e dati esterni tramite algoritmi di \textit{\gls{Apprendimento automatico}}, producendo \textit{alert} in grado di evidenziarne eventi anomali e rilevanti.
+L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in \textit{cloud} \textit{\gls{b2b}} e \textit{\gls{b2c}} e opera principalmente nell'ambito dell'analisi, processamento e fruizione di dati per supportare processi decisionali mirati da parte delle aziende e degli utenti. Fulcro di tale servizio è la piattaforma proprietaria \textbf{\textit{SYN}}, la quale fornisce una visione coesa su processi ed infrastruttura derivata dall'analisi in tempo reale di dati provenienti da \textit{asset} e dati esterni tramite algoritmi di \textit{\gls{Apprendimento automatico}}, producendo \textit{alert} in grado di evidenziare eventi anomali e rilevanti.
 
 \begin{figure}[!h] 
     \centering 
@@ -29,11 +29,11 @@ L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in \te
 Lo scopo dello stage e del relativo progetto è stato quello di creare una componente aggiuntiva per la piattaforma proprietaria \textbf{\textit{SYN}}, dove tale componente si occupa dell'analisi e processamento di dati in tempo reale provenienti da \textit{asset} differenti, i quali vengono raggruppati per perimetro geografico, categoria o tipologia. Tale componente, inoltre,
 si occupa di notificare l'utente finale tramite \textit{alert} che vengono innescati dopo il superamento di specifiche soglie definite da regole decise dall'utente utilizzatore.
 La realizzazione di tale componente ha richiesto la modifica degli operatori preesistenti che si occupavano del raggruppamento temporale (\textit{Windowing}) di \textit{asset} eguali fra di loro e della componente di rilevazione delle anomalie (\textit{AlertCoProcess}).\\
-Le modifiche apportate rappresentano l'adattamento di tali operatori per rappresentare i vari \textit{asset} come un'entità raggruppata su cui poi andrà fatto un controllo mirato per definire se tale entità (a livello globale) ha prodotto anomalie, dove il rilevamento di esse si basa su \textit{detector} che sfruttano configurazioni definite dall'utente e/o algoritmi di \textit{\gls{Apprendimento automatico}}, come per esempio l'algoritmo \textit{\gls{xgboost}} di tipo \textit{\gls{gradient boosting}}.
+Le modifiche apportate rappresentano l'adattamento di tali operatori per rappresentare i vari \textit{asset} come un'entità raggruppata su cui poi andrà fatto un controllo mirato per definire se tale entità aggregata ha prodotto anomalie, rilevate attraverso \textit{detector} che sfruttano configurazioni definite dall'utente e/o algoritmi di \textit{\gls{Apprendimento automatico}}, come per esempio l'algoritmo \textit{\gls{xgboost}}.
 
 
 \subsection{Principali problematiche e relative soluzioni}
-Le principali problematiche riscontrate durante la realizzazione del progetto sono relative alla \textbf{comprensione ed utilizzo delle tecnologie nuove} e alla \textbf{definizione dell'architettura implementativa}. Di seguito verranno analizzate i problemi specifici e le relative soluzioni adottate:\\
+Le principali problematiche riscontrate durante la realizzazione del progetto sono relative alla \textbf{comprensione ed utilizzo delle tecnologie nuove} e alla \textbf{definizione dell'architettura implementativa}. Di seguito verranno analizzati i problemi specifici e le relative soluzioni adottate:\\
 
 \begin{risk}{Comprensione e utilizzo del framework \textit{Flink}}
     \riskdescription{durante lo studio e la creazione del \textit{\gls{poc}} per testare le principali funzionalità di \textit{Flink} sono stati riscontrati problemi relativi alle dipendenze utilizzate all'interno del codice}
@@ -48,13 +48,13 @@ Le principali problematiche riscontrate durante la realizzazione del progetto so
 \end{risk}
 
 \begin{risk}{Adattabilità operatore \textit{Windowing}}
-    \riskdescription{l'operatore preesistente non riusciva a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
+    \riskdescription{l'operatore temporale non riusciva a gestire contemporaneamente l'aggregazione e l'allineamento di gruppi di risorse (eguali o diverse fra di loro)}
     \risksolution{si è deciso di modificare la logica di tale operatore garantendo la completa gestione sia di aggregazione che di allineamento, mantenendo quindi la retrocompatibilità con il funzionamento precedente}
     \label{risk:windowing} 
 \end{risk}
 
-\begin{risk}{Adattabilità operatore \textit{AlertCoProces}}
-    \riskdescription{l'operatore preesistente non riusciva ad alzare anomalie su gruppi di risorse differenti}
+\begin{risk}{Adattabilità operatore \textit{AlertCoProcess}}
+    \riskdescription{l'operatore preesistente non riusciva a rilevare anomalie su gruppi di risorse differenti}
     \risksolution{si è deciso di modificare la logica di tale operatore adattandolo alle nuove esigenze, garantendo comunque la retrocompatibilità con il funzionamento precedente}
     \label{risk:anomalyDetector} 
 \end{risk}
@@ -94,14 +94,15 @@ Di seguito vengono elencati i vari obiettivi, relativamente all'ambito formativo
 \begin{itemize}
 	\item{Minimi:
 		\begin{itemize}
-			\item{Completamento dello sviluppo e validazione degli operatori di \textit{anomaly detection} su \textit{asset} differenti raggruppati;}
-			\item{Completamento dello sviluppo e validazione delle modifiche necessarie all'integrazione dell'operatore nel flusso attuale;}
-			\item{Sviluppo delle \textit{\gls{api}} \textit{\gls{rest}} di governo dell'operatore.}
+			\item{Completamento dello sviluppo e validazione dell' operatore di \textit{windowing} relativo ad \textit{asset} differenti;}
+			\item{Completamento dello sviluppo e validazione dell' operatore di \textit{anomaly detection} su \textit{asset} differenti raggruppati;}
+			\item{Completamento dello sviluppo e validazione delle modifiche necessarie all'integrazione degli operatori nel flusso attuale;}
+			\item{Sviluppo delle \textit{\gls{api}} \textit{\gls{rest}} di governo degli operatori.}
 		\end{itemize}			
 	}
 	\item{Massimi:
 		\begin{itemize}
-			\item{Test automatizzati dell'operatore;}
+			\item{Test automatizzati degli operatori;}
 			\item{Test automatizzati delle \textit{\gls{api}}.}
 		\end{itemize}			
 	}
@@ -110,7 +111,7 @@ Di seguito vengono elencati i vari obiettivi, relativamente all'ambito formativo
 
 %**************************************************************
 \section{Il prodotto finale}
-Al termine dello stage il prodotto realizzato riesce a gestire integramente l'analisi di gruppi di \textit{asset} raggruppati, sia per quando riguarda la suddivisione corretta di risorse in gruppi prefissati, sia per quanto concerne l'analisi relativa a se è stata rilevata un'anomalia.\\
+Al termine dello stage il prodotto realizzato riesce a gestire integramente l'analisi di insiemi di \textit{asset} raggruppati, sia per quando riguarda la suddivisione corretta di risorse in gruppi prefissati, sia per quanto concerne l'analisi relativa alle anomalie.\\
 Inoltre i test realizzati garantiscono che le modifiche apportate non abbiano intaccato le funzionalità precedenti, cioè quelle relative all'analisi di \textit{asset} singoli non raggruppati o il raggruppamento relativo alla stessa tipologia di risorsa.\\
 Per un'analisi più approfondita riguardo il risultato ottenuto fare riferimento al capitolo \S\ref{cap:conclusioni}.
 
@@ -130,13 +131,13 @@ Questa sezione esplicita l'organizzazione del documento, andando a descrivere br
     
     \item[{\hyperref[cap:progettazione-codifica]{Il quarto capitolo}}] esplicita in dettaglio la progettazione e lo sviluppo del prodotto quali le modifiche apportate ai vari operatori per il supporto delle nuove funzionalità e la creazione delle \textit{\gls{api}} di governo relative.
     
-    \item[{\hyperref[cap:verifica-validazione]{Il quinto capitolo}}] si sofferma a descrivere le procedure adottate per definire il prodotto collaudato e soddisfacente rispetto ai requisiti e agli obiettivi prefissati .
+    \item[{\hyperref[cap:verifica-validazione]{Il quinto capitolo}}] si sofferma a descrivere le procedure adottate per definire il prodotto collaudato e soddisfacente rispetto ai requisiti e agli obiettivi prefissati.
     
-    \item[{\hyperref[cap:conclusioni]{Il quinto capitolo}}] presenta il bilancio finale relativo allo stage e al progetto realizzato, analizzando i requisiti soddisfatti e dando un'analisi personale sul risultato ottenuto e sulle migliorie possibili che si possono apportare.
+    \item[{\hyperref[cap:conclusioni]{Il sesto capitolo}}] presenta il bilancio finale relativo allo stage e al progetto realizzato, analizzando i requisiti soddisfatti e dando un'analisi personale sul risultato ottenuto e sulle possibili migliorie.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
 \begin{itemize}
 	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato alla fine del presente documento;
-	\item i termini in lingua straniera o facenti parti del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
+	\item i termini in lingua straniera o facenti parte del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
 \end{itemize}

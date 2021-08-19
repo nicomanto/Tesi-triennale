@@ -8,31 +8,31 @@
 
 %**************************************************************
 
-\intro{Tale capitolo racchiude gli strumenti utilizzati e le tecnologie impiegate durante la realizzazione del progetto. In particolare verrà analizzato il dominio di utilizzo di esse e le varie meotodologie utilizzate.}\\
+\intro{Il capitolo racchiude gli strumenti utilizzati e le tecnologie impiegate durante la realizzazione del progetto. In particolare verrà analizzato il dominio di utilizzo di esse e le varie meotodologie utilizzate.}\\
 
 %**************************************************************
 \section{Apache Flink}
-\textit{Apache Flink} è un \textit{\textit{\gls{framework}}} di \textit{data processing engine} per l'elaborazione e processamento di dati in modo distribuito.
-La forza di \textit{Flink} è quella di trattare dati in differenti formati, opportuni per il dominio applicativo più consono per l'utente, infatti i dati possono essere sia di tipo \textit{\gls{stateful}} che di tipo \textit{\gls{stateless}} e tali flussi possono essere illimitati (\textit{\gls{unbounded streams}}) o limitati (\textit{\gls{bounded streams}}). \textit{Flink} è stato progettato per funzionare in tutti i comuni ambienti \textit{\gls{cluster}}.
+\textit{Apache Flink} è un \textit{\textit{\gls{framework}}} di \textit{data processing} per l'elaborazione e processamento di dati in modo distribuito.
+La forza di \textit{Flink} è quella di trattare i dati in differenti modalità, opportune per il dominio applicativo più consono per l'utente, infatti i dati possono essere sia di tipo \textit{\gls{stateful}} che di tipo \textit{\gls{stateless}} e tali flussi possono essere illimitati (\textit{\gls{unbounded streams}}) o limitati (\textit{\gls{bounded streams}}). \textit{Flink} è stato progettato per funzionare in tutti i comuni ambienti \textit{\gls{cluster}}.
 
 \subsection{DataStream e DataStrem API}
 In \textit{Apache Flink} i dati processati in un programma vengono rappresentati dalla classe speciale \textit{DataStream}.
 Tali dati possono essere finiti o illimitati, e le \textit{\gls{api}} utilizzate per lavorare su questi due differenti tipoligie di dati è la stessa, rendendo il tutto trasparente per l'utente programmatore.\\
 Carattestiche fondamentali dei \textit{DataStream} sono:
 \begin{itemize}
-	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi;}
+	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi (inteso a livello di codice prodotto);}
 	\item{\textbf{soggetti a trasformazioni:} non è possibile ispezionare gli elementi al proprio interno, ma solo lavorare su di essi utilizzando le \textit{DataStream \textit{\gls{api}}}, che vengono definite, appunto, trasformazioni.}
 \end{itemize}
-La creazione di un \textit{DataStream} necessità di avere una sorgente iniziale (la quale può essere, per esempio, una coda fornita da \textit{\gls{Amazon Kinesis}}) e da questa si possono derivare numerosi flussi, i quali possono essere combinati utilizzando le \textit{\gls{api}} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
+La creazione di un \textit{DataStream} necessità di avere una sorgente (\textit{source}) iniziale (la quale può essere, per esempio, una coda fornita da \textit{\gls{Amazon Kinesis}}) e da questa si possono derivare numerosi flussi, i quali possono essere combinati utilizzando le \textit{\gls{api}} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
 Le \textit{DataStream \textit{\gls{api}}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}
 	\item{\textbf{esecuzione \textit{streaming}:} tratta principalmente di flussi illimitati (\textit{\gls{unbounded streams}}) i quali hanno la caratteristica di non terminare mai. I dati vengono processati ininterrottamente, continuando ad aggiornare l'\textit{output} prodotto. In questa modalità le attività esecutive all'interno della \textit{\gls{pipeline}} del programma continuano ad essere processate in contemporanea, senza stanziarsi in una fase specifica. Questo implica che la \textit{\gls{pipeline}} non arriverà mai ad uno stadio di terminazione;}
-	\item{\textbf{esecuzione \textit{batch}:} tratta solo flussi limitati (\textit{\gls{bounded streams}}). Questa procedura permette a \textit{Flink} di ottimizzare l'esecuzione basandosi sul flusso conosciuto, il quale ha un inizio ed una fine. In questa modalità le varie attività all'interno della \textit{\gls{pipeline}} del programma possono essere eseguite una dopo l'altra, permettendo di passare alla fase successiva solo quando si è terminata quella precedente (quindi non in contemporanea come avviene per l'esecuzione \textit{streaming}). I dati fra una fase ed un'altra vengono salvati in una memoria non temporanea per permettere a \textit{Flink} di ripartire da un determinato \textit{step} senza rieseguire l'intero programma.}
+	\item{\textbf{esecuzione \textit{batch}:} tratta solo flussi limitati (\textit{\gls{bounded streams}}). Questa procedura permette a \textit{Flink} di ottimizzare l'esecuzione basandosi sul flusso conosciuto, il quale ha un inizio ed una fine. In questa modalità le varie attività all'interno della \textit{\gls{pipeline}} del programma possono essere eseguite una dopo l'altra, permettendo di passare alla fase successiva solo quando si è terminata quella precedente (quindi non in contemporanea come avviene per l'esecuzione \textit{streaming})}.
 \end{itemize}
 
 \myParagraph{Table API}
-\textit{Apache Flink} dispone di due \textit{\gls{api}} relazionali, l'\textit{\textit{\gls{api}} Table} e \textit{\textit{\gls{sql}}}, per un flusso unificato e l'elaborazione \textit{batch}. L'\textit{\textit{\gls{api}} Table} consente la composizione di \textit{\gls{query}} da operatori relazionali come selezione, filtro e \textit{join} in modo molto intuitivo. Le \textit{\gls{query}} specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'\textit{input} sia continuo (\textit{streaming}) o limitato (\textit{batch}).\\
+\textit{Apache Flink} dispone di due \textit{\gls{api}} relazionali, l'\textit{\textit{\gls{api}} Table} e \textit{\textit{\gls{sql}}}, per trattare l'elaborazione \textit{streaming} e \textit{batch}. L'\textit{\textit{\gls{api}} Table} consente la composizione di \textit{\gls{query}} da operatori relazionali come selezione, filtro e \textit{join} in modo molto intuitivo. Le \textit{\gls{query}} specificate in entrambe le interfacce hanno la stessa semantica e specificano lo stesso risultato indipendentemente dal fatto che l'\textit{input} sia continuo (\textit{streaming}) o limitato (\textit{batch}).\\
 In particolare l'\textit{\textit{\gls{api}} Table} è un \textit{super set} del linguaggio \textit{\gls{sql}} ed è appositamente progettato per lavorare con \textit{Apache Flink}. L'\textit{\textit{\gls{api}} Table} è un'\textit{\gls{api}} integrata nel linguaggio per \textit{Scala}, \textit{Java} e \textit{Python}. Invece di specificare le \textit{\gls{query}} come valori di tipo stringa come nel comune linguaggio \textit{\gls{sql}}, vengono definite in uno stile integrato nei linguaggi citati precedentemente.
 
 \myParagraph{Query e DataStream}
@@ -60,10 +60,10 @@ Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce un
 
 
 \subsection{Operatori}\label{sec:operatori}
-Gli operatori di \textit{Flink} sono delle procedure per trasformare \textit{DataStream} in altri \textit{DataStream}. Sono utilizzati principalmente per modificare il tipo di flusso di un \textit{DataStream}, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un differente \textit{DataStream}. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di \textit{Apache Flink}.
+Gli operatori di \textit{Flink} sono delle procedure per trasformare \textit{DataStream} in altri \textit{DataStream}. Sono utilizzati principalmente per modificare il tipo di flusso di un \textit{DataStream}, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un differente \textit{DataStream}. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di \textit{Apache Flink} disponibile al seguente indirizzo: \url{https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/operators/overview/}.
 
 \myParagraph{FlatMap}
-Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del \textit{DataStream} verrà applicata tale logica per andare a definire l'\textit{output} atteso. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del \textit{DataStream} verrà applicata tale logica per andare a definire l'\textit{output} atteso. Di seguito un esempio della struttura appena descritta.
 
 \begin{minted}{scala}
 dataStream.flatMap { str => str.split(" ")}
@@ -71,7 +71,7 @@ dataStream.flatMap { str => str.split(" ")}
 	
 	
 \myParagraph{CoFlatMap}
-Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due \textit{DataStream} connessi fra di loro, e, come per l'operatore nella sezione precedente, verrà prodotto in \textit{output} un unico \textit{DataStream} secondo una logica definita dall'utente. Di seguito la struttura appena descritta.
+Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due \textit{DataStream} connessi fra di loro, e, come per l'operatore nella sezione precedente, verrà prodotto in \textit{output} un unico \textit{DataStream} secondo una logica definita dall'utente. Di seguito un esempio della struttura appena descritta.
 
 \begin{minted}{scala}
 connectedStreams.flatMap(
@@ -83,7 +83,7 @@ connectedStreams.flatMap(
 \myParagraph{KeyBy}
 Operatore che suddivide un flusso in partizioni disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{KeyBy} è implementato con il partizionamento \textit{hash}.
 La chiave deve essere intesa come univoca.
-Di seguito la struttura appena descritta.
+Di seguito un esempio della struttura appena descritta.
 \begin{minted}{scala}
 dataStream.keyBy(_.someKey)
 dataStream.keyBy(_._1)
@@ -94,7 +94,7 @@ Operatore di basso livello che da accesso ai blocchi base di uno \textit{Stream}
 \begin{itemize}
 	\item{\textbf{eventi:} elementi dello \textit{stream};}
 	\item{\textbf{stati:} stati tolleranti agli errori, consistenti e supportati solo nei \textit{KeyedStream}. La \textit{ProcessFunction} da accesso allo stato tramite il \textit{RuntimeContext}, in modo simile a quanto avviene negli altri operatori che hanno accesso allo stato;}
-	\item{\textbf{\textit{timer}:} tempo relativo all'evento e tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{KeyedStream}. Per una descrizione più approfondite del \textit{timer} fare riferimento alla sezione \S\textbf{Timer} sottostante.}
+	\item{\textbf{\textit{timer}:} tempo relativo all'evento o tempo relativo al processamento dei dati, anch'esso supportato solo nei \textit{KeyedStream}. Per una descrizione più approfondite del \textit{timer} fare riferimento alla sezione \S\textbf{Timer} sottostante.}
 \end{itemize}
 
 Per creare una \textit{ProcessFunction}, serve implementare il metodo astratto \textit{processElement}, nella quale va implementata la logica di gestione degli elementi. Inoltre, per usufruire dello \textbf{stato} e del \textbf{\textit{timer}}, come descritto precedentemente, bisogna basarsi su un \textit{KeyedStream}. Di seguito è stato deciso di analizzare due principali operatori derivati dalla \textit{ProcessFunction}, quali \textbf{KeyedCoProcessFunction} e \textbf{KeyedBroadcastProcessFunction}, ampiamente utilizzati durante il periodo di stage.
@@ -133,7 +133,7 @@ class Example extends KeyedCoProcessFunction[K, I1, I2, O] {
 }
 \end{minted}
 \myParagraph{KeyedBroadcastProcessFunction}
-La \textit{KeyedBroadcastProcessFunction} è un'estensione di \textit{ProcessFunction}, la quale permette l'elaborazione di due flussi entranti, quello \textit{broadcast} e quello non \textit{broadcast}. Il punto chiave di questo operatore è che il \textbf{\textit{Broadcast State}}, il quale viene gestito dal flusso \textit{broadcast}, è condiviso fra tutte le istanze parallele dell'operatore, quindi ogni calcolo effettuato in questo flusso garantirà una modifica allo stato di esso che si rifletterà in ogni istanza dell'operatore, a differenza del lato non \textit{broadcast}. Di seguito un esempio relativo all'estensione della classe \textit{KeyedBroadcastProcessFunction}, dove i parametri \textbf{K}, \textbf{I1}, \textbf{I2} e \textbf{O} indicano rispettivamente il \textbf{tipo della chiave}, il \textbf{tipo dell'elemento in \textit{input} nel flusso non \textit{broadcast}}, il \textbf{tipo dell'elemento in \textit{input} nel flusso \textit{broadcast}} e il \textbf{tipo dell'elemento in \textit{output}}.
+La \textit{KeyedBroadcastProcessFunction} è un'estensione di \textit{ProcessFunction}, la quale permette l'elaborazione di due flussi entranti, quello \textit{broadcast} e quello non \textit{broadcast}. Il punto chiave di questo operatore è che il \textbf{\textit{Broadcast State}}, il quale viene gestito dal flusso \textit{broadcast}, è condiviso fra tutte le partizioni dell'operatore, quindi ogni calcolo effettuato in questo flusso garantirà una modifica allo stato di esso che si rifletterà in ogni istanza dell'operatore, a differenza del lato non \textit{broadcast}. Di seguito un esempio relativo all'estensione della classe \textit{KeyedBroadcastProcessFunction}, dove i parametri \textbf{K}, \textbf{I1}, \textbf{I2} e \textbf{O} indicano rispettivamente il \textbf{tipo della chiave}, il \textbf{tipo dell'elemento in \textit{input} nel flusso non \textit{broadcast}}, il \textbf{tipo dell'elemento in \textit{input} nel flusso \textit{broadcast}} e il \textbf{tipo dell'elemento in \textit{output}}.
 \begin{minted}{scala}
 class Example extends KeyedBroadcastProcessFunction[K, I1, I2, O] {
 
@@ -156,15 +156,15 @@ class Example extends KeyedBroadcastProcessFunction[K, I1, I2, O] {
 \end{minted}
 
 \myParagraph{Timer}\label{sec:timer}
-\noindent Tutti e due i tipi di \textit{timer} (tempo relativo all'evento e tempo relativo processamento di tale) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operato \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context} il quale da accesso al \textit{\gls{timestamp}} relativo all'evento e ad un oggetto chiamato \textit{TimeService}, il quale permette di registrare il \textit{timer} per permettere future elaborazioni. Per ogni coppia \textit{chiave}-\textit{\gls{timestamp}} esiste un solo \textit{timer}, se più \textit{timer} sono settati per lo stesso \textit{\gls{timestamp}}, solo uno verrà richiamato. \textit{Flink} sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I \textit{timer} sono tolleranti verso gli errori, infatti \textit{Flink} salva tale \textit{timer} tramite il meccanismo di \textit{checkpoint} (\S\ref{sec:checkpoint}) come avviene per gli stati.
+\noindent Tutti e due i tipi di \textit{timer} (tempo relativo all'evento e tempo relativo al processamento) sono gestiti dal \textit{TimeService}. Ogni volta che viene chiamato l'operatore \textit{ProcessElement} viene fornito un oggetto chiamato \textit{Context}, il quale da accesso al \textit{\gls{timestamp}} relativo all'evento e ad un oggetto chiamato \textit{TimeService} che permette di registrare il \textit{timer} per \textit{triggerare} future elaborazioni. Per ogni coppia \textit{chiave}-\textit{\gls{timestamp}} esiste un solo \textit{timer}, se più \textit{timer} sono settati per lo stesso \textit{\gls{timestamp}}, solo uno verrà richiamato. \textit{Flink} sincronizza internamente l'invocazione della funzione \textit{processElement} e \textit{onTimer}, rendendo tale sincronizzazione trasparente per l'utente. I \textit{timer} sono tolleranti verso gli errori, infatti \textit{Flink} salva tale \textit{timer} tramite il meccanismo di \textit{checkpoint} (\S\ref{sec:checkpoint}) come avviene per gli stati.
 
 
 \subsection{Scalabilità}
-\textit{Flink} è progettato per eseguire applicazioni di \textit{streaming} \textit{\gls{stateful}} su qualsiasi scala. Le applicazioni vengono parallelizzate in migliaia di attività che vengono distribuite ed eseguite contemporaneamente in un \textit{\gls{cluster}}. Pertanto, un'applicazione può sfruttare quantità virtualmente illimitate di CPU, memoria principale, disco e \textit{Input-Output} di rete. Inoltre, \textit{Flink} riesce a gestire quantità elevate di stati all'interno dell'applicazione e grazie al suo algoritmo di \textit{checkpoint} asincrono e incrementale assicura un impatto minimo sulle latenze di elaborazione, garantendo al tempo stesso il processamento dello stato esattamente una ed una sola volta.
+\textit{Flink} è progettato per eseguire applicazioni di \textit{streaming} \textit{\gls{stateful}} su qualsiasi scala. Le applicazioni vengono parallelizzate in migliaia di attività che vengono distribuite ed eseguite contemporaneamente in un \textit{\gls{cluster}}. Pertanto, un'applicazione può sfruttare quantità virtualmente illimitate di CPU, memoria principale, disco e \textit{Input-Output} di rete. Inoltre, \textit{Flink} riesce a gestire quantità elevate di stati all'interno dell'applicazione e grazie al suo algoritmo di \textit{checkpoint} asincrono e incrementale assicura un impatto minimo sulle latenze di elaborazione, garantendo al tempo stesso il processamento degli eventi esattamente una ed una sola volta.
 
 \subsection{Alta disponibilità e recovery}
 Durante l'elaborazione dei dati in \textit{Apache Flink} può essere necessario memorizzare le informazioni ricevute ad un dato istante dell'elaborazione, come per esempio quando si addestra un modello di \textit{\gls{Apprendimento automatico}} su un flusso di punti dati, oppure quando è necessario gestire i dati storici. Per fare ciò \textit{Flink} utilizza il meccanismo di salvataggio delle informazioni in \textbf{stati}.\\
-Per gestire tale meccanismo, in \textit{Flink} vengono sfruttate le chiavi passate durante l'elaborazione di un flusso. Lo stato relativo alla chiave viene mantenuto in quello che può essere considerato un archivio chiave/valore incorporato. Pertanto, l'accesso allo stato chiave/valore è possibile \textbf{solo su flussi con chiave}. L'allineamento delle chiavi dei flussi e dello stato assicura che tutti gli aggiornamenti su di esso siano operazioni locali, garantendo la coerenza senza sovraccarico delle operazioni. Questo allineamento consente inoltre a \textit{Flink} di ridistribuire lo stato e regolare il partizionamento del flusso in modo trasparente per l'utente programmatore.
+Per gestire tale meccanismo, in \textit{Flink} vengono sfruttate le chiavi passate durante l'elaborazione di un flusso. Lo stato relativo alla chiave viene mantenuto in quello che può essere considerato un archivio chiave/valore incorporato. Pertanto, l'accesso allo stato chiave/valore è possibile \textbf{solo su flussi con chiave}. L'allineamento delle chiavi dei flussi e dello stato assicura che tutti gli aggiornamenti su di esso siano operazioni locali, garantendo la coerenza senza sovraccarico delle operazioni. Questo allineamento consente inoltre a \textit{Flink} di distribuire lo stato e regolare il partizionamento del flusso in modo trasparente per l'utente programmatore.
 
 \begin{figure}[H] 
     \centering 
