@@ -16,7 +16,7 @@
 La forza di \textit{Flink} è quella di trattare i dati in differenti modalità, opportune per il dominio applicativo più consono per l'utente, infatti i dati possono essere sia di tipo \textit{\gls{stateful}} che di tipo \textit{\gls{stateless}} e tali flussi possono essere illimitati (\textit{\gls{unbounded streams}}) o limitati (\textit{\gls{bounded streams}}). \textit{Flink} è stato progettato per funzionare in tutti i comuni ambienti \textit{\gls{cluster}}.
 
 \subsection{DataStream e DataStrem API}
-In \textit{Apache Flink} i dati processati in un programma vengono rappresentati dalla classe speciale \textit{DataStream}.
+In \textit{Apache Flink} i dati elaborati in un programma vengono rappresentati dalla classe speciale \textit{DataStream}.
 Tali dati possono essere finiti o illimitati, e le \textit{\gls{api}} utilizzate per lavorare su questi due differenti tipoligie di dati è la stessa, rendendo il tutto trasparente per l'utente programmatore.\\
 Carattestiche fondamentali dei \textit{DataStream} sono:
 \begin{itemize}
@@ -27,7 +27,7 @@ La creazione di un \textit{DataStream} necessità di avere una sorgente (\textit
 Le \textit{DataStream \textit{\gls{api}}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}
-	\item{\textbf{esecuzione \textit{streaming}:} tratta principalmente di flussi illimitati (\textit{\gls{unbounded streams}}) i quali hanno la caratteristica di non terminare mai. I dati vengono processati ininterrottamente, continuando ad aggiornare l'\textit{output} prodotto. In questa modalità le attività esecutive all'interno della \textit{\gls{pipeline}} del programma continuano ad essere processate in contemporanea, senza stanziarsi in una fase specifica. Questo implica che la \textit{\gls{pipeline}} non arriverà mai ad uno stadio di terminazione;}
+	\item{\textbf{esecuzione \textit{streaming}:} tratta principalmente di flussi illimitati (\textit{\gls{unbounded streams}}) i quali hanno la caratteristica di non terminare mai. I dati vengono elaborati ininterrottamente, continuando ad aggiornare l'\textit{output} prodotto. In questa modalità le attività esecutive all'interno della \textit{\gls{pipeline}} del programma continuano ad essere processate in contemporanea, senza stanziarsi in una fase specifica. Questo implica che la \textit{\gls{pipeline}} non arriverà mai ad uno stadio di terminazione;}
 	\item{\textbf{esecuzione \textit{batch}:} tratta solo flussi limitati (\textit{\gls{bounded streams}}). Questa procedura permette a \textit{Flink} di ottimizzare l'esecuzione basandosi sul flusso conosciuto, il quale ha un inizio ed una fine. In questa modalità le varie attività all'interno della \textit{\gls{pipeline}} del programma possono essere eseguite una dopo l'altra, permettendo di passare alla fase successiva solo quando si è terminata quella precedente (quindi non in contemporanea come avviene per l'esecuzione \textit{streaming})}.
 \end{itemize}
 

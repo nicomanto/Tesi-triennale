@@ -7,7 +7,7 @@
 \label{cap:introduzione}
 %**************************************************************
 
-\intro{Il documento seguente rappresenta il lavoro di tesi svolto come stage presso l'azienda Datasoil s.r.l. Lo stage è stato svolto al termine del percorso di studi della Laurea Triennale in Informatica presso l'Università degli Studi di Padova. Il progetto consiste nella realizzazione di una componente aggiuntiva al prodotto principale aziendale denominato SYN, dove tale componente si occupa di aggregazione e analisi in tempo reale di dati provenienti da \textit{asset} differenti.}
+\intro{Il documento seguente descrive il lavoro di tesi svolto come stage presso l'azienda Datasoil s.r.l. Lo stage è stato svolto al termine del percorso di studi della Laurea Triennale in Informatica presso l'Università degli Studi di Padova. Il progetto consiste nella realizzazione di una componente aggiuntiva al prodotto principale aziendale denominato SYN, dove tale componente si occupa di aggregazione e analisi in tempo reale di dati provenienti da \textit{asset} differenti.}
 
 %**************************************************************
 \section{L'azienda}
@@ -26,7 +26,7 @@ L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in \te
 
 \subsection{Descrizione}
 
-Lo scopo dello stage e del relativo progetto è stato quello di creare una componente aggiuntiva per la piattaforma proprietaria \textbf{\textit{SYN}}, dove tale componente si occupa dell'analisi e processamento di dati in tempo reale provenienti da \textit{asset} differenti, i quali vengono raggruppati per perimetro geografico, categoria o tipologia. Tale componente, inoltre,
+Lo scopo dello stage e del relativo progetto è stato quello di creare una componente aggiuntiva per la piattaforma proprietaria \textbf{\textit{SYN}}. Tale componente si occupa dell'analisi ed elaborazione di dati in tempo reale provenienti da \textit{asset} differenti, i quali vengono raggruppati per perimetro geografico, categoria o tipologia. Tale componente, inoltre,
 si occupa di notificare l'utente finale tramite \textit{alert} che vengono innescati dopo il superamento di specifiche soglie definite da regole decise dall'utente utilizzatore.
 La realizzazione di tale componente ha richiesto la modifica degli operatori preesistenti che si occupavano del raggruppamento temporale (\textit{Windowing}) di \textit{asset} eguali fra di loro e della componente di rilevazione delle anomalie (\textit{AlertCoProcess}).\\
 Le modifiche apportate rappresentano l'adattamento di tali operatori per rappresentare i vari \textit{asset} come un'entità raggruppata su cui poi andrà fatto un controllo mirato per definire se tale entità aggregata ha prodotto anomalie, rilevate attraverso \textit{detector} che sfruttano configurazioni definite dall'utente e/o algoritmi di \textit{\gls{Apprendimento automatico}}, come per esempio l'algoritmo \textit{\gls{xgboost}}.
