@@ -95,7 +95,7 @@ Alla fine viene aggiornato il parametro \textit{acc} con la mappa aggiornata con
     \includegraphics[width=0.9\columnwidth]{diagrammaClassi/windowingClass} 
     \caption{Classe \textit{Windowing}}
 \end{figure}
-L'\textbf{operatore \textit{Windowing}} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textbf{risorsa} su se stessa, cioè \textbf{sommando} o \textbf{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare/aggregare fra di loro eventi di \textit{asset} differenti, per permettere un processamento dei dati a livello collettivo. Per definire il comportamento della finestra temporale, è necessaria un'apposita \textbf{configurazione} che sarà iniettata durante l'elaborazione attiva dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
+L'\textbf{operatore \textit{Windowing}} serve per rappresentare un determinato evento in una data finestra temporale. Inizialmente, tale operatore, trattava l'aggregazione solo di una determinata \textbf{risorsa} su se stessa, cioè \textbf{sommando} o \textbf{mediando} un determinato valore. Ora in tale operatore non solo permane il comportamento appena descritto, ma è presente anche la funzionalità che si occupa di allineare/aggregare fra di loro eventi di \textit{asset} differenti, per permettere un'elaborazione dei dati a livello collettivo. Per definire il comportamento della finestra temporale, è necessaria un'apposita \textbf{configurazione} che sarà iniettata durante l'elaborazione attiva dei dati, per permetterne la modifica del comportamento senza dover riavviare l'intero applicativo e creare uno stallo in esso.\\
 L'operatore \textit{Windowing} è una \textbf{\textit{KeyedCoProcessFunction}}, così definita:
 \begin{minted}{scala}
 class Windowing(outputTagValues: OutputTag[AnomalyStepConfigurationCommand]) extends KeyedCoProcessFunction[String, BumblebeeOutput, AnomalyStepConfigurationCommand, GroupedEvents] {
@@ -277,7 +277,7 @@ Dopo l'opportuna modifica, la struttura rappresentante il \textbf{\textit{Bumble
 }
 \end{minted}
 dove la rappresentazione è slegata da un \textit{asset} (risorsa) specifico. Per cui l'\textit{output} sarà adattato ad un \textbf{soggetto} generale, rappresentato da un proprio \textbf{\textit{id}} e da un suo \textbf{tipo}.
-Tale struttura finale garantisce un corretto processamento del dato nel caso in cui si tratti di un evento singolo oppure di un raggruppamento.
+Tale struttura finale garantisce una corretta elaborazione del dato nel caso in cui si tratti di un evento singolo oppure di un raggruppamento.
 
 %**************************************************************
 
