@@ -63,7 +63,7 @@ Le tabelle dinamiche cambiano nel tempo e l'interrogazione su di esse produce un
 Gli operatori di \textit{Flink} sono delle procedure per trasformare \textit{DataStream} in altri \textit{DataStream}. Sono utilizzati principalmente per modificare il tipo di flusso di un \textit{DataStream}, il quale appunto verrà filtrato, mappato o combinato con altri flussi per produrre un differente \textit{DataStream}. Nelle sezioni sottostanti verranno descritti i principali operatori utilizzati, i quali non rappresentano la totalità degli operatori disponibili. Per l'elenco completo si rimanda alla documentazione ufficiale di \textit{Apache Flink} disponibile al seguente indirizzo: \url{https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/operators/overview/}.
 
 \myParagraph{FlatMap}
-Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del \textit{DataStream} verrà applicata tale logica per andare a definire l'\textit{output} atteso. Di seguito un esempio della struttura appena descritta.
+Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasformerà un dato \textit{DataStream} in un altro \textit{DataStream}. La procedura di trasformazione è definita dall'utente e per ogni elemento del \textit{DataStream} verrà applicata tale logica per andare a definire l'\textit{output} atteso. Di seguito un esempio della struttura appena descritta, dove dato un \textit{DataStream} di stringhe, viene prodotto un \textit{DataStream} di parole contenute all'interno delle stringe di \textit{input}.
 
 \begin{minted}{scala}
 dataStream.flatMap { str => str.split(" ")}
@@ -71,7 +71,7 @@ dataStream.flatMap { str => str.split(" ")}
 	
 	
 \myParagraph{CoFlatMap}
-Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due \textit{DataStream} connessi fra di loro, e, come per l'operatore nella sezione precedente, verrà prodotto in \textit{output} un unico \textit{DataStream} secondo una logica definita dall'utente. Di seguito un esempio della struttura appena descritta.
+Operatore che dato un elemento, ne produce in \textit{output} uno, zero o molteplici. Tale operatore trasforma un \textit{ConnectedStream} in un \textit{DataStream}. La differenza con l'operatore \textbf{FlatMap} è che tale operatore lavorerà su due \textit{DataStream} connessi fra di loro, e, come per l'operatore nella sezione precedente, verrà prodotto in \textit{output} un unico \textit{DataStream} secondo una logica definita dall'utente. Di seguito un esempio della struttura appena descritta, dove dato un \textit{ConnectedStream} formato da valori di tipo \textit{Int} e \textit{String}, produce in \textit{Output} un \textit{DataStream} di \textit{Boolean}. In particolare ogni valore del primo flusso, che tratta elementi di tipo \textit{Int}, viene mappato ad un valore \textit{true}, invece ogni valore del secondo flusso, che tratta elementi di tipo \textit{String}, viene mappato ad un valore \textit{false}.
 
 \begin{minted}{scala}
 connectedStreams.flatMap(
@@ -83,7 +83,12 @@ connectedStreams.flatMap(
 \myParagraph{KeyBy}
 Operatore che suddivide un flusso in partizioni disgiunte. Tale operatore trasforma un \textit{DataStream} in un \textit{KeyedStream} trattando gli elementi che hanno chiave uguale nella stessa partizione. Internamente, \textit{KeyBy} è implementato con il partizionamento \textit{hash}.
 La chiave deve essere intesa come univoca.
-Di seguito un esempio della struttura appena descritta.
+Di seguito un esempio della struttura appena descritta, dove:
+\begin{itemize}
+	\item{il primo \textit{DataStream} viene partizionato tramite l'elemento \textit{someKey}, attributo del tipo di oggetto trattato dal flusso;}
+	\item{il secondo \textit{DataStream} viene partizionato tramite il primo elemento contenuto dalla \textit{Tupla} (tipo del linguaggio di programmazione \textit{Scala}) che tratta tale flusso.}
+\end{itemize}
+
 \begin{minted}{scala}
 dataStream.keyBy(_.someKey)
 dataStream.keyBy(_._1)
