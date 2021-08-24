@@ -16,9 +16,10 @@
 \chapter*{Sommario}
 
 Il presente documento descrive il lavoro svolto durante il periodo di stage, della durata di circa trecento ore, dal laureando Niccolò Mantovani presso l'azienda Datasoil s.r.l.\\
-L'obiettivo principale riguardava la creazione di una componente per il rilevamento di anomalie su risorse differenti, facenti parte di impianti dislocati su un perimetro geografico. Le risorse sono intese come distinte perchè trattano informazioni comuni ma fornite da \textit{asset} diversi, come per esempio la rilevazione della temperatura fornita da un climatizzatore in relazione alla temperatura rilevata da un termostato digitale. I dati forniti dalle risorse, per essere analizzati, vengono raggruppati fra di loro.\\
+L'obiettivo principale riguardava la creazione di una componente per il rilevamento di anomalie su risorse differenti, facenti parte di impianti dislocati su un perimetro geografico. Le risorse sono intese come distinte e perchè trattano informazioni provenienti da \textit{asset} diversi, come per esempio la rilevazione della temperatura fornita da un climatizzatore in relazione alla temperatura rilevata da un termostato digitale. I dati forniti dalle risorse, per essere analizzati, vengono raggruppati fra di loro.\\
 L'elaborazione dei dati ha richiesto la modifica dell'operatore di aggregazione su una data finestra temporale e dell'operatore di rilevamento di anomalie sviluppati tramite il \textit{\textit{\gls{framework}}} \textit{Flink} utilizzando il linguaggio di programazzione \textit{Scala}.\\
-In seguito si è reso necessario modificare le \textit{\gls{api}} di governo, sviluppate tramite il linguaggio di programazzione \textit{Go}, le quali permettono la configurazione da parte dell'utente di tale componente.
+In seguito si è reso necessario modificare le \textit{\gls{api}} di governo, sviluppate tramite il linguaggio di programazzione \textit{Go}, le quali permettono la configurazione da parte dell'utente di tale componente.\\
+La componente realizzata durante il periodo di stage ha l'intento di permettere agli utenti di effettuare un'analisi degli eventi a livello d'insieme, raggruppando dati provenienti da risorse disgiunte, per garantire un livello informativo che può essere rilevante in numerosi ambiti.
 
 %\vfill
 %
