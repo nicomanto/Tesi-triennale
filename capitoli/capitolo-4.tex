@@ -23,6 +23,7 @@
 %**************************************************************
 
 \section{Architettura componente anomaly detection}
+In tale paragrafo si va ad evidenziare come le parti della componente di \textit{anomaly detection} interagiscono fra di loro. Come descritto nei capitoli precedenti, la componente realizzata tratta dapprima il raggruppamento degli eventi provenienti da determinate risorse secondo una finestra temporale, in seguito viene svolta un'analisi relativa a se tale insieme di eventi produce un'anomalia.
 L'architettura rappresentante la componente di \textit{anomaly detection} è descritta tramite un \gls{diagramma delle classi}, il quale espone le seguenti strutture dati:
 \begin{itemize}
 	\item{\textbf{\textit{GroupedEvents}:} classe rappresentante i dati aggregati per uno specifico gruppo (\S\ref{sec:ge});}
@@ -224,6 +225,7 @@ Tale flusso è gestito dal metodo \textit{processElement2}, ereditato dalla clas
 
 
 \subsection{Lista dei detector}\label{sec:detector-alertcoprocess}
+In tale paragrafo vengono introdotti i \textit{detector} utilizzati all'interno dell'operatore \textit{AlertCoProcess}. Non trattando direttamente l'aggiornamento dei modelli utilizzati dai \textit{detector} durante il periodo di stage, verrà solo citato quali richiedano tale ricalcolo.\\
 Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{AlertCoProcess}:
 \begin{itemize}
 	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa analizzando la sua \textit{\gls{stagionalita}}. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
