@@ -7,7 +7,7 @@
 \label{cap:progettazione-codifica}
 %**************************************************************
 
-\intro{Il capitolo descrive in dettaglio la struttura del progetto, la progettazione e codifica delle nuove funzionalità, nonchè l'integrazione di esse con la struttura preesistente. Le fasi di progettazione e codifica non sono intese come attività prettamente distinte, infatti alcune analisi effettuate durante la progettazione iniziale antecedente alla codifica sono risultate non sufficienti a coprire numerose casistiche sorte durante lo sviluppo effettivo, per cui è stato necessaria una riprogettazione mirata a risolvere le problematiche sorte.}
+\intro{Il capitolo descrive in dettaglio la struttura del progetto, la progettazione e codifica delle nuove funzionalità, nonché l'integrazione di esse con la struttura preesistente. Le fasi di progettazione e codifica non sono intese come attività prettamente distinte, infatti alcune analisi effettuate durante la progettazione iniziale antecedente alla codifica sono risultate non sufficienti a coprire numerose casistiche sorte durante lo sviluppo effettivo, per cui è stato necessaria una riprogettazione mirata a risolvere le problematiche sorte.}
 
 %\section{Adattamento degli operatori preesistenti}
 %Durante l'analisi preventiva dei rischi relativa alle nuove funzionalità, sono sorti dei problemi architetturali relativi %all'adattabilità degli operatori preesistenti con le nuove funzionalità create. Tali problematiche di adattabilità si possono %riassumere in micro-aree:
@@ -32,7 +32,7 @@ L'architettura rappresentante la componente di \textit{anomaly detection} è des
 	\item{\textbf{\textit{AlertCoProcess}:} classe rappresentante l'operatore che si occupa del rilevamento di anomalie (\S\ref{sec:alertcoprocess});}
 	\item{\textbf{\textit{KeyedCoProcessFunction}:} classe astratta offerta da \textit{Flink}, da cui ereditano i due operatori citati precedentemente.}
 \end{itemize}
-All'interno del diagramma, per semplicità, vengono citate ma non descritte tutte le strutture dati con cui le classi operano, questo perchè tali strutture non risultano modificate durante la realizzazione del progetto e mantengono le funzionalità preesistenti. Inoltre le classi \textit{BumblebeeOutput} e \textit{AnomalyStepConfigurationCommand} vengono omesse perchè rappresentano semplicemente la struttura di due tipi di eventi entranti descritti rispettivamente nelle sezioni \S\ref{sec:bbout} e \S\ref{sec:api-configurazione}.
+All'interno del diagramma, per semplicità, vengono citate ma non descritte tutte le strutture dati con cui le classi operano, questo perché tali strutture non risultano modificate durante la realizzazione del progetto e mantengono le funzionalità preesistenti. Inoltre le classi \textit{BumblebeeOutput} e \textit{AnomalyStepConfigurationCommand} vengono omesse perché rappresentano semplicemente la struttura di due tipi di eventi entranti descritti rispettivamente nelle sezioni \S\ref{sec:bbout} e \S\ref{sec:api-configurazione}.
 Di seguito la rappresentazione del diagramma appena descritto.
 
 \begin{figure}[H] 
@@ -127,7 +127,7 @@ Tale flusso è gestito dal metodo \textit{processElement1}, il quale è un metod
 	\item{nel caso in cui l'evento sia contenuto all'interno del filtro di aggregazione della \textit{window}, verrà controllato che il determinato gruppo sia configurato per raggruppare il tipo dell'evento in entrata;}
 \item{se l'evento è contenuto all'interno del filtro di un gruppo, viene controllato se la durata della \textit{window} è nulla (minore o uguale a zero), in questo caso l'evento viene memorizzato all'interno della struttura dati rappresentata dal \textit{GroupedEvents} (\S\ref{sec:ge}) senza essere aggregato o allineato con altri eventi. Il flusso relativo all'evento entrante termina.\\
 Se, invece, la durata della \textit{window} è positiva (maggiore di zero), l'evento può essere inserito nell'attuale \textit{window} se il suo \textit{\gls{timestamp}} è compatibile con i limiti della suddetta (inizio e fine), oppure può essere inserito nello stato \textbf{\textit{mapToListFutureEvents}} (\S\ref{sec:stati-windowing}) così da essere trattato nella successiva finestra temporale, se ha un \gls{timestamp} successivo rispetto la fine dell'attuale finestra temporale.\\
-Infine se il \gls{timestamp} dell'evento è antecendete l'inizio della \textit{window}, l'evento viene scartato.}
+Infine se il \gls{timestamp} dell'evento è antecedente l'inizio della \textit{window}, l'evento viene scartato.}
 \end{enumerate}
 
 Per gestire l'inizio di una determinata nuova finestra temporale (quindi basata su una nuova \textbf{configurazione} per essa) verrà fatto un controllo per definire se l'evento entrante è il primo a partire da una nuova configurazione. In questo caso l'inizio della \textit{window} è eguale al \textit{\gls{timestamp}} dell'evento entrante e la fine della \textit{window} è equivalente alla somma dell'inizio della finestra temporale con la sua durata (definita nella configurazione).
@@ -229,7 +229,7 @@ In tale paragrafo vengono introdotti i \textit{detector} utilizzati all'interno 
 Di seguito la lista rappresentante i \textit{detector} utilizzati dall'\textit{AlertCoProcess}:
 \begin{itemize}
 	\item{\textbf{\textit{Uniseas}}: \textit{detector} che lavora singolarmente su un tipo di risorsa analizzando la sua \textit{\gls{stagionalita}}. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
-	\item{\textbf{\textit{Crosscorrel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo metereologico), analizzando la correlazione tra variabili. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
+	\item{\textbf{\textit{Crosscorrel}}: \textit{detector} che lavora singolarmente su un tipo di risorsa e su un evento esterno ad essa (come per esempio il tempo meteorologico), analizzando la correlazione tra variabili. Il suo aggiornamento non richiede un ricalcolo del modello non usando un algoritmo di \textit{\gls{Apprendimento automatico}};}
 	\item{\textbf{\textit{Siblings}}: \textit{detector} che lavora singolarmente su un tipo risorsa valutando il suo andamento in funzione dell'andamento di altri \textit{N} \textit{asset}. Utilizza un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento supervisionato}}. A differenza dei precedenti \textit{detector}, l'algoritmo richiede un ricalcolo del modello nel caso di una nuova configurazione.}
 \end{itemize}
 
@@ -249,7 +249,7 @@ Per permettere la rappresentazione di gruppi di risorse differenti su cui ora op
   "ts": //timestamp dell'evento, in formato String
   "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
   "data": //payload dei dati dell'evento trasformati in formato JSON
-  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON
+  "ctxData": //dati relativi al contesto, come per esempio il tempo meteorologico, in formato JSON
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta]
   "type": //tipo di BumblebeeOutput, in formato Option[String]
   "srcID": //id della fonte dell'evento in formato String
@@ -267,12 +267,12 @@ Dopo l'opportuna modifica, la struttura rappresentante il \textbf{\textit{Bumble
   "tid": //id del cliente, in formato String
   "subject": {
 	  "id": //id dell'oggetto, in formato String
-	  "type": //tipo dell'oggetto rapresentanto (asset,category,group), in formato String
+	  "type": //tipo dell'oggetto rappresentato (asset,category,group), in formato String
   }
   "ts": //timestamp dell'evento, in formato String,
   "asset": //informazioni relative alla risorsa dopo che è stata arricchita, in formato AssetInfo
   "data": //payload dei dati dell'evento trasformati in formato JSON
-  "ctxData": //dati relativi al contesto, come per esempio il tempo metereologico, in formato JSON
+  "ctxData": //dati relativi al contesto, come per esempio il tempo meteorologico, in formato JSON
   "meta": //metadati arricchiti dall'operatore di anomaly detection, in formato Option[EventMeta]
   "type": //tipo di BumblebeeOutput, in formato Option[String]
   "srcID": //id della fonte dell'evento in formato String
@@ -357,7 +357,7 @@ La definizione della configurazione relativa ai \textit{detector} è così rappr
 }
 \end{minted}
 La principale informazione aggiuntiva introdotta nel formato \textit{\gls{json}} relativo alla configurazione dei \textit{detector} è rappresentata dall'\textit{id} relativo al gruppo introdotto all'interno di \textit{assetFilters}. Tale \textit{id} permette una corretta mappatura del gruppo con l'\textit{id} del \textit{detector} all'interno dell'operatore \textit{AlertCoProcess}.\\
-Si è deciso di non rappresentare la struttura relativa ai parametri che identificano il \textit{detector} (rappresentanti dal campo \textit{parameters}) perchè essi rimangono invariati anche dopo l'aggiunta delle nuove funzionalità e sono scollegate da essa.
+Si è deciso di non rappresentare la struttura relativa ai parametri che identificano il \textit{detector} (rappresentanti dal campo \textit{parameters}) perché essi rimangono invariati anche dopo l'aggiunta delle nuove funzionalità e sono scollegate da essa.
 
 \subsection{JSON configurazione anomaly detection}
 Di seguito viene rappresentato il messaggio \textit{\gls{json}} di configurazione globale fornito dall'\textit{\gls{api}} che si occupa di definire la configurazione decisa dall'utente:
@@ -370,7 +370,7 @@ Di seguito viene rappresentato il messaggio \textit{\gls{json}} di configurazion
   "pipeVersion": //versione della pipeline, in formato String
   "outputTopic": // tipo di topic dell'output, in formato String
   "isGrouping": // rappresenta se l'anomalia deve essere sollevata su un gruppo, in formato Boolean
-  "detectors": // configurazione dei detectors, in fomato Array
+  "detectors": // configurazione dei detectors, in formato Array
   "windowing": // configurazione della finestra temporale
  }
 \end{minted}

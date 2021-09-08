@@ -8,7 +8,7 @@
 
 %**************************************************************
 
-\intro{Il capitolo racchiude gli strumenti utilizzati e le tecnologie impiegate durante la realizzazione del progetto. In particolare verrà analizzato il dominio di utilizzo di esse e le varie meotodologie utilizzate.}\\
+\intro{Il capitolo racchiude gli strumenti utilizzati e le tecnologie impiegate durante la realizzazione del progetto. In particolare verrà analizzato il dominio di utilizzo di esse e le varie metodologie utilizzate.}\\
 
 %**************************************************************
 \section{Apache Flink}
@@ -17,13 +17,13 @@ La forza di \textit{Flink} è quella di trattare i dati in differenti modalità,
 
 \subsection{DataStream e DataStrem API}
 In \textit{Apache Flink} i dati elaborati in un programma vengono rappresentati dalla classe speciale \textit{DataStream}.
-Tali dati possono essere finiti o illimitati, e le \textit{\gls{api}} utilizzate per lavorare su questi due differenti tipoligie di dati è la stessa, rendendo il tutto trasparente per l'utente programmatore.\\
-Carattestiche fondamentali dei \textit{DataStream} sono:
+Tali dati possono essere finiti o illimitati, e le \textit{\gls{api}} utilizzate per lavorare su questi due differenti tipologie di dati è la stessa, rendendo il tutto trasparente per l'utente programmatore.\\
+Caratteristiche fondamentali dei \textit{DataStream} sono:
 \begin{itemize}
 	\item{\textbf{immutabilità:} una volta creati non è possibile aggiungere o rimuovere elementi (inteso a livello di codice prodotto);}
 	\item{\textbf{soggetti a trasformazioni:} non è possibile ispezionare gli elementi al proprio interno, ma solo lavorare su di essi utilizzando le \textit{DataStream \textit{\gls{api}}}, che vengono definite, appunto, trasformazioni.}
 \end{itemize}
-La creazione di un \textit{DataStream} necessità di avere una sorgente (\textit{source}) iniziale (la quale può essere, per esempio, una coda fornita da \textit{\gls{Amazon Kinesis}}) e da questa si possono derivare numerosi flussi, i quali possono essere combinati utilizzando le \textit{\gls{api}} esposte, nonchè gli operatori descritti nella sezione \S\ref{sec:operatori}.
+La creazione di un \textit{DataStream} necessità di avere una sorgente (\textit{source}) iniziale (la quale può essere, per esempio, una coda fornita da \textit{\gls{Amazon Kinesis}}) e da questa si possono derivare numerosi flussi, i quali possono essere combinati utilizzando le \textit{\gls{api}} esposte, nonché gli operatori descritti nella sezione \S\ref{sec:operatori}.
 Le \textit{DataStream \textit{\gls{api}}} supportano differenti modalità di esecuzione, le quali permettono di avere un approccio più mirato in base all'utilizzo effettivo dell'utente.\\
 Le modalità principali di esecuzione sono:
 \begin{itemize}

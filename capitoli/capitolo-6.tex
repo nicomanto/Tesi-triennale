@@ -18,7 +18,34 @@ Il progetto realizzato permette un'analisi a livello d'insieme di eventi disgiun
 %**************************************************************
 \section{Raggiungimento degli obiettivi}
 Gli obiettivi prefissati ad inizio del percorso di stage sono risultati interamente soddisfatti, riuscendo a raggiungere sia quelli minimi che quelli massimi.\\
-La componente di \textit{anomaly detection} realizzata soddisfa tutti i requisiti prefissati all'interno del capitolo Analisi dei Requisiti (\S\ref{cap:analisi-requisiti}). Oltre ai requisiti obbligatori risultano compiuti anche i requisiti desiderabili, considerati comunque importanti per dare valore aggiunto al prodotto realizzato perchè trattano principalmente la fase relativa ai \textit{test}, considerata fondamentale per la validazione delle funzionalità principali della componente.
+La componente di \textit{anomaly detection} realizzata soddisfa tutti i requisiti prefissati all'interno del capitolo Analisi dei Requisiti (\S\ref{cap:analisi-requisiti}). Oltre ai requisiti obbligatori risultano compiuti anche i requisiti desiderabili, considerati comunque importanti per dare valore aggiunto al prodotto realizzato perché trattano principalmente la fase relativa ai \textit{test}, considerata fondamentale per la validazione delle funzionalità principali della componente.
+
+\section{Principali problematiche e relative soluzioni}
+Le principali problematiche riscontrate durante la realizzazione del progetto sono relative alla \textbf{comprensione ed utilizzo delle tecnologie nuove} e alla \textbf{definizione dell'architettura implementativa}. Di seguito verranno analizzati i problemi specifici e le relative soluzioni adottate:\\
+
+\begin{risk}{Comprensione e utilizzo del framework \textit{Flink}}
+    \riskdescription{durante lo studio e la creazione del \textit{\gls{poc}} per testare le principali funzionalità di \textit{Flink} sono stati riscontrati problemi relativi alle dipendenze utilizzate da esso}
+    \risksolution{per risolvere tale problema è stato richiesta una supervisione da parte del tutor aziendale. Tramite il suo aiuto è stato scoperto che venivano utilizzate, erroneamente, versioni molto datate delle relative dipendenze ed inoltre alcune di esse facevano riferimento ad un linguaggio di programmazione diverso da quello voluto (\textit{Scala})}
+    \label{risk:flinkImport}
+\end{risk}
+
+\begin{risk}{Adattabilità dell'operatore rappresentante gli eventi}
+    \riskdescription{l'operatore preesistente non riusciva nativamente a creare un \textit{output} informativo che potesse trattare eventi provenienti da gruppi di risorse. Tale struttura risulta essenziale per permettere la corretta elaborazione da parte dell'operatore di raggruppamento temporale e quello relativo all'analisi delle anomalie}
+    \risksolution{si è deciso di modificare la rappresentazione di tale \textit{output} informativo per garantire la gestione degli eventi provenienti sia da gruppi di risorse, che risorse singole, sfruttando quindi un comune tipo di \textit{output} adattabile alle esigenze appena descritte}
+    \label{risk:bumblebeeOutput} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore di raggruppamento temporale}
+    \riskdescription{l'operatore temporale non riusciva a gestire l'aggregazione ed il raggruppamento di eventi (allineamento) provenienti da \textit{asset} disgiunti}
+    \risksolution{si è deciso di modificare la logica di tale operatore garantendo la completa gestione sia di aggregazione che di allineamento, mantenendo comunque la retrocompatibilità con il funzionamento precedente (aggregazione di eventi provenienti da una risorsa singola)}
+    \label{risk:windowing} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore di rilevamento delle anomalie}
+    \riskdescription{l'operatore preesistente non riusciva a rilevare anomalie su eventi provenienti da gruppi di risorse differenti}
+    \risksolution{si è deciso di modificare la logica di tale operatore adattandolo alle nuove esigenze, garantendo comunque la retrocompatibilità con il funzionamento precedente (rilevamento delle anomalie su eventi provenienti da una risorsa singola)}
+    \label{risk:anomalyDetector} 
+\end{risk}
 
 %**************************************************************
 \section{Possibili miglioramenti ed estensioni}
