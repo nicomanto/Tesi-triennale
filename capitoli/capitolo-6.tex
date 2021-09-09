@@ -3,6 +3,68 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Verifica e validazione}
-\label{cap:verifica-validazione}
+\chapter{Conclusioni}
+\label{cap:conclusioni}
 %**************************************************************
+
+\intro{Il capitolo espone i risultati ottenuti durante il periodo di stage relativamente al prodotto realizzato. Viene analizzato il risultato finale comprensivo degli obiettivi raggiunti, esponendo i possibili miglioramenti al prodotto finale e dando una valutazione soggettiva sull'intero percorso di stage. Infine vengono evidenziate le conoscenze acquisite.}
+
+%**************************************************************
+\section{Risultato finale}
+Al termine della fase di sviluppo e successivamente alla validazione, la componente di \textit{anomaly detection} riesce ad analizzare \textbf{eventi relativi ad \textit{asset} differenti raggruppati} assieme emettendo, se necessario, \textit{alert} relativi al gruppo stesso se un'anomalia è stata rilevata. Pur avendo aggiunto l'analisi di anomalie su gruppi di \textit{asset} differenti raggruppati, tale componente mantiene la preesistente funzionalità di rilevamento di anomalie su un \textit{asset} singolo raggruppato su se stesso.\\
+La componente, inoltre, permette la modifica della propria configurazione senza interrompere l'analisi attiva degli eventi, garantendo un'elaborazione continua di essi, cosa fondamentale per un'analisi della totalità degli eventi.\\
+Il progetto realizzato permette un'analisi a livello d'insieme di eventi disgiunti, che può rilevarsi fondamentale per gli utenti interessati a valutare il comportamento di risorse fra di loro diverse.
+
+%**************************************************************
+\section{Raggiungimento degli obiettivi}
+Gli obiettivi prefissati ad inizio del percorso di stage sono risultati interamente soddisfatti, riuscendo a raggiungere sia quelli minimi che quelli massimi.\\
+La componente di \textit{anomaly detection} realizzata soddisfa tutti i requisiti prefissati all'interno del capitolo Analisi dei Requisiti (\S\ref{cap:analisi-requisiti}). Oltre ai requisiti obbligatori risultano compiuti anche i requisiti desiderabili, considerati comunque importanti per dare valore aggiunto al prodotto realizzato perché trattano principalmente la fase relativa ai \textit{test}, considerata fondamentale per la validazione delle funzionalità principali della componente.
+
+\section{Principali problematiche e relative soluzioni}
+Le principali problematiche riscontrate durante la realizzazione del progetto sono relative alla \textbf{comprensione ed utilizzo delle tecnologie nuove} e alla \textbf{definizione dell'architettura implementativa}. Di seguito verranno analizzati i problemi specifici e le relative soluzioni adottate:\\
+
+\begin{risk}{Comprensione e utilizzo del framework \textit{Flink}}
+    \riskdescription{durante lo studio e la creazione del \textit{\gls{poc}} per testare le principali funzionalità di \textit{Flink} sono stati riscontrati problemi relativi alle dipendenze utilizzate da esso}
+    \risksolution{per risolvere tale problema è stato richiesta una supervisione da parte del tutor aziendale. Tramite il suo aiuto è stato scoperto che venivano utilizzate, erroneamente, versioni molto datate delle relative dipendenze ed inoltre alcune di esse facevano riferimento ad un linguaggio di programmazione diverso da quello voluto (\textit{Scala})}
+    \label{risk:flinkImport}
+\end{risk}
+
+\begin{risk}{Adattabilità dell'operatore rappresentante gli eventi}
+    \riskdescription{l'operatore preesistente non riusciva nativamente a creare un \textit{output} informativo che potesse trattare eventi provenienti da gruppi di risorse. Tale struttura risulta essenziale per permettere la corretta elaborazione da parte dell'operatore di raggruppamento temporale e quello relativo all'analisi delle anomalie}
+    \risksolution{si è deciso di modificare la rappresentazione di tale \textit{output} informativo per garantire la gestione degli eventi provenienti sia da gruppi di risorse, che risorse singole, sfruttando quindi un comune tipo di \textit{output} adattabile alle esigenze appena descritte}
+    \label{risk:bumblebeeOutput} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore di raggruppamento temporale}
+    \riskdescription{l'operatore temporale non riusciva a gestire l'aggregazione ed il raggruppamento di eventi (allineamento) provenienti da \textit{asset} disgiunti}
+    \risksolution{si è deciso di modificare la logica di tale operatore garantendo la completa gestione sia di aggregazione che di allineamento, mantenendo comunque la retrocompatibilità con il funzionamento precedente (aggregazione di eventi provenienti da una risorsa singola)}
+    \label{risk:windowing} 
+\end{risk}
+
+\begin{risk}{Adattabilità operatore di rilevamento delle anomalie}
+    \riskdescription{l'operatore preesistente non riusciva a rilevare anomalie su eventi provenienti da gruppi di risorse differenti}
+    \risksolution{si è deciso di modificare la logica di tale operatore adattandolo alle nuove esigenze, garantendo comunque la retrocompatibilità con il funzionamento precedente (rilevamento delle anomalie su eventi provenienti da una risorsa singola)}
+    \label{risk:anomalyDetector} 
+\end{risk}
+
+%**************************************************************
+\section{Possibili miglioramenti ed estensioni}
+Un possibile miglioramento alla componente di \textit{anomaly detection} sarebbe relativo all'aggiunta di nuovi tipi di \textit{detector}. Tale miglioramento garantirebbe un'analisi di anomalie su gruppi più mirata rispetto agli attuali \textit{detector}, i quali sono stati pensati principalmente per operare con \textit{asset} eguali fra di loro.\\
+Due possibili tipi di \textit{detector} potrebbero essere:
+\begin{itemize}
+	\item{\textbf{\textit{Unsupervised}}: \textit{detector} che lavora su un gruppo di risorse lavorando con un algoritmo di \textit{\gls{Apprendimento automatico}} di tipo \textit{\gls{Apprendimento non supervisionato}}. L'algoritmo richiederebbe un ricalcolo del modello nel caso di una nuova configurazione;}
+	\item{\textbf{\textit{Rule based}}: \textit{detector} che lavora su un gruppo di risorse oppure su una risorsa singola in base alla propria configurazione e valutando l'andamento della/e risorsa/e tramite una regola definita dall'utente.}
+\end{itemize}
+In particolare, il \textit{detector} \textit{Rule based} permetterebbe all'utente di avere un maggiore controllo relativo al tipo di elaborazione da effettuare sui dati, definendo da sé la logica utilizzata dal \textit{detector}.
+
+
+
+%**************************************************************
+\section{Conoscenze acquisite}
+Il percorso di stage presso l'azienda \textit{Datasoil s.r.l.} mi ha dato conoscenze riguardo l'analisi dei dati \textit{real-time}, che richiede una gestione scalabile e ottimizzata al meglio per permettere un'analisi veloce e garantire l'elaborazione di flussi di dati molto grandi e ad alta granularità temporale. Le conoscenze acquisite sono derivanti dai consigli forniti dal tutor aziendale e dallo studio del \textit{\textit{\gls{framework}}} \textit{Flink} il quale fulcro di utilizzo riguarda l'elaborazione di grandi quantità di dati, sia \textit{batch} che \textit{real-time}. L'implementazione della componente di \textit{anomaly detection}, inoltre, mi ha permesso di studiare e comprendere due tipi di linguaggi di programmazione mai utilizzati sino a questo momento, quali \textit{Go} e \textit{Scala}.\\
+Questo periodo, infine, mi ha permesso di interfacciarmi con un vero e proprio ambito aziendale, permettendomi di comprendere il \textit{workflow} lavorativo e gestionale tipico di un'azienda di programmazione \textit{software}.
+
+%**************************************************************
+\section{Valutazione personale}
+L'esperienza di stage è stata molto interessante e formativa, infatti mi ha permesso di migliorare sia sul piano di gestione del carico di lavoro personale, sia nell'ambito delle conoscenze tecniche acquisite. Ritengo che gli obiettivi prefissati siano stati adeguati per il carico di lavoro richiesto e, volenteroso di raggiungere anche gli obiettivi massimi quale il \textit{testing}, è stata richiesta una settimana aggiuntiva al periodo di stage prefissato.\\
+L'ambito del progetto, dal mio punto di vista, è veramente innovativo e presumo che diventerà davvero importante negli anni a venire. Ringrazio l'azienda \textit{Datasoil s.r.l.} e il mio tutor Pietro De Caro per avermi fatto conoscere e lavorare su un argomento davvero interessante e stimolante. 

@@ -6,6 +6,8 @@
         %%             2 novembre 2012              %%
         %%                                          %%
         %%******************************************%%
+        
+
 
 
 % I seguenti commenti speciali impostano:
@@ -29,19 +31,26 @@
   \Keywords{keyword1\sep keyword2\sep keyword3}
 \end{filecontents*}
 
-\documentclass[10pt,                    % corpo del font principale
+\documentclass[12pt,                    % corpo del font principale
                a4paper,                 % carta A4
                twoside,                 % impagina per fronte-retro
                openright,               % inizio capitoli a destra
-               english,                 
-               italian,                 
+               english,
+               italian,                                
                ]{book}    
 
 %**************************************************************
 % Importazione package
 %************************************************************** 
 
+
+
+
 \PassOptionsToPackage{dvipsnames}{xcolor} % colori PDF/A
+
+\usepackage{array} %colonne tabella
+
+\usepackage{minted} % Import package for write code
 
 \usepackage{colorprofiles}
 
@@ -57,7 +66,7 @@
 \usepackage[utf8]{inputenc}             % codifica di input; anche [latin1] va bene
                                         % NOTA BENE! va accordata con le preferenze dell'editor
 
-\usepackage[english, italian]{babel}    % per scrivere in italiano e in inglese;
+\usepackage[english,italian]{babel}    % per scrivere in italiano e in inglese;
                                         % l'ultima lingua (l'italiano) risulta predefinita
 
 \usepackage{bookmark}                   % segnalibri
@@ -82,7 +91,7 @@
 
 \usepackage[binding=5mm]{layaureo}      % margini ottimizzati per l'A4; rilegatura di 5 mm
 
-\usepackage{listings}                   % codici
+%\usepackage{listings}                   % per codice -> sostituito con minted
 
 \usepackage{microtype}                  % microtipografia
 
@@ -136,14 +145,11 @@
 %**************************************************************
 \mainmatter
 \input{capitoli/capitolo-1}             % Introduzione
-\input{capitoli/capitolo-2}             % Processi
-\input{capitoli/capitolo-3}             % Kick-Off
-\input{capitoli/capitolo-4}             % Concept Preview
-\input{capitoli/capitolo-5}             % Product Prototype
-\input{capitoli/capitolo-6}             % Product Design Freeze e SOP
-\input{capitoli/capitolo-7}             % Conclusioni
-\appendix                               
-\input{capitoli/capitolo-A}             % Appendice A
+\input{capitoli/capitolo-2}             % Strumenti utilizzati
+\input{capitoli/capitolo-3}             % Analisi dei requisiti
+\input{capitoli/capitolo-4}             % Progettazione e codifica
+\input{capitoli/capitolo-5}             % Verifica e validazione
+\input{capitoli/capitolo-6}             % Conclusioni
 
 %**************************************************************
 % Materiale finale

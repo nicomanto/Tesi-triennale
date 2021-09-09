@@ -3,43 +3,153 @@
 % !TEX root = ../tesi.tex
 
 %**************************************************************
-\chapter{Progettazione e codifica}
-\label{cap:progettazione-codifica}
+\chapter{Verifica e validazione}
+\label{cap:verifica-validazione}
 %**************************************************************
 
-\intro{Breve introduzione al capitolo}\\
 
-%**************************************************************
-\section{Tecnologie e strumenti}
-\label{sec:tecnologie-strumenti}
+\intro{Il suddetto capitolo esplicita la fase di \textit{testing} relativa agli operatori e API descritte nella fase di sviluppo e codifica. Tale fase non è da considerare come successiva a quella della codifica del codice, ma parallela; infatti per ogni modifica apportate al codice si è deciso di valutarne il corretto funzionamento in modo immediato.}
 
-Di seguito viene data una panoramica delle tecnologie e strumenti utilizzati.
+\section{Classificazione dei test}
+I test realizzati sono \textbf{\textit{test di unità}} e sono codificati come segue:
+\begin{center}
+\textbf{TU[Codice]}\\
+\end{center}
+dove \textbf{Codice} identifica un numero incrementale che distingue i vari test.
 
-\subsection*{Tecnologia 1}
-Descrizione Tecnologia 1.
+\section{Operatore Windowing}
+Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{Windowing} rispetto ai requisiti prefissati.
 
-\subsection*{Tecnologia 2}
-Descrizione Tecnologia 2
+{
+\centering
+\begin{longtable}{L{3cm} L{8.5cm} L{2cm}}
+\caption{Test di unità dell'operatore \textit{Windowing}}\\
+\textbf{Identificativo} &
+\textbf{Descrizione}&
+\textbf{Esito}\\
+\endhead
+\hline
 
-%**************************************************************
-\section{Ciclo di vita del software}
-\label{sec:ciclo-vita-software}
+TU1 & L'operatore non deve aggiornare la propria configurazione se essa è eguale a quella nuova & Superato \\
+\hline
+TU2 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una lunghezza dell'\textit{array DataFields} differente rispetto a quella nuova & Superato \\
+\hline
+TU3 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{id} del gruppo, all'interno del campo \textit{assetFilters}, mancante nella nuova configurazione & Superato\\
+\hline
+TU4 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha un \textit{DataField} non più presente in quella nuova & Superato \\
+\hline
+TU5 & L'operatore aggiorna l'attuale configurazione in quanto la precedente ha una durata della \textit{window} differente da quella attuale & Superato\\
+\hline
+TU6 & L'operatore salta l'attuale finestra temporale avente durata uguale a zero. Viene verificato che vengano collezionati comunque i dati & Superato \\
+\hline
+TU7 & L'operatore non colleziona l'attuale evento in quanto non esiste una configurazione della \textit{window} & Superato \\
+\hline
+TU8 & L'operatore non colleziona l'attuale evento in quanto non contiene parametri su cui si può fare un'analisi (evento non arricchito) & Superato \\
+\hline
+TU9 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi. Tale aggregazione avviene correttamente sui campi all'interno di \textit{ctxDataField} & Superato \\
+\hline
+TU10 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} allineando eventi aggregati su se stessi escludendo \textit{asset} che non contengono alcun \textit{DataField} & Superato \\
+\hline
+TU11 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents}, allineando eventi aggregati su se stessi, i quali mantengono i rispettivi dati che non devono essere aggregati. Inoltre gli eventi che non contenevano un determinato dato da aggregare, risultano non avere tale parametro settato con un valore di \textit{default} & Superato \\
+\hline
+TU12 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato su se stesso secondo la modalità "\textit{somma}" & Superato \\
+\hline
+TU13 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente un evento aggregato su se stesso secondo la modalità "\textit{media}" & Superato \\
+\hline
+TU14 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati su se stessi secondo la modalità "\textit{somma}" & Superato \\
+\hline
+TU15 & L'operatore configurato con la modalità \textit{barrier} crea correttamente un \textit{GroupedEvents} contenente due eventi i quali sono aggregati su se stessi secondo la modalità "\textit{media}" & Superato \\
+\hline
+TU16 & L'operatore configurato con la modalità \textit{barrier} crea correttamente l'aggregatore della futura finestra temporale con gli eventi in anticipo visti nell'attuale \textit{window} & Superato \\
+\hline
+TU17 & L'operatore configurato con la modalità \textit{barrier} colleziona correttamente due \textit{GroupedEvents}, cioè crea due gruppi differenti di eventi & Superato \\
+\hline
+TU18 & L'operatore configurato con la modalità \textit{barrier} gestisce correttamente la chiusura di tre finestre temporali & Superato \\
+\hline
+TU19 & L'operatore configurato con la modalità \textit{aggregation\_mean} non colleziona il \textit{GroupedEvents} poiché almeno un elemento durante l'aggregazione collettiva di \textit{asset} differenti non conteneva un particolare \textit{DataField} richiesto per l'aggregazione stessa & Superato \\
+\hline
+TU20 & L'operatore configurato con la modalità \textit{aggregation\_sum} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+\hline
+TU21 & L'operatore configurato con la modalità \textit{aggregation\_mean} crea correttamente un \textit{GroupedEvents} contenente un evento rappresentante l'aggregazione di \textit{asset} differenti & Superato \\
+\hline
+TU22 & L'operatore configurato con una modalità non prevista non crea nessun \textit{GroupedEvents} & Superato \\
+\hline
+\end{longtable}
+}
 
-%**************************************************************
-\section{Progettazione}
-\label{sec:progettazione}
-
-\subsubsection{Namespace 1} %**************************
-Descrizione namespace 1.
-
-\begin{namespacedesc}
-    \classdesc{Classe 1}{Descrizione classe 1}
-    \classdesc{Classe 2}{Descrizione classe 2}
-\end{namespacedesc}
 
 
-%**************************************************************
-\section{Design Pattern utilizzati}
+\section{Operatore AlertCoProcess}
+Tale sezione elenca i test effettuati per garantire il corretto funzionamento dell'operatore \textit{AlertCoProcess} rispetto ai requisiti prefissati
 
-%**************************************************************
-\section{Codifica}
+{
+\centering
+\begin{longtable}{L{3cm} L{8.5cm} L{2cm}}
+\caption{Test di unità dell'operatore \textit{AlertCoProcess}}\\
+\textbf{Identificativo} &
+\textbf{Descrizione}&
+\textbf{Esito}\\
+\endhead
+\hline
+
+TU23 & L'operatore collega correttamente due \textit{asset} differenti alla stessa configurazione del \textit{detector} di tipo \textit{uniseas} & Superato\\
+\hline
+TU24 & L'operatore collega correttamente due \textit{asset} differenti a due configurazioni differenti di \textit{detector} di tipo \textit{uniseas} & Superato \\
+\hline
+TU25 &  L'operatore aggiorna correttamente la configurazione di un \textit{detector} di tipo \textit{uniseas} & Superato\\
+\hline
+TU26 & L'operatore svuota correttamente gli stati tramite una configurazione di tipo \textit{delete} su un \textit{detector} di tipo \textit{uniseas} & Superato \\
+\hline
+TU27 & L'operatore riesce a gestire correttamente l'errore relativo al caricamento fallito della configurazione di un \textit{detector} di tipo \textit{siblings} & Superato\\
+\hline
+TU28 & L'operatore ignora l'aggiornamento della configurazione perché la nuova configurazione è di tipo "\textit{grouping}" ma il \textit{detector} configurato all'interno di essa è di tipo \textit{single input} & Superato \\
+\hline
+\end{longtable}
+}
+
+\section{API di configurazione}
+Tale sezione elenca i test effettuati per garantire il corretto funzionamento delle \textit{\gls{api}} di governo per la gestione della configurazione della componente di \textit{anomaly detection}
+
+{
+\centering
+\begin{longtable}{L{3cm} L{8.5cm} L{2cm}}
+\caption{Test di unità \textit{API} di configurazione}\\
+\textbf{Identificativo} &
+\textbf{Descrizione}&
+\textbf{Esito}\\
+\endhead
+\hline
+TU29 & Viene verificata la correttezza dei messaggi d'errore forniti all'utente nel caso sia passata una configurazione non conforme alle attese, senza avere una configurazione preesistente  & Superato\\
+\hline
+TU30 & Viene verificata la correttezza dei messaggi d'errore forniti all'utente nel caso sia passata una configurazione non conforme alle attese, avendo una configurazione preesistente & Superato\\
+\hline
+TU31 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente, all'interno della configurazione, con gli \textit{id} generati dall'\textit{\gls{api}}, senza avere una configurazione preesistente & Superato\\
+\hline
+TU32 & Viene verificata la correttezza della sostituzione degli \textit{id} forniti dall'utente (sui nuovi gruppi), all'interno della configurazione, con gli \textit{id} generati dall'\textit{\gls{api}}, avendo una configurazione preesistente & Superato\\
+\hline
+\end{longtable}
+}
+
+\section{Tracciamento test di unità - ambito di sviluppo}
+{
+\centering
+\begin{longtable}{L{5cm} L{8.5cm}}
+\caption{Tracciamento test di unità - ambito di sviluppo}\\
+\textbf{Identificativo test} &
+\textbf{Ambito di sviluppo}\\
+\endhead
+\hline
+
+TU1 \newline TU2 \newline TU3 \newline TU4 \newline TU5 \newline TU6 \newline TU7 \newline TU8 \newline TU9 \newline TU10 \newline TU11 \newline TU12 \newline TU13 \newline TU14 \newline TU15 \newline TU16 \newline TU17 \newline TU18 \newline TU19 \newline TU20 \newline TU21 \newline TU22 & Operatore \textit{Windowing} \\
+\hline
+TU23 \newline TU24 \newline TU25 \newline TU26 \newline TU27 \newline TU28 & Operatore \textit{AlertCoProcess} \\
+\hline
+TU29 \newline TU30 \newline TU31 \newline TU32 & \textit{\gls{api}} di configurazione\\
+\hline
+\end{longtable}
+}
+
+
+\section{Considerazioni}
+I test elencati hanno tutti come esito \textbf{"Superato"}. Inoltre, per ogni modifica e funzionalità aggiuntiva apportata agli operatori \textit{Windowing} e \textit{AlertCoProcess}, sono stati creati test specifici per valutare sia la correttezza delle nuove funzionalità, sia la correttezza delle funzionalità preesistenti (\textbf{Test di regressione}). Per eseguire i test relativi agli operatori citati in precedenza, vengono sfruttate le funzionalità offerte da \textit{Flink} relative ai test di unità (\S\ref{sec:flink-testing}) ed il \textit{\textit{\gls{framework}}} \textit{ScalaTest} (\S\ref{sec:scala-test}).\\
+Per i test relativi alle \textit{\gls{api}} di governo, viene sfruttata la funzionalità di \textit{testing} nativa nel linguaggio \textit{Go} (\S\ref{sec:go}).

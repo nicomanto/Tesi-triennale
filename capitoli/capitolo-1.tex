@@ -7,47 +7,117 @@
 \label{cap:introduzione}
 %**************************************************************
 
-Introduzione al contesto applicativo.\\
-
-\noindent Esempio di utilizzo di un termine nel glossario \\
-\gls{api}. \\
-
-\noindent Esempio di citazione in linea \\
-\cite{site:agile-manifesto}. \\
-
-\noindent Esempio di citazione nel pie' di pagina \\
-citazione\footcite{womak:lean-thinking} \\
+\intro{Il documento seguente descrive il lavoro di tesi svolto come stage presso l'azienda Datasoil s.r.l. Lo stage è stato svolto al termine del percorso di studi della Laurea Triennale in Informatica presso l'Università degli Studi di Padova. Il progetto consiste nella realizzazione di una componente aggiuntiva al prodotto principale aziendale denominato SYN, dove tale componente si occupa di aggregazione e analisi in tempo reale di dati provenienti da \textit{asset} differenti.}
 
 %**************************************************************
 \section{L'azienda}
 
-Descrizione dell'azienda.
+Datasoil s.r.l. è una \textit{Startup} Innovativa fondata nel 2016 come \textit{Open Innovation} nell'ambito delle aziende manifatturiere.\\
+L'azienda si occupa di sviluppare prodotti \textit{Software as a Service} in \textit{cloud} \textit{\gls{b2b}} e \textit{\gls{b2c}} e opera principalmente nell'ambito dell'analisi, elaborazione e fruizione di dati per supportare processi decisionali mirati da parte delle aziende e degli utenti. Fulcro di tale servizio è la piattaforma proprietaria \textbf{\textit{SYN}}, la quale fornisce una visione coesa su processi ed infrastruttura derivata dall'analisi in tempo reale di dati provenienti da \textit{asset} e dati esterni tramite algoritmi di \textit{\gls{Apprendimento automatico}}, producendo \textit{alert} in grado di evidenziare eventi anomali e rilevanti.
+
+\begin{figure}[!h] 
+    \centering 
+    \includegraphics[width=0.2\columnwidth]{ds_logo.png} 
+    \caption{Logo di DataSoil s.r.l}
+\end{figure}
 
 %**************************************************************
-\section{L'idea}
+\section{Il progetto e lo stage}
 
-Introduzione all'idea dello stage.
+\subsection{Descrizione}
+
+Lo scopo dello stage e del relativo progetto è stato quello di creare una componente aggiuntiva per la piattaforma proprietaria \textbf{\textit{SYN}}. Tale componente si occupa dell'analisi ed elaborazione di dati in tempo reale provenienti da \textit{asset} differenti (es. rilevazione della produzione elettrica fornita da turbine eoliche), i quali vengono raggruppati per perimetro geografico, categoria o tipologia. La componente, inoltre,
+si occupa di notificare l'utente finale tramite \textit{alert} che vengono innescati dopo il superamento di specifiche soglie definite da regole decise dall'utente utilizzatore.\\
+Con l'integrazione appena citata si vuole dare un livello di analisi degli eventi che mira ad avere dati che rappresentano logicamente un insieme di risorse, le quali essendo raggruppate producono un livello informativo differente rispetto all'analisi singola di esse. Tale analisi può essere essenziale e rilevante per gli utenti utilizzatori.\\
+Il primo obiettivo del progetto è stato quello di modificare l'architettura preesistente per permettere l'analisi di eventi provenienti da risorse non eguali fra di loro, per cui mettere in relazione eventi inizialmente disgiunti per produrre un'analisi a livello d'insieme. Dapprima si è deciso di modificare l'elaborazione attuata dal \textit{\gls{framework}} \textit{Flink}, utilizzato tramite il linguaggio di programmazione \textit{Scala}, il quale permette elaborazioni \gls{stateful}, in modo distribuito, di flussi di dati (limitati ed illimitati). Tale elaborazione degli eventi avviene tramite degli operatori, i quali permettono di effettuare delle trasformazioni e delle elaborazioni sugli eventi interessati. Nello specifico le modifiche apportate trattano il cambiamento della logica di:
+\begin{itemize}
+	\item{\textbf{raggruppamento temporale:} adattamento del raggruppamento ad eventi provenienti da risorse differenti;}
+	\item{\textbf{rilevamento delle anomalie:} adattamento dell'analisi relativa alle anomalie basata su eventi disgiunti aggregati.}
+\end{itemize}
+Il secondo obiettivo trattava la modifica delle \textit{\gls{api}} di governo per la gestione della componente citata in precedenza. Le \textit{\gls{api}} sono state realizzate tramite il linguaggio di programmazione \textit{Go} e permettono la configurazione in tempo reale della componente realizzata tramite \textit{Flink}, iniettando le configurazioni (es. tipologia di \textit{asset} facenti parte di un particolare gruppo) decise dall'utente senza creare uno stallo nell'analisi degli eventi.
+
+\subsection{Pianificazione}
+Il progetto è stato suddiviso in differenti parti per comprendere, da prima, il dominio applicativo e le tecnologie utilizzate e di seguito le vere e proprie fasi di codifica.
+
+\begin{enumerate}
+	\item{Studio e analisi preliminare del \textit{\textit{\gls{framework}}} \textit{Flink};}
+	\item{Studio e analisi preliminare del linguaggio di programmazione \textit{Scala};}
+	\item{Sviluppo di \textit{\gls{poc}} per comprendere al meglio alcune funzionalità essenziali di \textit{Flink} quali \textit{\gls{serializzazione}};}
+	\item{Sviluppo e modifica degli operatori preesistenti per l'integrazione della componente di \textit{anomaly detection} su \textit{asset} raggruppati;}
+	\item{Sviluppo di test per verificare che gli operatori funzionino come atteso;}
+	\item{Studio e analisi preliminare del linguaggio di programmazione \textit{Go};}
+	\item{Sviluppo e modifica delle \textit{\gls{api}} per la gestione della configurazione del flusso di \textit{anomaly detection} su \textit{asset} raggruppati;}
+	\item{Sviluppo di test per verificare che le \textit{\gls{api}} funzionino come atteso.}
+\end{enumerate}
+
+\subsection{Obiettivi}
+Di seguito vengono elencati i vari obiettivi, relativamente all'ambito formativo e produttivo:
+\\ \\
+\textbf{Obiettivi formativi}
+\begin{itemize}
+	\item{Minimi:
+		\begin{itemize}
+			\item{Comprensione del \textit{workflow} e degli strumenti aziendali;}
+			\item{Comprensione dei linguaggi e delle architetture coinvolte;}
+			\item{Mappatura dell'attuale \textit{\gls{pipeline}} di analisi degli eventi (\textit{Flink});}
+			\item{Definizione dell'architettura ad alto livello per la funzionalità di \textit{anomaly detection} su \textit{asset} differenti raggruppati ed eventuali modifiche al sistema attuale;}
+			\item{Comprensione e definizione della metodologia di governo della \textit{\gls{pipeline}} attraverso messaggi;}
+			\item{Definizione delle \textit{\gls{api}} di governo.}
+		\end{itemize}			
+	}
+\end{itemize}
+
+\noindent \textbf{Obiettivi produttivi}
+\begin{itemize}
+	\item{Minimi:
+		\begin{itemize}
+			\item{Completamento dello sviluppo e validazione dell' operatore di \textit{windowing} relativo ad \textit{asset} differenti;}
+			\item{Completamento dello sviluppo e validazione dell' operatore di \textit{anomaly detection} su \textit{asset} differenti raggruppati;}
+			\item{Completamento dello sviluppo e validazione delle modifiche necessarie all'integrazione degli operatori nel flusso attuale;}
+			\item{Sviluppo delle \textit{\gls{api}} \textit{\gls{rest}} di governo degli operatori.}
+		\end{itemize}			
+	}
+	\item{Massimi:
+		\begin{itemize}
+			\item{Test automatizzati degli operatori;}
+			\item{Test automatizzati delle \textit{\gls{api}}.}
+		\end{itemize}			
+	}
+\end{itemize}
+
+
+
+
+%**************************************************************
+\section{Il prodotto finale}
+Al termine dello stage il prodotto realizzato riesce a gestire integramente l'analisi di insiemi di \textit{asset} raggruppati, sia per quando riguarda la suddivisione corretta di risorse in gruppi prefissati, sia per quanto concerne l'analisi relativa alle anomalie.\\
+La componente finale, infatti, riesce a filtrare eventi di risorse decise dall'utente, raggruppandole tramite una finestra temporale e producendo \textit{alert} che vanno a definire se su un dato insieme è stata rilevata un'anomalia. L'elaborazione appena descritta, inoltre, viene configurata da dati decisi dall'utente, il quale può definire quali gruppi di risorse analizzare e le soglie per il rilevamento delle anomalie, permettendo ad esso di modificarne il comportamento garantendo al tempo stesso una continua analisi dei dati entranti senza creare uno stallo nell'applicativo ed evitando la perdita di alcuni eventi.\\
+I test realizzati garantiscono che le modifiche apportate non abbiano intaccato le funzionalità precedenti, cioè quelle relative all'analisi di \textit{asset} singoli non raggruppati o il raggruppamento relativo alla stessa tipologia di risorsa.\\
+Per un'analisi più approfondita riguardo il risultato ottenuto fare riferimento al capitolo \S\ref{cap:conclusioni}.
+
+
+
 
 %**************************************************************
 \section{Organizzazione del testo}
+Questa sezione esplicita l'organizzazione del documento, andando a descrivere brevemente il contenuto di ogni capitolo.
 
 \begin{description}
-    \item[{\hyperref[cap:processi-metodologie]{Il secondo capitolo}}] descrive ...
+	\item[{\hyperref[cap:introduzione]{Il primo capitolo}}] introduce il contesto applicativo del percorso di stage e il prodotto realizzato, andando a descrivere l'azienda proponente dello stage ed il progetto ad alto livello.
+ 
+    \item[{\hyperref[cap:strumenti-tecnologie]{Il secondo capitolo}}] descrive i principali strumenti e tecnologie utilizzate per la realizzazione del progetto.
     
-    \item[{\hyperref[cap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:analisi-requisiti]{Il terzo capitolo}}] approfondisce i requisiti e i casi d'uso che la componente sviluppata è chiamata a rispettare.
     
-    \item[{\hyperref[cap:analisi-requisiti]{Il quarto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:progettazione-codifica]{Il quarto capitolo}}] esplicita in dettaglio la progettazione e lo sviluppo del prodotto quali le modifiche apportate ai vari operatori per il supporto delle nuove funzionalità e la creazione delle \textit{\gls{api}} di governo relative.
     
-    \item[{\hyperref[cap:progettazione-codifica]{Il quinto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:verifica-validazione]{Il quinto capitolo}}] si sofferma a descrivere le procedure adottate per definire il prodotto collaudato e soddisfacente rispetto ai requisiti e agli obiettivi prefissati.
     
-    \item[{\hyperref[cap:verifica-validazione]{Il sesto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[cap:conclusioni]{Nel settimo capitolo}}] descrive ...
+    \item[{\hyperref[cap:conclusioni]{Il sesto capitolo}}] presenta il bilancio finale relativo allo stage e al progetto realizzato, analizzando i requisiti soddisfatti e dando un'analisi personale sul risultato ottenuto e sulle possibili migliorie.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
 \begin{itemize}
 	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato alla fine del presente documento;
-	\item per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: \emph{parola}\glsfirstoccur;
-	\item i termini in lingua straniera o facenti parti del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
+	\item i termini in lingua straniera o facenti parte del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
 \end{itemize}

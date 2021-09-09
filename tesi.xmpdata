@@ -1,5 +1,5 @@
   \Title{Tesi Laurea Triennale Niccolò Mantovani}
   \Author{Niccolò Mantovani}
   \Language{it-IT}
-  \Subject{Location digital twin}
-  \Keywords{Aggregazione in tempo reale di dati\sep Trigger che innescano notifiche e alert\sep Piattaforma SYN}
+  \Subject{Componente di controllo per l'elaborazione in tempo reale di flussi di dati aggregati}
+  \Keywords{Data\sep Stream\sep Analytics}

@@ -9,6 +9,40 @@
 
 \newacronym[description={\glslink{umlg}{Unified Modeling Language}}]
     {uml}{UML}{Unified Modeling Language}
+    
+\newacronym[description={\glslink{sqlg}{Structured Query Language}}]
+    {sql}{SQL}{Structured Query Language}
+    
+\newacronym[description={\glslink{pojog}{Plain Old Java Object}}]
+    {pojo}{POJO}{Plain Old Java Object}
+    
+\newacronym[description={\glslink{jsong}{JavaScript Object Notation}}]
+    {json}{JSON}{JavaScript Object Notation}
+
+\newacronym[description={\glslink{ideg}{Integrated Development Environment}}]
+    {ide}{IDE}{Integrated Development Environment}
+    
+\newacronym[description={\glslink{jvmg}{Java Virtual Machine}}]
+    {jvm}{JVM}{Java Virtual Machine}
+
+\newacronym[description={\glslink{jreg}{Java Runtime Environment}}]
+    {jre}{JRE}{Java Runtime Environment}
+    
+\newacronym[description={\glslink{b2bg}{Business-to-Business}}]
+    {b2b}{B2B}{Business-to-Business}
+    
+\newacronym[description={\glslink{b2cg}{Business-to-Consumer}}]
+    {b2c}{B2C}{Business-to-Consumer}
+    
+\newacronym[description={\glslink{xgboostg}{eXtreme Gradient Boosting}}]
+{xgboost}{XGBoost}{eXtreme Gradient Boosting}
+
+\newacronym[description={\glslink{pocg}{Proof of Concept}}]
+{poc}{PoC}{Proof of Concept}
+
+\newacronym[description={\glslink{restg}{REpresentational State Transfer}}]
+{rest}{REST}{REpresentational State Transfer}
+
 
 %**************************************************************
 % Glossario
@@ -20,7 +54,7 @@
     name=\glslink{api}{API},
     text=Application Program Interface,
     sort=api,
-    description={in informatica con il termine \emph{Application Programming Interface API} (ing. interfaccia di programmazione di un'applicazione) si indica ogni insieme di procedure disponibili al programmatore, di solito raggruppate a formare un set di strumenti specifici per l'espletamento di un determinato compito all'interno di un certo programma. La finalità è ottenere un'astrazione, di solito tra l'hardware e il programmatore o tra software a basso e quello ad alto livello semplificando così il lavoro di programmazione}
+    description={Le \textit{API} (acronimo di \textit{Application Programming Interface}, ovvero Interfaccia di programmazione delle applicazioni) sono set di definizioni e protocolli con i quali vengono realizzati e integrati \textit{software} applicativi. Consentono ai prodotti o servizi di comunicare con altri prodotti o servizi senza sapere come essi vengono implementati, semplificando così lo sviluppo degli applicativi}
 }
 
 \newglossaryentry{umlg}
@@ -28,5 +62,243 @@
     name=\glslink{uml}{UML},
     text=UML,
     sort=uml,
-    description={in ingegneria del software \emph{UML, Unified Modeling Language} (ing. linguaggio di modellazione unificato) è un linguaggio di modellazione e specifica basato sul paradigma object-oriented. L'\emph{UML} svolge un'importantissima funzione di ``lingua franca'' nella comunità della progettazione e programmazione a oggetti. Gran parte della letteratura di settore usa tale linguaggio per descrivere soluzioni analitiche e progettuali in modo sintetico e comprensibile a un vasto pubblico}
+    description={In ingegneria del software, \textit{UML} (\textit{Unified Modeling Language}, cioè "linguaggio di modellizzazione unificato") è un linguaggio di modellazione e di specifica basato sul paradigma orientato agli oggetti. L'\textit{UML} svolge un'importantissima funzione di "lingua franca" nella comunità della progettazione e programmazione a oggetti. Gran parte della letteratura di settore usa \textit{UML} per descrivere soluzioni analitiche e progettuali in modo sintetico e comprensibile a un vasto pubblico}
 }
+
+\newglossaryentry{stateful}
+{
+    name=\glslink{stateful}{STATEFUL},
+    text=Stateful,
+    sort=stateful,
+    description={In ambito informatico, \emph{stateful} significa che un applicativo supporta stati diversi. Cioè, dato lo stesso \textit{input}, l'\textit{output} dipenderà dallo stato corrente}
+}
+
+\newglossaryentry{stateless}
+{
+    name=\glslink{stateless}{STATELESS},
+    text=Stateless,
+    sort=stateless,
+    description={In ambito informatico, \emph{stateless} significa che un applicativo non supporta stati diversi. Cioè, dato lo stesso \textit{input}, l'\textit{output} dipenderà solamente da esso}
+}
+
+\newglossaryentry{bounded streams}
+{
+    name=\glslink{bounded streams}{BOUNDED STREAMS},
+    text=Bounded streams,
+    sort=bounded streams,
+    description={In \textit{Apache Flink}, un \textit{Bounded streams} ( letteralmente \textit{flusso limitato}), rappresenta un flusso che ha un inizio ed una fine}
+}
+
+\newglossaryentry{unbounded streams}
+{
+    name=\glslink{unbounded streams}{UNBOUNDED STREAMS},
+    text=Unbounded streams,
+    sort=unbounded streams,
+    description={In \textit{Apache Flink}, un \textit{Unbounded streams} ( letteralmente \textit{flusso illimitato}), rappresenta un flusso che ha un inizio ma non una fine}
+}
+
+\newglossaryentry{framework}
+{
+    name=\glslink{framework}{FRAMEWORK},
+    text=Framework,
+    sort=framework,
+    description={Un \textit{framework}, termine della lingua inglese che può essere tradotto come struttura o quadro strutturale, in informatica e specificamente nello sviluppo \textit{software}, è un'architettura logica di supporto (spesso un'implementazione logica di un particolare \textit{design pattern}) sulla quale un \textit{software} può essere progettato e realizzato, spesso facilitandone lo sviluppo da parte del programmatore}
+}
+
+
+\newglossaryentry{serializzazione}
+{
+    name=\glslink{serializzazione}{SERIALIZZAZIONE},
+    text=Serializzazione,
+    sort=serializzazione,
+    description={In informatica, la \textit{serializzazione} è un processo per salvare un oggetto in un supporto di memorizzazione lineare (ad esempio, un file o un'area di memoria), o per trasmetterlo su una connessione di rete}
+}
+
+\newglossaryentry{cluster}
+{
+    name=\glslink{cluster}{CLUSTER},
+    text=Cluster,
+    sort=cluster,
+    description={In informatica un computer \textit{cluster}, o più semplicemente un cluster (dall'inglese grappolo), è un insieme di computer connessi tra loro tramite una rete telematica. Scopo del cluster è distribuire un'elaborazione molto complessa tra i vari computer, aumentando la potenza di calcolo del sistema e/o garantendo una maggiore disponibilità di servizio, a prezzo di un maggior costo e complessità di gestione dell'infrastruttura: per essere risolto il problema che richiede molte elaborazioni viene infatti scomposto in sottoproblemi separati i quali vengono risolti ciascuno in parallelo}
+}
+
+\newglossaryentry{timestamp}
+{
+    name=\glslink{timestamp}{TIMESTAMP},
+    text=Timestamp,
+    sort=timestamp,
+    description={Una marca temporale (\textit{timestamp}) è una sequenza di caratteri che rappresentano una data e/o un orario per accertare l'effettivo avvenimento di un certo evento. La data è di solito presentata in un formato compatibile, in modo che sia facile da comparare con un'altra per stabilirne l'ordine temporale}
+}
+
+\newglossaryentry{Amazon Kinesis}
+{
+    name=\glslink{Amazon Kinesis}{AMAZON KINESIS},
+    text=Amazon Kinesis,
+    sort=amazon kinesis,
+    description={\textit{Amazon Kinesis} è una piattaforma per l'elaborazione di \textit{big data} in tempo reale in grado di processare centinaia di \textit{terabyte} all'ora di dati da fonti come registri operativi, transazioni finanziarie e \textit{feed} di \textit{social media}. Kinesis consente di prendere decisioni operative in tempo reale su uno \textit{streaming} costante di dati}
+}
+
+\newglossaryentry{pipeline}
+{
+    name=\glslink{pipeline}{PIPELINE},
+    text=Pipeline,
+    sort=pipeline,
+    description={In informatica, il concetto di \textit{pipeline} (in inglese, tubatura (composta da più elementi collegati) o condotto) viene utilizzato per indicare un insieme di componenti \textit{software} collegati tra loro in cascata, in modo che il risultato prodotto da uno degli elementi (\textit{output}) sia l'ingresso di quello immediatamente successivo (\textit{input})}
+}
+
+\newglossaryentry{sqlg}
+{
+    name=\glslink{sql}{SQL},
+    text=Structured Query Language,
+    sort=sql,
+    description={In informatica, \textit{SQL (Structured Query Language)} è un linguaggio standardizzato per \textit{database} basati sul modello relazionale (\textit{RDBMS}), progettato per:
+    \begin{itemize}
+    	\item{creare e modificare schemi di \textit{database};}
+    	\item{inserire, modificare e gestire dati memorizzati;}
+    	\item{interrogare i dati memorizzati;}
+    	\item{creare e gestire strumenti di controllo e accesso ai dati.}
+    \end{itemize}
+    }
+}
+
+\newglossaryentry{query}
+{
+    name=\glslink{query}{QUERY},
+    text=Query,
+    sort=query,
+    description={In informatica, il termine \textit{query} indica l'interrogazione di un \textit{database} da parte di un utente. Il \textit{database} (o base di dati) è in genere strutturato secondo il modello relazionale, che permette di compiere determinate operazioni sui dati (selezione, inserimento, cancellazione, aggiornamento, ecc...)}
+}
+
+\newglossaryentry{snapshot}
+{
+    name=\glslink{snapshot}{SNAPSHOT},
+    text=Snapshot,
+    sort=snapshot,
+    description={Nei sistemi informatici, una \textit{snapshot} è un'istantanea dello stato di un sistema in un particolare momento, e può fare riferimento a una copia reale del sistema}
+}
+
+\newglossaryentry{pojog}
+{
+    name=\glslink{pojo}{POJO},
+    text=POJO,
+    sort=pojo,
+    description={Nell'ingegneria del software, \textit{POJO} è un acronimo di \textit{Plain Old Java Object}. Il nome è usato per accentuare che un oggetto dato è un oggetto ordinario \textit{Java}, cioè che non segue nessuno dei maggiori modelli, delle convenzioni, o dei \textit{\textit{\gls{framework}}} di oggetto \textit{Java}}
+}
+
+\newglossaryentry{jsong}
+{
+    name=\glslink{json}{JSON},
+    text=JSON,
+    sort=json,
+    description={In informatica, nell'ambito della programmazione web, \textit{JSON}, acronimo di \textit{JavaScript Object Notation}, è un formato adatto all'interscambio di dati fra applicazioni \textit{client}/\textit{server}.
+È basato sul linguaggio \textit{JavaScript} Standard ECMA-262 3ª edizione (dicembre 1999), ma ne è indipendente. Viene usato in \textit{AJAX} come alternativa a \textit{XML}/\textit{XSLT}}
+}
+
+\newglossaryentry{Apprendimento automatico}
+{
+    name=\glslink{Apprendimento automatico}{APPRENDIMENTO AUTOMATICO},
+    text=Apprendimento automatico,
+    sort=apprendimento automatico,
+    description={L'\textit{apprendimento automatico} (nella letteratura di lingua anglosassone \textit{machine learning}) è una branca dell'intelligenza artificiale che raccoglie metodi sviluppati negli ultimi decenni del XX secolo in varie comunità scientifiche, sotto diversi nomi quali: statistica computazionale, riconoscimento di \textit{pattern}, reti neurali artificiali, filtraggio adattivo, teoria dei sistemi dinamici, elaborazione delle immagini, \textit{data mining}, algoritmi adattivi, ecc...; che utilizza metodi statistici per migliorare la performance di un algoritmo nell'identificare \textit{pattern} nei dati. Nell'ambito dell'informatica, l'apprendimento automatico è una variante alla programmazione tradizionale nella quale in una macchina si predispone l'abilità di apprendere qualcosa dai dati in maniera autonoma, senza istruzioni esplicite}
+}
+
+\newglossaryentry{Apprendimento supervisionato}
+{
+    name=\glslink{Apprendimento supervisionato}{APPRENDIMENTO SUPERVISIONATO},
+    text=Apprendimento supervisionato,
+    sort=apprendimento supervisionato,
+    description={L'\textit{apprendimento supervisionato} è una tecnica di \textit{\gls{Apprendimento automatico}} che mira a istruire un sistema informatico in modo da consentirgli di elaborare automaticamente previsioni sui valori di uscita di un sistema rispetto ad un \textit{input} sulla base di una serie di esempi ideali, costituiti da coppie di \textit{input} e di \textit{output}, che gli vengono inizialmente forniti. L'obiettivo di un sistema basato sull'apprendimento supervisionato è quello di produrre un'ipotesi induttiva ossia una funzione in grado di "apprendere" dai risultati forniti durante la fase di esempio e in grado di avvicinarsi a dei risultati desiderati per tutti gli esempi non forniti. La casistica degli \textit{output} può essere molto varia; ciononostante differenzia l'apprendimento di valori quantitativi (comunemente chiamata "regressione") da valori qualitativi (chiamata "classificazione")}
+}
+
+\newglossaryentry{Apprendimento non supervisionato}
+{
+    name=\glslink{Apprendimento non supervisionato}{APPRENDIMENTO NON SUPERVISIONATO},
+    text=Apprendimento non supervisionato,
+    sort=apprendimento non supervisionato,
+    description={L'\textit{apprendimento non supervisionato} è una tecnica di \textit{\gls{Apprendimento automatico}} che consiste nel fornire al sistema informatico una serie di \textit{input} (esperienza del sistema) che egli riclassificherà ed organizzerà sulla base di caratteristiche comuni per cercare di effettuare ragionamenti e previsioni sugli \textit{input} successivi. Al contrario dell'\textit{\gls{Apprendimento supervisionato}}, durante l'apprendimento vengono forniti all'apprendista solo esempi non annotati, in quanto le classi non sono note a priori ma devono essere apprese automaticamente}
+}
+
+\newglossaryentry{ideg}
+{
+    name=\glslink{ide}{IDE},
+    text=Integrated Development Environment,
+    sort=ide,
+    description={Un \textit{ambiente di sviluppo integrato} (in lingua inglese \textit{integrated development environment} ovvero \textit{IDE}), in informatica, è un ambiente di sviluppo ovvero un \textit{software} che, in fase di programmazione, supporta i programmatori nello sviluppo e debugging del codice sorgente di un programma: spesso l'IDE aiuta lo sviluppatore segnalando errori di sintassi del codice direttamente in fase di scrittura, oltre a tutta una serie di strumenti e funzionalità di supporto alla fase stessa di sviluppo e \textit{debugging}}
+}
+
+\newglossaryentry{jvmg}
+{
+    name=\glslink{jvm}{JVM},
+    text=Java Virtual Machine,
+    sort=jvm,
+    description={In informatica la macchina virtuale \textit{Java} (detta anche \textit{Java Virtual Machine} o \textit{JVM}) è il componente \textit{software} della piattaforma \textit{Java} che esegue i programmi tradotti in \textit{bytecode} dopo la prima fase di compilazione in esso (tra i linguaggi di programmazione che possono essere tradotti in \textit{bytecode} troviamo \textit{Java}, \textit{Groovy}, \textit{Clojure}, \textit{Scala} ed \textit{Eta})}
+}
+
+\newglossaryentry{jreg}
+{
+    name=\glslink{jre}{JRE},
+    text=Java Runtime Environment,
+    sort=jre,
+    description={In informatica il \textit{JRE} (o \textit{Java Runtime Environment}) è un ambiente di esecuzione per applicazioni scritte in linguaggio \textit{Java}}
+}
+
+\newglossaryentry{b2bg}
+{
+    name=\glslink{b2b}{B2B},
+    text=Business-to-Business,
+    sort=b2b,
+    description={\textit{Business-to-Business}, spesso indicato con l'acronimo \textit{B2B}, in italiano commercio interaziendale, è una locuzione utilizzata per descrivere le transazioni commerciali elettroniche tra imprese. Più specificamente, Business-to-Business o B2B indica le relazioni che un'impresa detiene con i propri fornitori per attività di approvvigionamento, di pianificazione e monitoraggio della produzione, o di sussidio nelle attività di sviluppo del prodotto, oppure le relazioni che l'impresa detiene con clienti professionali, cioè altre imprese, collocate in punti diversi della filiera produttiva}
+}
+
+\newglossaryentry{b2cg}
+{
+    name=\glslink{b2c}{B2C},
+    text=Business-to-Consumer,
+    sort=b2c,
+    description={\textit{Business-to-Consumer}, spesso abbreviato in \textit{B2C}, indica le relazioni che un'impresa commerciale detiene con i suoi clienti per le attività di vendita e/o di assistenza. Questa sigla è utilizzata soprattutto quando l'interazione tra impresa e cliente avviene tramite internet, ovvero nel caso del commercio elettronico}
+}
+
+\newglossaryentry{stagionalita}
+{
+    name=\glslink{stagionalita}{STAGIONALITÀ},
+    text=Stagionalità,
+    sort=stagionalità,
+    description={La \textit{stagionalità} identifica la proprietà di alcuni fenomeni osservati nel tempo, generalmente modellati da una serie storica, che si evidenzia sotto forma di fluttuazioni a cadenza periodica più o meno regolare}
+}
+
+\newglossaryentry{xgboostg}
+{
+    name=\glslink{xgboost}{XGBOOST},
+    text=eXtreme Gradient Boosting,
+    sort=xgboost,
+    description={\textit{XGBoost} è un'implementazione specifica del metodo \textit{gradient boosting} che utilizza approssimazioni più accurate per trovare il miglior modello ad albero. I vantaggi dell'XGBoost è che la sua formazione è molto veloce e può essere parallelizzata/distribuita tra i \textit{\gls{cluster}}, inoltre è progettato per essere utilizzato con grandi e complessi \textit{dataset}}
+}
+
+\newglossaryentry{pocg}
+{
+    name=\glslink{poc}{POC},
+    text=Proof of Concept,
+    sort=poc,
+    description={Con la locuzione inglese \textit{Proof of Concept}, in acronimo \textit{PoC} (traducibile in italiano con "prova di fattibilità", o "dimostrazione di fattibilità"), si intende una realizzazione incompleta o abbozzata (sinopsi) di un determinato progetto o metodo, allo scopo di provarne la fattibilità o dimostrare la fondatezza di alcuni principi o concetti costituenti. Un esempio tipico è quello di un prototipo. In Italia, il termine Proof of Concept è usato soprattutto in ambito informatico per riferirsi alla dimostrazione pratica dei funzionamenti di base di un applicativo \textit{software} o di intero sistema, integrandolo all'interno di un ambiente già esistente}
+}
+
+\newglossaryentry{restg}
+{
+    name=\glslink{rest}{REST},
+    text=REpresentational State Transfer,
+    sort=rest,
+    description={\textit{REpresentational State Transfer} (\textit{REST}) è uno stile architetturale (di architettura \textit{software}) per i sistemi distribuiti e rappresenta un sistema di trasmissione di dati su \textit{HTTP} senza ulteriori livelli. Il funzionamento prevede una struttura degli \textit{URL} ben definita che identifica univocamente una risorsa o un insieme di risorse e l'utilizzo dei metodi \textit{HTTP} specifici per il recupero di informazioni (\textit{GET}), per la modifica (\textit{POST}, \textit{PUT}, \textit{PATCH}, \textit{DELETE}) e per altri scopi (\textit{OPTIONS}, ecc...). I sistemi REST non prevedono il concetto di sessione, ovvero sono \textit{\gls{stateless}}}
+}
+
+\newglossaryentry{diagramma delle classi}
+{
+    name=\glslink{diagramma delle classi}{DIAGRAMMA DELLE CLASSI},
+    text=Diagramma delle classi,
+    sort=diagramma delle classi,
+    description={I \textit{diagrammi delle classi} (\textit{class diagram}) sono uno dei tipi di diagrammi che possono comparire in un modello \textit{\gls{uml}}. In termini generali, consentono di descrivere tipi di entità, con le loro caratteristiche e le eventuali relazioni fra questi tipi. Gli strumenti concettuali utilizzati sono il concetto di classe del paradigma \textit{object-oriented} e altri correlati (per esempio la generalizzazione, che è una relazione concettuale assimilabile al meccanismo \textit{object-oriented} dell'ereditarietà)}
+}
+ 
+
+
+
+
