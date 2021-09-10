@@ -41,47 +41,57 @@
 	\section{Il progetto}
 
 	\begin{frame}{Il progetto}
-		\begin{block}{Normal block}
-			Fusce luctus venenatis felis quis semper
+	\vspace{.5em}
+		Creazione di una componente aggiuntiva per la piattaforma \textbf{SYN}. \vspace{.2em}
+		
+		\begin{block}{Obiettivi}
+			\begin{itemize}
+				\item Elaborazione \textit{streaming} di eventi provenienti da \textbf{risorse differenti} \vspace{.5em}
+				\item Raggruppamento temporale \vspace{.5em}
+				\item Raggruppamento secondo caratteristiche specifiche \vspace{.5em}
+				\item Rilevazione di anomalie \vspace{.5em} 			
+			\end{itemize}
 		\end{block}
-
-		\begin{alertblock}{Alert block}
-			$$ E = (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (x_1 \vee x_2 \vee x_4) $$
-		\end{alertblock}
-
-		\begin{exampleblock}{Example block}
-			Proin tincidunt, neque at tincidunt mollis
-		\end{exampleblock}
+		
+		\begin{figure}[!h] 
+    		\centering 
+    		\includegraphics[width=0.55\columnwidth]{../immagini/slide/elaboration_example.png}
+		\end{figure}
+		
 	\end{frame}
 	
 	\subsection{Problema affrontato}
 
 	\begin{frame}{Problema affrontato}
-		\begin{block}{Normal block}
-			Fusce luctus venenatis felis quis semper
-		\end{block}
 
-		\begin{alertblock}{Alert block}
-			$$ E = (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (x_1 \vee x_2 \vee x_4) $$
+		\begin{alertblock}{Adattabilità struttura dati}
+			Rappresentazione di eventi facenti parte di un \textbf{gruppo} \vspace{.5em}
+		\end{alertblock} \vspace{.2em}
+		
+		\begin{alertblock}{Adattabilità raggruppamento}
+			\begin{itemize}
+				\item Temporale su eventi di \textbf{risorse differenti} \vspace{.5em}
+				\item Per caratteristiche su eventi di \textbf{risorse differenti} \vspace{.5em}
+			\end{itemize}
 		\end{alertblock}
-
-		\begin{exampleblock}{Example block}
-			Proin tincidunt, neque at tincidunt mollis
-		\end{exampleblock}
+		
+		\begin{alertblock}{Adattabilità rilevazione anomalie}
+			Rilevazione di anomalie e produzione di \textit{alert} su \textbf{gruppi} di eventi \vspace{.5em} 
+		\end{alertblock}
 	\end{frame}
 	
 	\subsection{Soluzione proposta}
 
 	\begin{frame}{Soluzione proposta}
-		\begin{block}{Normal block}
-			Fusce luctus venenatis felis quis semper
-		\end{block}
-
-		\begin{alertblock}{Alert block}
-			$$ E = (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (x_1 \vee x_2 \vee x_4) $$
-		\end{alertblock}
-
-		\begin{exampleblock}{Example block}
+		\begin{exampleblock}{Adattabilità struttura dati}
+			Proin tincidunt, neque at tincidunt mollis
+		\end{exampleblock}
+		
+		\begin{exampleblock}{Adattabilità raggruppamento}
+			Proin tincidunt, neque at tincidunt mollis
+		\end{exampleblock}
+		
+		\begin{exampleblock}{Adattabilità rilevazione anomalie}
 			Proin tincidunt, neque at tincidunt mollis
 		\end{exampleblock}
 	\end{frame}
@@ -105,17 +115,24 @@
 	\section{Strumenti utilizzati}
 
 	\begin{frame}{Strumenti utilizzati}
-		\begin{block}{Normal block}
-			Fusce luctus venenatis felis quis semper
+		\begin{block}{Framework}
+			\begin{itemize}
+				\item \textbf{Flink:} \textit{data processing} per l'elaborazione di dati in modo distribuito \vspace{.5em}
+				\item \textbf{ScalaTest:} stesura dei test relativi all'analisi effettuata da \textit{Flink} \vspace{.5em}
+			\end{itemize}
 		\end{block}
-
-		\begin{alertblock}{Alert block}
-			$$ E = (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (x_1 \vee x_2 \vee x_4) $$
-		\end{alertblock}
-
-		\begin{exampleblock}{Example block}
-			Proin tincidunt, neque at tincidunt mollis
-		\end{exampleblock}
+		
+		\begin{block}{Linguaggi di programmazione}
+			\begin{itemize}
+				\item \textbf{Scala:} utilizzato tramite \textit{Flink} \vspace{.5em}
+				\item \textbf{Go:} utilizzato per le \textit{API} \vspace{.5em}
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	\subsection{Flink}
+	\begin{frame}{Flink}
+	
 	\end{frame}
 	
 	\section{Prodotto finale}
@@ -152,7 +169,7 @@
 	
 	\subsection{Possibili miglioramenti}
 
-	\begin{frame}{Considerazioni}
+	\begin{frame}{Possibili miglioramenti}
 		\begin{block}{Normal block}
 			Fusce luctus venenatis felis quis semper
 		\end{block}
@@ -168,7 +185,7 @@
 	
 	\subsection{Conoscenze acquisite}
 
-	\begin{frame}{Considerazioni}
+	\begin{frame}{Conoscenze acquisite}
 		\begin{block}{Normal block}
 			Fusce luctus venenatis felis quis semper
 		\end{block}
