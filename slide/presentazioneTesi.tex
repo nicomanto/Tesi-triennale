@@ -1,18 +1,20 @@
 \documentclass{beamer}
+\usepackage{csquotes} 
 
 \usetheme{Padova}
 
 \title{Componente di controllo per l'elaborazione in tempo reale di flussi di dati aggregati}
-%\subtitle{Curabitur sit amet mi magna}
-\author{Niccolò Mantovani}
+\subtitle{Dipartimento di Matematica "Tullio Levi Civita" Università di Padova, Corso di Laurea in Informatica Esame di Laurea}
 \date{30 Settembre 2021}
+\author{Niccolò Mantovani}
+
 
 
 \begin{document}
 
 	\maketitle
 
-	\begin{frame}{Outline}
+	\begin{frame}{Indice}
 		\tableofcontents
 	\end{frame}
 
@@ -53,6 +55,7 @@
 			\end{itemize}
 		\end{block}
 		
+		\vspace{-0.3cm}
 		\begin{figure}[!h] 
     		\centering 
     		\includegraphics[width=0.55\columnwidth]{../immagini/slide/elaboration_example.png}
@@ -70,8 +73,8 @@
 		
 		\begin{alertblock}{Adattabilità raggruppamento}
 			\begin{itemize}
-				\item Temporale su eventi di \textbf{risorse differenti} \vspace{.5em}
-				\item Per caratteristiche su eventi di \textbf{risorse differenti} \vspace{.5em}
+				\item \textbf{Temporale:} su eventi di \textbf{risorse differenti} \vspace{.5em}
+				\item \textbf{Per caratteristiche:} su eventi di \textbf{risorse differenti} \vspace{.5em}
 			\end{itemize}
 		\end{alertblock}
 		
@@ -84,31 +87,18 @@
 
 	\begin{frame}{Soluzione proposta}
 		\begin{exampleblock}{Adattabilità struttura dati}
-			Proin tincidunt, neque at tincidunt mollis
+			Aggiunta del campo informativo \textit{``subject"} 
 		\end{exampleblock}
 		
 		\begin{exampleblock}{Adattabilità raggruppamento}
-			Proin tincidunt, neque at tincidunt mollis
+			\begin{itemize}
+				\item \textbf{Temporale:} aggregazione o allineamento tramite \textbf{configurazione}\vspace{.5em}
+				\item \textbf{Per caratteristiche:} filtraggio definito dalla \textbf{configurazione}  \vspace{.5em}
+			\end{itemize}
 		\end{exampleblock}
 		
 		\begin{exampleblock}{Adattabilità rilevazione anomalie}
-			Proin tincidunt, neque at tincidunt mollis
-		\end{exampleblock}
-	\end{frame}
-	
-	\section{Implementazione}
-
-	\begin{frame}{Implementazione}
-		\begin{block}{Normal block}
-			Fusce luctus venenatis felis quis semper
-		\end{block}
-
-		\begin{alertblock}{Alert block}
-			$$ E = (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (x_1 \vee x_2 \vee x_4) $$
-		\end{alertblock}
-
-		\begin{exampleblock}{Example block}
-			Proin tincidunt, neque at tincidunt mollis
+			Creazione di un evento riassuntivo
 		\end{exampleblock}
 	\end{frame}
 	
@@ -117,7 +107,7 @@
 	\begin{frame}{Strumenti utilizzati}
 		\begin{block}{Framework}
 			\begin{itemize}
-				\item \textbf{Flink:} \textit{data processing} per l'elaborazione di dati in modo distribuito \vspace{.5em}
+				\item \textbf{Apache Flink:} \textit{data processing} per l'elaborazione di dati in modo distribuito \vspace{.5em}
 				\item \textbf{ScalaTest:} stesura dei test relativi all'analisi effettuata da \textit{Flink} \vspace{.5em}
 			\end{itemize}
 		\end{block}
@@ -130,10 +120,39 @@
 		\end{block}
 	\end{frame}
 	
-	\subsection{Flink}
-	\begin{frame}{Flink}
-	
+	\subsection{Apache Flink}
+	\begin{frame}{Apache Flink}
+		\begin{figure}[!h] 
+    		\centering 
+    		\includegraphics[width=0.2\columnwidth]{../immagini/slide/Apache_Flink_logo.png}
+		\end{figure}
+		
+		\begin{itemize}
+			\item \textbf{DataStream}
+				\begin{figure}[!h] 
+    		\centering 
+    		\includegraphics[width=0.8\columnwidth]{../immagini/slide/bounded-unbounded.png} 
+		\end{figure}  \vspace{.5em}
+			
+			\item \textbf{Operatori}  \vspace{.5em}
+			\item \textbf{Alta disponibilità e recovery}
+			\begin{itemize}
+				\item \textit{Checkpoint}
+				\item \textit{Savepoint}
+				\end{itemize} \vspace{.5em}
+		\end{itemize}
 	\end{frame}
+	
+	\section{Implementazione}
+
+	\begin{frame}{Implementazione}
+		\begin{figure}[!h]
+    		 \centering
+    		\includegraphics[width=11.5cm]{../immagini/slide/implementation.png}
+		\end{figure}
+	\end{frame}
+	
+	
 	
 	\section{Prodotto finale}
 
