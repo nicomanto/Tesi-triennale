@@ -1,6 +1,4 @@
 \documentclass{beamer}
-\usepackage{csquotes} 
-
 \usetheme{Padova}
 
 \title{Componente di controllo per l'elaborazione in tempo reale di flussi di dati aggregati}
@@ -135,12 +133,30 @@
 		\end{figure}  \vspace{.5em}
 			
 			\item \textbf{Operatori}  \vspace{.5em}
-			\item \textbf{Alta disponibilità e recovery}
+			\item \textbf{Alta disponibilità e recovery} \vspace{.2em}
 			\begin{itemize}
 				\item \textit{Checkpoint} \vspace{.5em}
 				\item \textit{Savepoint} \vspace{.5em}
 				\end{itemize} \vspace{.5em}
 		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Apache Flink}
+		\textbf{Scalabilità}
+		\vspace{.2em}
+		\begin{figure}[htb]
+			%\hspace{-2em}
+    			\begin{minipage}[t]{0.45\textwidth}
+    			
+       		\centering 
+    			\includegraphics[width=1\columnwidth]{../immagini/tecnologieUtilizzate/flink/state_partitioning.png}
+    			\end{minipage}
+    			\hfill
+    			\begin{minipage}[t]{0.45\textwidth}
+    				\includegraphics[width=1.25\columnwidth]{../immagini/slide/pfExample.png}
+       		\end{minipage}
+       		\hspace{1em}
+		\end{figure}		
 	\end{frame}
 	
 	\section{Implementazione}
@@ -211,6 +227,18 @@
     		 \centering
     		\includegraphics[width=1.7cm]{../immagini/slide/100-percent.png}
 		\end{figure}
+	\end{frame}
+	
+	\begin{frame}{Considerazioni}
+		\begin{block}{Possibili miglioramenti ed estensioni}
+			\begin{itemize}
+				\item \textbf{Nuovi detector:} 
+					\begin{itemize}
+						\item \textit{Unsupervised}: tramite algoritmo di \textbf{apprendimento non supervisionato} \vspace{.5em}
+						\item \textit{Rule based}: basato su \textbf{regole} decise dall'utente \vspace{.5em}
+					\end{itemize}
+			\end{itemize}
+		\end{block}
 	\end{frame}
 	
 	\subsection{Conoscenze acquisite}
